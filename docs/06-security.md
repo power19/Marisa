@@ -383,7 +383,16 @@ Full hardening rules are in `directus/CLAUDE.md` — this section is a summary.
 - [ ] Agent item-level permissions enforced in Directus (`agent_id = $CURRENT_USER`)
 - [ ] Directus session cookies: `HttpOnly`, `Secure`, `SameSite=Lax`
 - [ ] TLS active end-to-end (Cloudflare Full Strict → Caddy → services)
-- [ ] HSTS header set in Caddy
+- [ ] Caddy pinned to exact version tag in docker-compose.yml
+- [ ] HSTS header set in Caddy (`max-age=31536000; includeSubDomains; preload`)
+- [ ] `-Server` header set — Caddy server token removed from responses
+- [ ] `X-Content-Type-Options: nosniff` and `X-Frame-Options: SAMEORIGIN` headers set
+- [ ] Request body size limits applied (`10MB` for API, `25MB` for Directus)
+- [ ] Rate limiting active on `/api/inquiries`, `/api/viewing-requests`, `/cms/auth/login`, `/cms/auth/password/request`
+- [ ] Dotfiles and config paths return 404 (`/.env`, `/.git`, `/config*`)
+- [ ] FastAPI `/docs`, `/redoc`, `/openapi.json` return 403
+- [ ] Cloudflare `trusted_proxies` configured — real visitor IP restored
+- [ ] Access and error logging to file (not stdout) in production
 - [ ] Postgres has no `ports:` mapping in docker-compose.yml
 - [ ] VPS firewall blocks port 5432 (verified with `iptables -L`, not just `ufw status`)
 - [ ] Separate Postgres roles for `directus_user` and `pm_user`

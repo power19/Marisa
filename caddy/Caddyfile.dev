@@ -1,0 +1,33 @@
+# Caddyfile.dev — local development only
+# Uses self-signed TLS. No rate limits, no IP restrictions, no connection caps.
+# Never use this in production.
+
+{
+    local_certs
+}
+
+localhost {
+    tls internal
+
+    handle /cms/* {
+        reverse_proxy directus:8055
+    }
+
+    handle /assets/* {
+        reverse_proxy directus:8055
+    }
+
+    handle /api/pm/* {
+        reverse_proxy pm:8000
+    }
+
+    handle {
+        reverse_proxy web:3000
+    }
+
+    log {
+        output stdout
+        format console
+        level DEBUG
+    }
+}

@@ -1,0 +1,151 @@
+# Caddyfile — production
+# Replace {{DOMAIN}} with the real domain once confirmed.
+# Replace {{ADMIN_EMAIL}} with the admin email for Let's Encrypt notifications.
+# Replace <YOUR_ADMIN_IP> with the admin's IP address(es).
+
+{
+    # Email for Let's Encrypt notifications
+    email {{ADMIN_EMAIL}}
+
+    # Restore real visitor IP from Cloudflare headers
+    servers {
+        trusted_proxies cloudflare
+    }
+}
+
+# -------------------------------------------------------
+# Redirect HTTP → HTTPS
+# -------------------------------------------------------
+http:// {
+    redir https://{host}{uri} permanent
+}
+
+# -------------------------------------------------------
+# Main site
+# -------------------------------------------------------
+{{DOMAIN}} {
+
+    # --- TLS: strong protocols only ---
+    tls {
+        protocols tls1.2 tls1.3
+        ciphers TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384 TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+    }
+
+    # --- Security headers (all responses) ---
+    header /* {
+        X-Content-Type-Options        nosniff
+        X-Frame-Options               SAMEORIGIN
+        Strict-Transport-Security     "max-age=31536000; includeSubDomains; preload"
+        Referrer-Policy               strict-origin-when-cross-origin
+        Permissions-Policy            "geolocation=(), microphone=(), camera=()"
+        -Server
+    }
+
+    # --- Block dotfiles and config paths ---
+    @dotfiles {
+        path /.env* /.git* /config* /docker-compose*
+    }
+    respond @dotfiles 404
+
+    # --- Block Directus internal endpoints from public ---
+    @directus_internal {
+        path /cms/server/info* /cms/server/health*
+    }
+    respond @directus_internal 403
+
+    # --- Block FastAPI docs in production ---
+    @fastapi_docs {
+        path /api/pm/docs* /api/pm/redoc* /api/pm/openapi.json*
+    }
+    respond @fastapi_docs 403
+
+    # --- Restrict Directus admin panel to known IPs only ---
+    @admin_block {
+        path /cms/admin*
+        not remote_ip <YOUR_ADMIN_IP>
+    }
+    respond @admin_block 403
+
+    # --- Request body size limits ---
+    route /api/pm/* {
+        request_body {
+            max_size 10MB
+        }
+    }
+    route /cms/* {
+        request_body {
+            max_size 25MB
+        }
+    }
+
+    # --- Rate limiting (requires caddy-ratelimit module) ---
+    route /api/inquiries* {
+        rate_limit {
+            zone inquiries {
+                key    {remote_host}
+                events 10
+                window 1m
+            }
+        }
+    }
+    route /api/viewing-requests* {
+        rate_limit {
+            zone viewings {
+                key    {remote_host}
+                events 5
+                window 1m
+            }
+        }
+    }
+    route /cms/auth/login* {
+        rate_limit {
+            zone login {
+                key    {remote_host}
+                events 10
+                window 15m
+            }
+        }
+    }
+    route /cms/auth/password/request* {
+        rate_limit {
+            zone pwreset {
+                key    {remote_host}
+                events 3
+                window 1h
+            }
+        }
+    }
+
+    # --- Reverse proxy routing ---
+    handle /cms/* {
+        reverse_proxy directus:8055
+    }
+
+    handle /assets/* {
+        reverse_proxy directus:8055
+    }
+
+    handle /api/pm/* {
+        reverse_proxy pm:8000
+    }
+
+    handle {
+        reverse_proxy web:3000
+    }
+
+    # --- Access logging ---
+    log {
+        output file /var/log/caddy/access.log {
+            roll_size 100mb
+            roll_keep 10
+        }
+        format json
+    }
+
+    # --- Error logging ---
+    log {
+        output file /var/log/caddy/error.log
+        format console
+        level  ERROR
+    }
+}

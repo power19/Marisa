@@ -15,9 +15,9 @@ docker-compose.yml
 ├── directus          # Content + admin + auth
 ├── web               # Next.js public site
 ├── pm                # FastAPI property-management
-├── worker            # Background jobs (APScheduler)
+├── worker            # Background jobs (Celery + Redis)
 ├── caddy             # Reverse proxy + TLS
-└── redis             # Optional — only add if worker volume grows
+└── redis             # Rate limiting, Celery broker, API cache, token storage
 ```
 
 ---
@@ -89,6 +89,10 @@ DIRECTUS_SERVER_TOKEN=     # server-only read token for SSR/ISR — NOT NEXT_PUB
 DATABASE_URL=              # postgresql+asyncpg://user:pass@postgres:5432/db
 PM_SECRET_KEY=             # used for any internal signing if needed
 
+# Redis
+REDIS_PASSWORD=            # strong random password — required, never leave empty
+REDIS_URL=                 # redis://:${REDIS_PASSWORD}@redis:6379
+
 # Caddy
 DOMAIN=                    # your .com domain
 ```
@@ -113,6 +117,7 @@ DOMAIN=                    # your .com domain
 | web | No `ports:` mapping. Caddy proxies `/` internally. |
 | pm | No `ports:` mapping. Caddy proxies `/api/pm/*` internally. |
 | worker | No `ports:` mapping. No HTTP server. |
+| redis | **No `ports:` mapping.** Reachable only on `realty_net`. Always set `requirepass`. |
 | caddy | `80:80` and `443:443` only. |
 
 Never add a `ports:` entry to the Postgres service — not even for local debugging.
@@ -154,6 +159,13 @@ healthcheck:
   interval: 15s
   timeout: 5s
   retries: 3
+
+# redis
+healthcheck:
+  test: ["CMD", "redis-cli", "-a", "$REDIS_PASSWORD", "ping"]
+  interval: 10s
+  timeout: 5s
+  retries: 5
 ```
 
 Add a `/health` endpoint to Next.js (`app/api/health/route.ts`) and FastAPI (`GET /health`)

@@ -26,7 +26,8 @@ milestone order defined in `docs/05-build-plan.md`.
 | Content + admin | **Directus** (on the Postgres above) | Auto admin UI for agents + REST/GraphQL API. Houses listings, agents, CRM, public users. |
 | Public front end | **Next.js (App Router, React, TypeScript)** | SSR for search, ISR for listing detail. SEO-critical. |
 | PM back office | **FastAPI (Python)** | Own schema (`pm`) in the same Postgres. Tenant/owner logic. |
-| Background worker | **Python + APScheduler** | v1 choice (migrate to Celery+Redis only if volume demands it). Saved-search alerts, CRM follow-ups, rent reminders. |
+| Background worker | **Python + Celery** | Celery with Redis broker. Saved-search alerts, CRM follow-ups, rent reminders. |
+| Cache / queue / tokens | **Redis** | Four roles: Celery broker, rate limiting, API response cache, session token storage. |
 | Maps | **MapLibre + OpenStreetMap** | v1 choice. No Google Maps (no billing/key). |
 | Object storage | **Cloudflare R2** (S3-compatible) | All media. No egress fees, pairs with existing Cloudflare. |
 | Email | **Transactional email provider** (e.g. Postmark/Resend/SES) | Deliverability out of Suriname matters. |

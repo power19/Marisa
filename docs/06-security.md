@@ -313,8 +313,58 @@ disguised as a system update.
 
 ---
 
-## 14. Security checklist (pre-launch, M6)
+## 14. Directus-Specific Threats
 
+Directus has a documented CVE history. These threats apply specifically to this stack.
+Full hardening rules are in `directus/CLAUDE.md` — this section is a summary.
+
+### Version & information disclosure (CVE-2024-27296, CVE-2025-64749)
+- Pin the exact Directus version tag in `docker-compose.yml` — never use `latest`.
+- Check Directus security advisories before every deployment.
+- Never expose `/server/info` or `/server/health` publicly — Caddy must block these
+  from external access. Internal health checks only.
+- All non-public collections must have explicit `deny` permissions for the public role.
+
+### User enumeration via timing (CVE-2026-26185)
+- Password reset endpoint must return identical responses and timing regardless of
+  whether the email exists. Keep Directus updated — this is patched in recent versions.
+- Rate-limit `/auth/password/request` to 3 requests per email per hour.
+
+### File upload → Remote Code Execution (CVE-2025-55746)
+- **All uploads go to Cloudflare R2 (object storage) — files cannot be executed.**
+  This is the single most important mitigation. Never switch to local disk storage.
+- Restrict allowed MIME types to images and PDF only. Reject JS, PHP, HTML uploads.
+- Set maximum file size limits in Directus settings.
+
+### SSRF via file import (CVE-2026-35410)
+- The `/files/import` endpoint can be abused to make the server fetch internal URLs
+  (e.g. AWS metadata at `169.254.169.254`, internal Docker services).
+- Set `IMPORT_IP_DENY_LIST` to block all private/loopback IP ranges.
+- Disable the endpoint entirely if file import from URL is not a required feature.
+
+### Secrets in revision history (GHSA-mvv8-v4jj-g47j)
+- Do not use `LOG_LEVEL=debug` or `trace` in production — sensitive field values leak.
+- Audit `directus_revisions` periodically to ensure no API keys or tokens appear in
+  delta records.
+
+### Open redirect in auth flows (CVE-2026-35411)
+- In v1 we use email/password only — no OAuth configured. Do not add OAuth without
+  implementing strict redirect URL allowlist validation.
+
+---
+
+## 15. Security checklist (pre-launch, M6)
+
+- [ ] Directus pinned to exact version tag (not `latest`) in docker-compose.yml
+- [ ] Directus security advisories checked — no unpatched CVEs on running version
+- [ ] `/server/info` and `/server/health` blocked from public access in Caddy
+- [ ] All non-public Directus collections have explicit `deny` for public role
+- [ ] Directus storage adapter is R2 (not local disk) — confirmed in config
+- [ ] Allowed MIME types restricted in Directus (images + PDF only)
+- [ ] `IMPORT_IP_DENY_LIST` set to block private IP ranges
+- [ ] `LOG_LEVEL=warn` in production Directus config
+- [ ] `directus_revisions` audited — no secrets in delta records
+- [ ] `/auth/password/request` rate-limited to 3 req/email/hour
 - [ ] Rate limits active on all public write endpoints (inquiries, viewing requests, registration, login)
 - [ ] Tenant ID documents in private R2 bucket, pre-signed URL access only, admin-only
 - [ ] No secrets in git history (`git log --all --full-history -- '.env' '*.env'`)

@@ -48,6 +48,7 @@ export async function getListings(
     offer_type,
     property_type,
     location_id,
+    district,
     keyword,
     min_price,
     max_price,
@@ -68,7 +69,11 @@ export async function getListings(
 
   if (offer_type) filter.offer_type = { _eq: offer_type }
   if (property_type) filter.property_type = { _eq: property_type }
-  if (location_id) filter.location_id = { _eq: location_id }
+  if (location_id) {
+    filter.location_id = { _eq: location_id }
+  } else if (district) {
+    filter.location_id = { district: { _eq: district } }
+  }
   if (bedrooms) filter.bedrooms = { _gte: bedrooms }
   if (furnished) filter.furnished = { _eq: furnished }
   if (min_price) filter.price_amount = { ...filter.price_amount, _gte: min_price }

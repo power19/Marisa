@@ -74,7 +74,8 @@ export interface Listing {
 export interface SearchParams {
   offer_type?: OfferType
   property_type?: PropertyType
-  location_id?: string
+  location_id?: string  // specific sub-area row id
+  district?: string     // filter all locations in a district
   keyword?: string
   min_price?: number
   max_price?: number

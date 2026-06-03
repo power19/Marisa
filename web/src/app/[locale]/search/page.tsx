@@ -3,6 +3,8 @@ import { Suspense } from 'react'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import Link from 'next/link'
 import FilterPanel from '@/components/search/FilterPanel'
+import { getLocations } from '@/lib/directus/locations'
+import type { Location } from '@/types/listing'
 import SortControl from '@/components/search/SortControl'
 import ListingGrid from '@/components/listing/ListingGrid'
 import { getListings } from '@/lib/directus/listings'
@@ -26,6 +28,7 @@ function parseSearchParams(raw: Record<string, string | string[] | undefined>): 
     offer_type: s('offer_type') as SearchParams['offer_type'],
     property_type: s('property_type') as SearchParams['property_type'],
     location_id: s('location_id'),
+    district: s('district'),
     keyword: s('keyword'),
     min_price: n('min_price'),
     max_price: n('max_price'),
@@ -58,10 +61,15 @@ export default async function SearchPage({ params: { locale }, searchParams: raw
   let listings: Awaited<ReturnType<typeof getListings>>['data'] = []
   let total = 0
   let error = false
+  let locations: Location[] = []
   try {
-    const result = await getListings({ ...params, page, limit: LIMIT })
+    const [result, locs] = await Promise.all([
+      getListings({ ...params, page, limit: LIMIT }),
+      getLocations(),
+    ])
     listings = result.data
     total = result.total
+    locations = locs
   } catch {
     error = true
   }
@@ -94,7 +102,7 @@ export default async function SearchPage({ params: { locale }, searchParams: raw
         {/* Filter panel */}
         <div className="lg:w-64 flex-shrink-0">
           <Suspense fallback={null}>
-            <FilterPanel />
+            <FilterPanel locations={locations} />
           </Suspense>
         </div>
 

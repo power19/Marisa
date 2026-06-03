@@ -85,7 +85,7 @@ services:
       - ./directus/seed:/directus/seed
     networks: [realty_net]
     healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://localhost:8055/server/health"]
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8055/server/health"]
       interval: 15s
       timeout: 5s
       retries: 5
@@ -120,7 +120,7 @@ services:
       DIRECTUS_SERVER_TOKEN: ${DIRECTUS_SERVER_TOKEN}
     networks: [realty_net]
     healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://localhost:3000/api/health"]
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3000/api/health"]
       interval: 15s
       timeout: 5s
       retries: 3

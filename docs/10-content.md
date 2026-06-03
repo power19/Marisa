@@ -54,7 +54,7 @@ Rules:
 - Nested by page/component, not flat.
 - Pluralization: use `{count}` tokens; implement via the i18n library's plural rules.
 - Never put a hardcoded English string in a `.tsx` file — it must come from the message file.
-- Brand name: use `{{BRAND_NAME}}` as the token in message files until the name is confirmed.
+- Brand name: use `Far East Property Management` in message files. Short form `Far East` where space is limited.
 
 ---
 
@@ -111,7 +111,7 @@ Use `{{CONTACT_ADDRESS}}`, `{{CONTACT_PHONE}}`, `{{WHATSAPP_NUMBER}}` tokens as 
 ## SEO requirements (per page)
 
 Every page must have:
-- `<title>` — include `{{BRAND_NAME}}` and a page-specific descriptor.
+- `<title>` — include `Far East Property Management` and a page-specific descriptor.
 - `<meta name="description">` — unique per page, localized.
 - `<link rel="canonical">` — canonical URL with locale prefix.
 - `<link rel="alternate" hreflang="...">` — for all three locales.
@@ -133,7 +133,7 @@ Use these tokens in code until business decisions are made:
 
 | Token | Meaning |
 |---|---|
-| `{{BRAND_NAME}}` | Agency name |
+| `Far East Property Management` | Agency full name (use `Far East` short form where space is limited) |
 | `{{CONTACT_ADDRESS}}` | Physical office address |
 | `{{CONTACT_PHONE}}` | Main phone number |
 | `{{WHATSAPP_NUMBER}}` | WhatsApp business number (international format) |

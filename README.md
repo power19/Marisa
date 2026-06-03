@@ -1,4 +1,4 @@
-# {{BRAND_NAME}} — Real Estate Platform
+# Far East Property Management — Real Estate Platform
 
 A professional real estate platform for the Suriname market. Built as a custom stack for full control.
 
@@ -134,4 +134,4 @@ All users are managed in **Directus**. The FastAPI PM service verifies Directus-
 
 ---
 
-> Brand name, domain, and logo are TBD. Use `{{BRAND_NAME}}` as a placeholder in all code and copy until confirmed.
+> Domain is TBD. Logo file goes in `web/public/brand/logo.png`. See `docs/brand/brand-guide.md` for full brand usage rules.

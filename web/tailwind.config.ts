@@ -9,13 +9,14 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        crimson: {
-          DEFAULT: '#8B0000',
-          dark:    '#6B0000',
-          light:   '#A50000',
+        // Far East Property Management brand colors (matched from logo)
+        red: {
+          DEFAULT: '#CC1010',
+          dark:    '#A50D0D',
+          light:   '#E01414',
         },
-        black:          '#0A0A0A',
-        charcoal:       '#1A1A1A',
+        black:          '#1A1A1A',
+        charcoal:       '#2B2B2B',
         'off-white':    '#F8F6F3',
         'grey-light':   '#E8E4E0',
         'grey-medium':  '#9E9A96',

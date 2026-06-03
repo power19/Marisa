@@ -93,9 +93,10 @@ Roles: `admin`, `agent`, `registered_visitor`, `tenant`, `owner`.
 - **Secrets** via env only; commit `.env.example`, never `.env`.
 - **Tests**: every PM money path (lease → charge → payment → receipt → statement) needs tests.
 
-## Placeholders (unresolved business decisions)
+## Brand
 
-- `{{BRAND_NAME}}` — agency name is **TBD**. Use this token everywhere; do not invent a name.
+- **Brand name:** Far East Property Management (short: Far East)
+- **Logo:** `web/public/brand/logo.png` — see `docs/brand/brand-guide.md` for usage rules.
 - Domain: a **`.com`** will be used (exact domain TBD). DNS will sit on Cloudflare.
 - Sranantongo (`srn`) content/translations are a **content task**, not a code task — leave
   translation strings empty/fallback-to-`en` until copy is supplied.

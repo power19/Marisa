@@ -1,4 +1,4 @@
-/* Design tokens — {{BRAND_NAME}}
+/* Design tokens — Far East Property Management
    Single source of truth for all colors, typography, and spacing.
    All Tailwind classes are derived from these via tailwind.config.ts.
 */
@@ -6,14 +6,14 @@
 :root {
   /* --- Colors --- */
 
-  /* Brand */
-  --color-crimson:        #8B0000;
-  --color-crimson-dark:   #6B0000;
-  --color-crimson-light:  #A50000;
+  /* Brand — Far East Property Management */
+  --color-red:            #CC1010;
+  --color-red-dark:       #A50D0D;
+  --color-red-light:      #E01414;
 
-  /* Neutrals */
-  --color-black:          #0A0A0A;
-  --color-charcoal:       #1A1A1A;
+  /* Neutrals — matched from logo */
+  --color-black:          #1A1A1A;
+  --color-charcoal:       #2B2B2B;
   --color-off-white:      #F8F6F3;
   --color-white:          #FFFFFF;
   --color-grey-light:     #E8E4E0;
@@ -26,8 +26,8 @@
   --color-text-secondary: var(--color-grey-medium);
   --color-text-inverse:   var(--color-white);
   --color-border:         var(--color-grey-light);
-  --color-accent:         var(--color-crimson);
-  --color-accent-hover:   var(--color-crimson-dark);
+  --color-accent:         var(--color-red);
+  --color-accent-hover:   var(--color-red-dark);
 
   /* --- Typography --- */
   --font-display:  'Cormorant Garamond', Georgia, serif;

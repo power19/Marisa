@@ -24,9 +24,34 @@ docker-compose.yml
 
 ## Environment variables
 
-- Copy `.env.example` → `.env` and fill in all values before `docker compose up`.
-- Never commit `.env`. It is in `.gitignore`.
-- All services read secrets from env vars only — nothing hardcoded.
+### Why `.env` is used
+Docker Compose needs a way to inject secrets into containers at runtime. The `.env` file
+is the standard mechanism — Docker Compose reads it automatically. There is no way around
+needing *some* file with real values on the server.
+
+### What is safe vs sensitive
+
+| File | Contains | Committed to git? |
+|---|---|---|
+| `.env.example` | Placeholder keys, no real values | ✅ Yes — it documents what's needed |
+| `.env` | Real passwords, API keys, secrets | ❌ Never — it's in `.gitignore` |
+
+### How to manage `.env` on the server
+- Create `.env` directly on the VPS — never copy it via an unencrypted channel.
+- Use `chmod 600 .env` so only the owner can read it.
+- Do not store `.env` in Dropbox, Google Drive, email, or any sync service.
+- Use a password manager (Bitwarden, 1Password) or a secrets vault to store the values
+  securely — the `.env` on the server is the only place real values should exist.
+- If a secret is compromised, rotate it immediately: generate a new value, update `.env`
+  on the server, and restart the affected service (`docker compose up -d --no-deps directus`).
+
+### Setup
+```bash
+# On the VPS
+cp .env.example .env
+nano .env          # fill in real values
+chmod 600 .env
+```
 
 ### Required vars (minimum)
 
@@ -78,15 +103,22 @@ DOMAIN=                    # your .com domain
 - Use `depends_on` with `condition: service_healthy` so services wait for Postgres to be ready.
 - Set `restart: unless-stopped` on all production services.
 
-### Port exposure (internal only — Caddy proxies externally)
-| Service | Internal port |
+### Port exposure — IMPORTANT
+**Only Caddy exposes ports to the host. Every other service has no `ports:` mapping.**
+
+| Service | Rule |
 |---|---|
-| postgres | 5432 |
-| directus | 8055 |
-| web | 3000 |
-| pm | 8000 |
-| worker | none (no HTTP) |
-| caddy | 80, 443 (external) |
+| postgres | **No `ports:` mapping. Ever.** Reachable only on `realty_net` by service name. |
+| directus | No `ports:` mapping. Caddy proxies `/cms/*` internally. |
+| web | No `ports:` mapping. Caddy proxies `/` internally. |
+| pm | No `ports:` mapping. Caddy proxies `/api/pm/*` internally. |
+| worker | No `ports:` mapping. No HTTP server. |
+| caddy | `80:80` and `443:443` only. |
+
+Never add a `ports:` entry to the Postgres service — not even for local debugging.
+If you need to inspect the DB locally, use `docker compose exec postgres psql`.
+Additionally, ensure your VPS firewall (e.g. `ufw`) blocks port `5432` from all
+external traffic — Docker can bypass `ufw` rules if misconfigured.
 
 ---
 

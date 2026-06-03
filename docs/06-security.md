@@ -111,6 +111,12 @@ These endpoints are exposed to the internet and will attract spam and bots:
 
 ## 7. Database security
 
+- **Postgres is never exposed outside the Docker network.** No `ports:` mapping on the
+  postgres service. No exceptions — not in dev, not in staging, not in production.
+- Your VPS firewall (`ufw`) must block port `5432` from all external IPs. Docker can
+  bypass `ufw` by writing directly to `iptables` — verify with `ufw status` AND
+  `iptables -L` after deploy.
+- To access the DB locally: `docker compose exec postgres psql -U $POSTGRES_USER $POSTGRES_DB`.
 - Directus and FastAPI use **separate Postgres roles** with least-privilege grants:
   - `directus_user` — owns and accesses only the `public` (Directus) schema.
   - `pm_user` — owns and accesses only the `pm` schema.
@@ -139,6 +145,8 @@ These endpoints are exposed to the internet and will attract spam and bots:
 - [ ] FastAPI tenant endpoints filter by authenticated `tenant_id`
 - [ ] Agent item-level permissions enforced in Directus
 - [ ] TLS active end-to-end (Cloudflare → Caddy → services)
+- [ ] Postgres has no `ports:` mapping in docker-compose.yml
+- [ ] VPS firewall blocks port 5432 externally (verify with `iptables -L`, not just `ufw status`)
 - [ ] Separate Postgres roles for `directus_user` and `pm_user`
 - [ ] Privacy policy page live before any email collection
 - [ ] Unsubscribe honored in all alert emails

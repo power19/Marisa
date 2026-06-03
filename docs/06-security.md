@@ -5,157 +5,252 @@
 
 ---
 
-## 1. Authentication & authorization
+## 1. SQL Injection (SQLi)
 
-### Single auth system — Directus JWTs
-- **There is one identity store: Directus.** No service may maintain its own user table or
-  issue its own tokens.
-- FastAPI (`pm`) validates every inbound request against the Directus-issued JWT.
-  - Verify signature using the shared secret (`DIRECTUS_SECRET` env var).
-  - Reject expired, malformed, or missing tokens with `401 Unauthorized`.
-  - Extract `user_id` and `role` from the payload — use these for all authorization checks.
-  - Never trust a role or user ID that comes from the request body or query string.
-- Next.js API routes that write data (inquiries, viewing requests, account actions) must
-  either go through Directus directly or validate the Directus token server-side.
-  Never perform writes from client-side code.
+**Risk:** attackers input malicious code into forms or URL params to manipulate database
+queries — bypassing auth, exposing records, or deleting data.
 
-### Role enforcement
-| Role | Allowed in |
-|---|---|
-| `admin` | Directus admin, FastAPI (full access) |
-| `agent` | Directus admin (own listings only — item-level `agent_id = $CURRENT_USER`) |
-| `registered_visitor` | Public Next.js site (saved searches, account) |
-| `tenant` | FastAPI PM portal (own lease, charges, tickets only) |
-| `owner` | Future — statements emailed in v1; no portal login yet |
+**Your exposure:** FastAPI + SQLAlchemy ORM. Low risk if ORM is used correctly.
 
-- **Tenants must only see their own data.** Every PM endpoint that returns lease, charge,
-  payment, or ticket data must filter by the authenticated user's `tenant_id`.
-  A missing `WHERE tenant_id = ?` check is a critical security bug.
-- **Agents may only CRUD their own listings.** Enforce at the Directus permission level
-  (`agent_id = $CURRENT_USER`), not just in UI.
+- **Hard ban:** never use f-strings or `.format()` to build SQL strings. Any instance is
+  a critical bug regardless of where the value comes from.
+- Use SQLAlchemy ORM for all queries. If raw SQL is unavoidable, use `text()` with bound
+  parameters only:
+  ```python
+  # SAFE
+  db.execute(text("SELECT * FROM pm.leases WHERE id = :id"), {"id": lease_id})
+
+  # CRITICAL BUG — never do this
+  db.execute(f"SELECT * FROM pm.leases WHERE id = '{lease_id}'")
+  ```
+- Type all FastAPI route parameters (`lease_id: UUID`, `tenant_id: UUID`). Pydantic rejects
+  non-UUID strings before they reach the query layer.
+- Validate and sanitize filter values in Next.js API routes before forwarding to Directus.
+  Never pass raw query string values into Directus filter objects.
+- Alembic migration scripts: use bound parameters in `op.execute()`, not string formatting.
 
 ---
 
-## 2. Sensitive data — tenant ID documents
+## 2. Cross-Site Scripting (XSS)
 
-Tenant identity documents (`pm.tenants.id_document`) are the most sensitive data in the system.
+**Risk:** malicious scripts injected into pages steal session cookies, log keystrokes, or
+redirect users to phishing pages.
 
-- **Store:** R2 key only in the database. The file in R2 must be in a **private bucket** (no
-  public access). Generate pre-signed URLs with short TTL (≤ 15 minutes) for authorized access.
-- **Encrypt at rest:** encrypt the R2 object using R2-managed encryption or a server-side
-  KMS key. Never store the raw file in a public-readable location.
-- **Access:** only `admin` role may retrieve or view ID documents. Never return the R2 key
-  or a URL to a `tenant` or `owner` role.
-- **Never expose via the public API.** The `pm.tenants` schema must never appear in any
-  public Directus collection or Next.js API route.
-- **Logging:** do not log the R2 key, URL, or any content of ID documents.
+**Your exposure:** Next.js (React) auto-escapes JSX output — this eliminates the majority
+of XSS risk. The remaining risks are specific patterns.
 
----
-
-## 3. Public endpoint hardening
-
-These endpoints are exposed to the internet and will attract spam and bots:
-
-| Endpoint | Risk | Mitigation |
-|---|---|---|
-| `POST /api/inquiries` | Spam, scraping | Rate-limit by IP (10 req/min) |
-| `POST /api/viewing-requests` | Spam | Rate-limit by IP (5 req/min) |
-| `POST /api/account` (register) | Account creation abuse | Rate-limit by IP (3 req/min) |
-| Directus `/auth/login` | Brute force | Directus built-in rate limiting; ensure it is enabled |
-
-- Use a middleware layer (Next.js middleware or a lightweight in-memory store like
-  `upstash/ratelimit` or a Redis counter) — do not rely on Cloudflare alone.
-- Return `429 Too Many Requests` with a `Retry-After` header.
-- No CAPTCHA in v1, but throttling must be in place before M3 ships.
+- **Never use `dangerouslySetInnerHTML`** unless the content has been sanitized with
+  a library like `DOMPurify`. Ban it in code review.
+- User-supplied content stored in Directus (listing descriptions, agent bios) must be
+  sanitized before rendering if it allows rich text. Use a whitelist-based sanitizer —
+  do not trust HTML from the database.
+- Set a `Content-Security-Policy` header in Caddy once the Next.js app is stable.
+  MapLibre and Next.js require some inline script allowances — audit carefully.
+- Cookies set by Directus for session management must have `HttpOnly` and `Secure` flags.
+  Verify these are set in Directus config — `HttpOnly` prevents JavaScript from reading
+  the cookie even if XSS occurs.
+- The `SameSite=Strict` or `SameSite=Lax` cookie attribute prevents cross-site request
+  forgery as a secondary benefit.
 
 ---
 
-## 4. Secrets management
+## 3. Insecure Direct Object References (IDOR)
 
-- **No secrets in code or version control.** Use env vars only.
-- Commit `.env.example` with placeholder values; never commit `.env`.
-- Secrets required at runtime:
-  - `DIRECTUS_SECRET` — JWT signing secret (shared between Directus and FastAPI)
-  - `DIRECTUS_ADMIN_TOKEN` — server-side only, never `NEXT_PUBLIC_`
-  - `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET_NAME`
-  - `EMAIL_API_KEY` — transactional email provider
-  - `DATABASE_URL` — Postgres connection string with credentials
-- Next.js: any secret that must not reach the browser must **not** be prefixed `NEXT_PUBLIC_`.
-  Audit every env var before adding it.
+**Risk:** attackers manipulate URL parameters or IDs to access another user's private data.
+Example: tenant changes `/portal/leases/123` to `/portal/leases/124` and sees someone
+else's lease.
+
+**Your exposure:** HIGH — the PM tenant portal is the primary risk surface.
+
+- **Every PM endpoint that returns tenant data must filter by the authenticated user's
+  `tenant_id` extracted from the JWT.** A missing filter is a critical security bug.
+- Never rely on the client to send their own `tenant_id` in the request body — always
+  derive it from the verified JWT.
+- Pattern for every portal endpoint:
+  ```python
+  # SAFE — tenant_id comes from the verified JWT, not the request
+  @router.get("/leases/{lease_id}")
+  async def get_lease(lease_id: UUID, current_user: TokenPayload = Depends(get_current_user)):
+      lease = await lease_service.get_lease(lease_id)
+      if lease.tenant_id != current_user.tenant_id:
+          raise HTTPException(status_code=403)
+      return lease
+  ```
+- Agent IDOR: enforce `agent_id = $CURRENT_USER` at the Directus permission level, not
+  just in UI. An agent must not be able to edit another agent's listings via direct API call.
+- Write a test for every portal endpoint that verifies a tenant cannot access another
+  tenant's resource — treat a failing IDOR test as a critical security failure.
 
 ---
 
-## 5. Data minimization & privacy
+## 4. Authentication & Session Abuse
 
-- **Public API (Directus public role):** expose only fields needed for listing display.
-  Never include `agent_id` email, internal notes, or any PII in the public listing response.
-- **Inquiries / viewing requests:** store name, email, phone — no more. Do not log these to
-  stdout in production.
-- **Saved searches:** store filter criteria only, not browsing history.
-- **Consent:** saved-search alert emails must include an unsubscribe link. Honor
-  `last_notified_at` to prevent duplicate emails.
-- **Privacy policy page** is required before accounts or email collection go live (M2).
+### Brute Force & Credential Stuffing
+**Risk:** automated tools guess passwords (brute force) or replay leaked
+email/password pairs from other breaches (credential stuffing).
+
+- Enable Directus's built-in login rate limiting. Verify it is active before M2 ships.
+- Rate-limit `/auth/login` at the Caddy or middleware level as a second layer:
+  maximum 10 attempts per IP per 15 minutes.
+- Return `429 Too Many Requests` with `Retry-After` header — do not return `401` on
+  rate-limited attempts (reveals the account exists).
+- Encourage strong passwords at account creation — enforce a minimum length (12+ chars)
+  in Directus's password policy settings.
+- Credential stuffing is partially mitigated by rate limiting. A future enhancement
+  (post-v1) would be breach-detection via HaveIBeenPwned API.
+
+### Cookie & Session Theft
+**Risk:** active session tokens stolen over unencrypted connections or via XSS,
+used to impersonate logged-in users.
+
+- TLS is mandatory end-to-end (Cloudflare → Caddy) — session tokens are never sent
+  in plaintext. See section 6.
+- Directus session cookies must have `HttpOnly` (no JS access), `Secure` (HTTPS only),
+  and `SameSite=Lax` flags. Verify in Directus config.
+- JWTs used by FastAPI have a short expiry. Do not extend JWT TTL beyond what Directus
+  defaults to without a clear reason.
+- If a tenant or agent reports a compromised account: invalidate their Directus session
+  immediately via the admin panel and force a password reset.
 
 ---
 
-## 6. Transport security
+## 5. XML External Entity (XXE) Injection
 
-- All traffic terminates TLS at **Caddy** (auto-provisioned via Let's Encrypt).
-- **Cloudflare** sits in front: enable "Full (strict)" SSL mode so the Cloudflare ↔ origin
-  connection is also encrypted.
+**Risk:** malicious XML input sent to an unsecured parser to read internal server files
+or trigger denial-of-service.
+
+**Your exposure:** LOW — this stack does not use XML parsers. JSON is used throughout.
+
+- Do not introduce any XML parsing library without explicit justification.
+- If PDF generation with WeasyPrint processes any XML/HTML from user input, sanitize it
+  first (see XSS rules above).
+- No action required beyond awareness — do not add XML attack surface.
+
+---
+
+## 6. Transport Security
+
+- All external traffic terminates TLS at **Caddy** (auto-provisioned via Let's Encrypt).
+- **Cloudflare** sits in front: set SSL/TLS mode to **Full (strict)** — encrypts both
+  the Cloudflare ↔ visitor and Cloudflare ↔ origin legs.
+- Never disable TLS verification in production code:
+  (`verify=False` in Python, `NODE_TLS_REJECT_UNAUTHORIZED=0` in Node).
 - Internal Docker network traffic (postgres ↔ directus ↔ fastapi) stays on the private
-  Compose network and does not need external TLS.
-- Never disable TLS verification in production code (`verify=False`, `NODE_TLS_REJECT_UNAUTHORIZED=0`).
+  `realty_net` and does not need TLS — it never leaves the host machine.
+- HSTS header must be set: `Strict-Transport-Security: max-age=31536000; includeSubDomains; preload`
 
 ---
 
-## 7. Database security
+## 7. Database Security
 
 - **Postgres is never exposed outside the Docker network.** No `ports:` mapping on the
   postgres service. No exceptions — not in dev, not in staging, not in production.
-- Your VPS firewall (`ufw`) must block port `5432` from all external IPs. Docker can
-  bypass `ufw` by writing directly to `iptables` — verify with `ufw status` AND
-  `iptables -L` after deploy.
-- To access the DB locally: `docker compose exec postgres psql -U $POSTGRES_USER $POSTGRES_DB`.
-- Directus and FastAPI use **separate Postgres roles** with least-privilege grants:
-  - `directus_user` — owns and accesses only the `public` (Directus) schema.
-  - `pm_user` — owns and accesses only the `pm` schema.
+- VPS firewall (`ufw`) must block port `5432`. Docker can bypass `ufw` by writing
+  directly to `iptables` — verify with **both** `ufw status` AND `iptables -L`.
+- To access DB locally: `docker compose exec postgres psql -U $POSTGRES_USER $POSTGRES_DB`
+- Separate Postgres roles with least-privilege:
+  - `directus_user` — accesses only the `public` (Directus) schema.
+  - `pm_user` — accesses only the `pm` schema.
   - Neither role can access the other's schema.
-- The `pm` schema must never be exposed through Directus collections or the public API.
-- Parameterize all SQL — no string interpolation in queries. SQLAlchemy ORM or
-  `text()` with bound params only.
-- **Never** use f-strings or `.format()` to build SQL. This is a hard ban — any instance
-  is a critical bug regardless of where the value comes from.
-- Validate and type all route parameters via Pydantic schemas before they reach a query.
-  A `lease_id: UUID` parameter in a FastAPI route signature already guarantees it cannot
-  be an injection string — use typed params everywhere.
-- In Alembic migration scripts, use bound parameters for any data operations (`op.execute`
-  with params), not string formatting.
-- Next.js API routes must validate and sanitize filter values before forwarding them to
-  Directus. Never pass raw query string values directly into Directus filter objects.
+- The `pm` schema is never exposed through Directus collections or the public API.
 
 ---
 
-## 8. Dependency & container hygiene
+## 8. Secrets Management
 
-- Pin dependency versions in `requirements.txt` and `package.json`.
-- Run containers as non-root users in production Dockerfiles.
-- Do not mount the Docker socket inside containers.
-- Keep base images up to date; note any known CVEs in a comment if a pin is forced.
+- **No secrets in code or version control.** Env vars only.
+- `.env.example` (placeholder values) is committed. `.env` (real values) is never committed.
+- `chmod 600 .env` on the server. Store master copies in a password manager.
+- Rotate any compromised secret immediately and restart affected services.
+- Next.js: secrets not intended for the browser must **not** be prefixed `NEXT_PUBLIC_`.
+  Audit every env var before adding it.
+- Required secrets: `DIRECTUS_SECRET`, `DATABASE_URL`, `R2_ACCESS_KEY_ID`,
+  `R2_SECRET_ACCESS_KEY`, `EMAIL_API_KEY`, `DIRECTUS_ADMIN_TOKEN`.
 
 ---
 
-## 9. Security checklist (pre-launch, M6)
+## 9. Dependency & Supply Chain Security
 
-- [ ] Rate limits active on all public write endpoints
-- [ ] Tenant ID documents in private R2 bucket, pre-signed URL access only
+**Risk:** outdated packages with known CVEs, or malicious third-party scripts that
+capture data (Magecart-style attacks).
+
+- **Pin all dependency versions** in `requirements.txt` and `package.json`/`pnpm-lock.yaml`.
+  A floating version (`requests>=2.0`) can silently pull in a compromised package.
+- Keep a `pnpm-lock.yaml` (web) and commit it. Never delete lock files.
+- No CDN-loaded third-party JavaScript. All JS dependencies must be installed via
+  `pnpm install` and bundled — never loaded via a `<script src="https://cdn.example.com/...">`.
+  This prevents Magecart-style supply chain attacks entirely.
+- MapLibre must be installed as an npm package, not loaded from a CDN.
+- Run `pip audit` (Python) and `pnpm audit` (Node) before each release to check for
+  known CVEs in dependencies.
+- Keep Docker base images updated. Check for image updates monthly.
+- Do not mount the Docker socket (`/var/run/docker.sock`) inside any container.
+
+---
+
+## 10. Infrastructure Hardening
+
+### Outdated software
+- Set up automatic security updates on the VPS OS (`unattended-upgrades` on Ubuntu).
+- Subscribe to security advisories for Directus, Next.js, and FastAPI.
+- Directus releases security patches — update within 2 weeks of a security release.
+
+### Malware & backdoors
+- Containers run as non-root users (enforced in Dockerfiles).
+- No Docker socket mounts.
+- Restrict SSH access to the VPS: key-based auth only, disable password login
+  (`PasswordAuthentication no` in `/etc/ssh/sshd_config`).
+- Limit SSH to your IP(s) via `ufw allow from <your-ip> to any port 22`.
+- Review server access logs periodically.
+
+### DDoS
+**Risk:** botnets flood the server with fake traffic to take it offline.
+
+- **Cloudflare** is your primary DDoS mitigation layer — it absorbs volumetric attacks
+  before they reach the VPS. Ensure the site is properly proxied through Cloudflare
+  (orange cloud enabled) and the origin IP is not publicly known.
+- Do not publish your VPS IP address anywhere. If it becomes known, Cloudflare can be
+  bypassed. Rotate the IP if it leaks.
+- Caddy rate limiting and Cloudflare's rate limiting rules provide a second layer for
+  application-level floods.
+- For v1 volume, Cloudflare's free plan DDoS protection is sufficient.
+
+---
+
+## 11. Social Engineering & Phishing
+
+**Risk:** attackers trick admins into surrendering credentials or installing malware
+disguised as a system update.
+
+- The Directus admin panel URL should not be publicly advertised. Consider IP-restricting
+  `/cms/admin` in Caddy to known admin IPs.
+- Admin and agent accounts must use strong, unique passwords not reused from other services.
+- Treat any unexpected email asking you to click a link and log in as suspicious — verify
+  via a second channel before acting.
+- Software updates should only come from official sources (npm registry, PyPI, Docker Hub
+  official images) — never from an emailed file or a link in a chat message.
+
+---
+
+## 12. Security checklist (pre-launch, M6)
+
+- [ ] Rate limits active on all public write endpoints (inquiries, viewing requests, registration, login)
+- [ ] Tenant ID documents in private R2 bucket, pre-signed URL access only, admin-only
 - [ ] No secrets in git history (`git log --all -- '*.env'`)
-- [ ] Directus public role has read-only access to listing fields only
-- [ ] FastAPI tenant endpoints filter by authenticated `tenant_id`
-- [ ] Agent item-level permissions enforced in Directus
-- [ ] TLS active end-to-end (Cloudflare → Caddy → services)
+- [ ] Directus public role: read-only, listing fields only, no PII
+- [ ] FastAPI tenant portal endpoints all filter by JWT-derived `tenant_id`
+- [ ] IDOR test exists for every tenant portal endpoint
+- [ ] Agent item-level permissions enforced in Directus (`agent_id = $CURRENT_USER`)
+- [ ] Directus session cookies: `HttpOnly`, `Secure`, `SameSite=Lax`
+- [ ] TLS active end-to-end (Cloudflare Full Strict → Caddy → services)
+- [ ] HSTS header set in Caddy
 - [ ] Postgres has no `ports:` mapping in docker-compose.yml
-- [ ] VPS firewall blocks port 5432 externally (verify with `iptables -L`, not just `ufw status`)
+- [ ] VPS firewall blocks port 5432 (verified with `iptables -L`, not just `ufw status`)
 - [ ] Separate Postgres roles for `directus_user` and `pm_user`
+- [ ] No CDN-loaded third-party JavaScript anywhere in the codebase
+- [ ] `pnpm audit` and `pip audit` pass clean
+- [ ] SSH: key-based auth only, password login disabled, port 22 IP-restricted
+- [ ] Cloudflare proxying enabled (origin IP not publicly exposed)
+- [ ] Directus admin IP-restricted in Caddy
 - [ ] Privacy policy page live before any email collection
 - [ ] Unsubscribe honored in all alert emails

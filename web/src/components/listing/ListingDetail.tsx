@@ -1,0 +1,215 @@
+import dynamic from 'next/dynamic'
+import { getTranslations } from 'next-intl/server'
+import type { Listing } from '@/types/listing'
+import type { Agent } from '@/types/agent'
+import ListingGallery from './ListingGallery'
+import AgentCard from './AgentCard'
+import PriceDisplay from './PriceDisplay'
+import StatusBadge from './StatusBadge'
+import InquiryForm from '@/components/contact/InquiryForm'
+import ViewingRequestForm from '@/components/contact/ViewingRequestForm'
+
+const ListingMap = dynamic(() => import('@/components/map/ListingMap'), { ssr: false })
+
+const DIRECTUS_URL = process.env.NEXT_PUBLIC_DIRECTUS_URL ?? ''
+
+interface ListingDetailProps {
+  listing: Listing
+  agent: Agent | null
+  locale: string
+}
+
+export default async function ListingDetail({ listing, agent, locale }: ListingDetailProps) {
+  const t = await getTranslations({ locale, namespace: 'listing' })
+  const tc = await getTranslations({ locale, namespace: 'condition' })
+  const tf = await getTranslations({ locale, namespace: 'furnished' })
+
+  const translation = listing.translations?.find((tr) => tr.languages_code === locale)
+    ?? listing.translations?.[0]
+
+  const title = translation?.title ?? ''
+  const description = translation?.description ?? ''
+
+  const brochure = listing.listing_media?.find((m) => m.kind === 'brochure_pdf')
+
+  return (
+    <div className="container-site py-8">
+      {/* Breadcrumb */}
+      <nav className="text-xs text-grey-medium mb-6 flex items-center gap-2">
+        <span>{listing.location_id?.district ?? 'Suriname'}</span>
+        <span>/</span>
+        <span className="text-black">{title}</span>
+      </nav>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Left: Gallery + Details */}
+        <div className="lg:col-span-2">
+          <ListingGallery media={listing.listing_media ?? []} title={title} />
+
+          {/* Title + Status */}
+          <div className="mt-6 mb-4">
+            <div className="flex items-center gap-3 mb-2">
+              <StatusBadge status={listing.status} />
+              <span className="text-xs tracking-wider uppercase text-grey-medium">
+                {listing.offer_type === 'sale' ? 'For Sale' : 'For Rent'}
+              </span>
+            </div>
+            <h1 className="text-h1 font-display mb-2">{title}</h1>
+            {listing.location_id && (
+              <p className="text-grey-medium">
+                {listing.location_id.sub_area
+                  ? `${listing.location_id.sub_area}, ${listing.location_id.district}`
+                  : listing.location_id.district}
+              </p>
+            )}
+          </div>
+
+          {/* Price */}
+          <div className="mb-6">
+            <PriceDisplay
+              amount={listing.price_amount}
+              currency={listing.price_currency}
+              priceOnRequest={listing.price_on_request}
+              perMonth={listing.offer_type === 'rent'}
+              className="text-price"
+            />
+          </div>
+
+          {/* Key attributes */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 border-y border-grey-light py-5 mb-6">
+            {listing.bedrooms !== null && (
+              <div>
+                <p className="text-xs tracking-wider uppercase text-grey-medium mb-1">{t('bedrooms')}</p>
+                <p className="text-h3 font-display">{listing.bedrooms}</p>
+              </div>
+            )}
+            {listing.bathrooms !== null && (
+              <div>
+                <p className="text-xs tracking-wider uppercase text-grey-medium mb-1">{t('bathrooms')}</p>
+                <p className="text-h3 font-display">{listing.bathrooms}</p>
+              </div>
+            )}
+            {listing.build_area_m2 !== null && (
+              <div>
+                <p className="text-xs tracking-wider uppercase text-grey-medium mb-1">{t('buildArea')}</p>
+                <p className="text-h3 font-display">{listing.build_area_m2} {t('sqm')}</p>
+              </div>
+            )}
+            {listing.lot_area_m2 !== null && (
+              <div>
+                <p className="text-xs tracking-wider uppercase text-grey-medium mb-1">{t('lotArea')}</p>
+                <p className="text-h3 font-display">{listing.lot_area_m2} {t('sqm')}</p>
+              </div>
+            )}
+          </div>
+
+          {/* Description */}
+          {description && (
+            <div className="mb-6">
+              <p className="whitespace-pre-line text-sm leading-relaxed text-charcoal">{description}</p>
+            </div>
+          )}
+
+          {/* Additional details */}
+          <div className="grid grid-cols-2 gap-x-8 gap-y-3 mb-6 text-sm">
+            {listing.year_built && (
+              <div className="flex justify-between border-b border-grey-light pb-2">
+                <span className="text-grey-medium">{t('yearBuilt')}</span>
+                <span>{listing.year_built}</span>
+              </div>
+            )}
+            {listing.condition && (
+              <div className="flex justify-between border-b border-grey-light pb-2">
+                <span className="text-grey-medium">{t('condition')}</span>
+                <span>{tc(listing.condition)}</span>
+              </div>
+            )}
+            {listing.furnished && (
+              <div className="flex justify-between border-b border-grey-light pb-2">
+                <span className="text-grey-medium">Furnished</span>
+                <span>{tf(listing.furnished)}</span>
+              </div>
+            )}
+          </div>
+
+          {/* Amenities */}
+          {listing.amenities && listing.amenities.length > 0 && (
+            <div className="mb-6">
+              <h3 className="text-h3 font-display mb-3">{t('amenities')}</h3>
+              <div className="flex flex-wrap gap-2">
+                {listing.amenities.map((a) => (
+                  <span key={a.id} className="bg-grey-light text-xs px-3 py-1 rounded-sm">
+                    {a.amenities_id.name}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Downloads / Tours */}
+          <div className="flex flex-wrap gap-3 mb-6">
+            {brochure && (
+              <a
+                href={`${DIRECTUS_URL}/assets/${brochure.file}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-ghost text-sm"
+              >
+                {t('downloadBrochure')}
+              </a>
+            )}
+            {listing.tour_url && (
+              <a
+                href={listing.tour_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-ghost text-sm"
+              >
+                {t('virtualTour')}
+              </a>
+            )}
+            {listing.video_url && (
+              <a
+                href={listing.video_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-ghost text-sm"
+              >
+                {t('videoTour')}
+              </a>
+            )}
+          </div>
+
+          {/* Map */}
+          {listing.lat !== null && listing.lng !== null && (
+            <div className="mb-6">
+              <h3 className="text-h3 font-display mb-3">Location</h3>
+              <ListingMap lat={listing.lat} lng={listing.lng} title={title} />
+            </div>
+          )}
+
+          {/* Inquiry form */}
+          <div className="mb-8">
+            <h3 className="text-h3 font-display mb-4">{t('contactAgent')}</h3>
+            <InquiryForm listingId={listing.id} />
+          </div>
+
+          {/* Viewing request form */}
+          <div>
+            <h3 className="text-h3 font-display mb-4">{t('requestViewing')}</h3>
+            <ViewingRequestForm listingId={listing.id} />
+          </div>
+        </div>
+
+        {/* Right: Agent card */}
+        <div className="lg:col-span-1">
+          <div className="sticky top-20">
+            {agent && (
+              <AgentCard agent={agent} listingRef={listing.slug} />
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}

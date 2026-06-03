@@ -1,0 +1,228 @@
+{
+  "nav": {
+    "home": "Home",
+    "search": "Zoeken",
+    "about": "Over Ons",
+    "contact": "Contact",
+    "buying": "Kopen",
+    "selling": "Verkopen",
+    "renting": "Huren",
+    "expat": "Expat Diensten"
+  },
+  "hero": {
+    "title": "Vind Uw Perfecte Woning in Suriname",
+    "subtitle": "Woon-, commerciële en investeringspanden in heel Suriname. Vertrouwd door kopers, verkopers en huurders.",
+    "searchPlaceholder": "Zoek op locatie of trefwoord..."
+  },
+  "search": {
+    "offerType": "Aanbieding",
+    "propertyType": "Type Woning",
+    "priceRange": "Prijsbereik",
+    "district": "District",
+    "keyword": "Trefwoord",
+    "filters": "Filters",
+    "sort": "Sorteren",
+    "results": "{count} woningen gevonden",
+    "noResults": "Geen woningen gevonden die voldoen aan uw criteria.",
+    "bedrooms": "Slaapkamers",
+    "bathrooms": "Badkamers",
+    "area": "Oppervlakte (m²)",
+    "furnished": "Gemeubileerd",
+    "amenities": "Voorzieningen",
+    "minPrice": "Min Prijs",
+    "maxPrice": "Max Prijs",
+    "minArea": "Min Oppervlakte",
+    "maxArea": "Max Oppervlakte",
+    "allTypes": "Alle Types",
+    "allDistricts": "Alle Districten",
+    "anyBedrooms": "Alle",
+    "apply": "Filters Toepassen",
+    "reset": "Resetten",
+    "sortNewest": "Nieuwste Eerst",
+    "sortPriceAsc": "Prijs: Laag naar Hoog",
+    "sortPriceDesc": "Prijs: Hoog naar Laag",
+    "sortAreaDesc": "Grootste Eerst",
+    "buy": "Kopen",
+    "rent": "Huren"
+  },
+  "offerTypes": {
+    "sale": "Te Koop",
+    "rent": "Te Huur"
+  },
+  "propertyTypes": {
+    "residential": "Woning",
+    "land": "Grond",
+    "commercial": "Commercieel",
+    "apartment": "Appartement",
+    "vacation": "Vakantie",
+    "expat": "Expat"
+  },
+  "listingStatus": {
+    "new": "Nieuw",
+    "reduced": "Prijs Verlaagd",
+    "under_contract": "Onder Contract",
+    "sold": "Verkocht",
+    "rented": "Verhuurd",
+    "price_on_request": "Prijs op Aanvraag",
+    "available": "Beschikbaar"
+  },
+  "furnished": {
+    "furnished": "Gemeubileerd",
+    "unfurnished": "Ongemeubileerd",
+    "partially": "Gedeeltelijk Gemeubileerd"
+  },
+  "condition": {
+    "new_build": "Nieuwbouw",
+    "excellent": "Uitstekend",
+    "good": "Goed",
+    "needs_work": "Renovatie Nodig"
+  },
+  "listing": {
+    "priceOnRequest": "Prijs op Aanvraag",
+    "buildArea": "Bouwoppervlakte",
+    "lotArea": "Perceeloppervlakte",
+    "bedrooms": "Slaapkamers",
+    "bathrooms": "Badkamers",
+    "yearBuilt": "Bouwjaar",
+    "condition": "Staat",
+    "amenities": "Voorzieningen",
+    "contactAgent": "Makelaar Contacteren",
+    "requestViewing": "Bezichtiging Aanvragen",
+    "whatsapp": "WhatsApp",
+    "callNow": "Nu Bellen",
+    "downloadBrochure": "Brochure Downloaden",
+    "virtualTour": "Virtuele Rondleiding",
+    "videoTour": "Video Rondleiding",
+    "shareSearch": "Delen",
+    "featuredListings": "Uitgelichte Woningen",
+    "newListings": "Nieuwste Woningen",
+    "forSale": "Woningen te Koop",
+    "forRent": "Woningen te Huur",
+    "viewAll": "Alles Bekijken",
+    "sqm": "m²",
+    "perMonth": "/maand"
+  },
+  "footer": {
+    "address": "Paramaribo, Suriname",
+    "email": "info@fareastproperties.com",
+    "phone": "+597 000-0000",
+    "rights": "© {year} Far East Property Management. Alle rechten voorbehouden.",
+    "tagline": "Uw betrouwbare vastgoedpartner in Suriname."
+  },
+  "common": {
+    "loading": "Laden...",
+    "error": "Er is iets misgegaan. Probeer het opnieuw.",
+    "viewAll": "Alles Bekijken",
+    "back": "Terug",
+    "readMore": "Lees Meer",
+    "learnMore": "Meer Informatie",
+    "getInTouch": "Neem Contact Op",
+    "submit": "Versturen",
+    "sending": "Versturen...",
+    "successMessage": "Bedankt! We nemen binnenkort contact met u op.",
+    "errorMessage": "Verzenden mislukt. Probeer het opnieuw of neem direct contact op.",
+    "name": "Uw Naam",
+    "email": "E-mailadres",
+    "phone": "Telefoonnummer",
+    "message": "Bericht",
+    "required": "Verplicht",
+    "preferredDate": "Gewenste Datum",
+    "preferredTime": "Gewenste Tijd",
+    "notes": "Aanvullende Opmerkingen"
+  },
+  "pages": {
+    "about": {
+      "title": "Over Far East Property Management",
+      "description": "Wij zijn Suriname's vertrouwde makelaar, gespecialiseerd in woon-, commerciële en investeringspanden.",
+      "mission": "Onze Missie",
+      "missionText": "Uitzonderlijke vastgoeddiensten bieden aan kopers, verkopers, huurders en investeerders in Suriname.",
+      "team": "Ons Team",
+      "whyUs": "Waarom Far East",
+      "experience": "Jaar Ervaring",
+      "listings": "Verkochte Woningen",
+      "clients": "Tevreden Klanten"
+    },
+    "buying": {
+      "title": "Onroerend Goed Kopen in Suriname",
+      "description": "Wij begeleiden u bij elke stap van de aankoop van onroerend goed in Suriname.",
+      "steps": "Het Koopproces",
+      "step1": "Woningen Bekijken",
+      "step1Text": "Verken onze gecureerde selectie van te koop staande woningen.",
+      "step2": "Bezichtiging Plannen",
+      "step2Text": "Onze makelaars plannen bezichtigingen op uw gemak.",
+      "step3": "Bod Uitbrengen",
+      "step3Text": "Wij onderhandelen namens u voor de beste prijs.",
+      "step4": "Deal Sluiten",
+      "step4Text": "Wij regelen het papierwerk om uw aankoop te voltooien."
+    },
+    "selling": {
+      "title": "Verkoop Uw Woning met Far East",
+      "description": "Haal de beste waarde uit uw woning met ons ervaren team.",
+      "cta": "Woning Aanbieden",
+      "valuation": "Gratis Taxatie",
+      "valuationText": "Ontvang een professionele taxatie van uw woning zonder kosten.",
+      "marketing": "Marketing",
+      "marketingText": "Uw woning wordt op onze website en door heel Suriname gepromoot.",
+      "negotiation": "Onderhandeling",
+      "negotiationText": "Onze makelaars behandelen alle onderhandelingen voor maximaal rendement."
+    },
+    "renting": {
+      "title": "Huren in Suriname",
+      "description": "Vind de perfecte huurwoning voor uw wensen en budget.",
+      "longTerm": "Langdurige Verhuur",
+      "shortTerm": "Kortdurende Verhuur",
+      "tenantServices": "Huurderdiensten",
+      "tenantServicesText": "Wij begeleiden huurders gedurende hun volledige huurperiode."
+    },
+    "expat": {
+      "title": "Expat Diensten",
+      "description": "Verhuist u naar Suriname? Wij zijn gespecialiseerd in het helpen van expats bij het vinden van hun perfecte thuis.",
+      "relocation": "Verhuisassistentie",
+      "relocationText": "Wij begeleiden u bij elke stap van uw verhuizing naar Suriname.",
+      "neighborhoods": "Wijken",
+      "neighborhoodsText": "Ontdek de beste gebieden voor expats in Paramaribo en omgeving.",
+      "community": "Expat Gemeenschap",
+      "communityText": "Verbind u met andere expats en bouw uw netwerk op in Suriname."
+    },
+    "contact": {
+      "title": "Contact",
+      "description": "Wij staan klaar om te helpen. Neem contact op met ons team voor al uw vragen.",
+      "office": "Ons Kantoor",
+      "sendMessage": "Stuur Ons een Bericht",
+      "whatsappUs": "WhatsApp Ons"
+    },
+    "privacy": {
+      "title": "Privacybeleid",
+      "description": "Hoe wij uw persoonlijke gegevens verzamelen, gebruiken en beschermen.",
+      "lastUpdated": "Laatst Bijgewerkt"
+    },
+    "account": {
+      "title": "Mijn Account",
+      "description": "Beheer uw profiel en opgeslagen zoekopdrachten.",
+      "comingSoon": "Accountfuncties komen binnenkort. Kom later terug."
+    }
+  },
+  "journey": {
+    "title": "Uw Vastgoedreis",
+    "subtitle": "Of u nu koopt, verkoopt of huurt, wij staan u bij elke stap terzijde.",
+    "buy": {
+      "title": "Kopen",
+      "description": "Bekijk honderden te koop staande woningen door heel Suriname."
+    },
+    "sell": {
+      "title": "Verkopen",
+      "description": "Bied uw woning aan en bereik duizenden potentiële kopers."
+    },
+    "rent": {
+      "title": "Huren",
+      "description": "Vind kwaliteitshuurwoningen die passen bij uw levensstijl en budget."
+    }
+  },
+  "meta": {
+    "homeTitle": "Far East Property Management — Vastgoed in Suriname",
+    "homeDescription": "Vind woon-, commerciële en investeringspanden te koop en te huur in Suriname.",
+    "searchTitle": "Woningen Zoeken — Far East Property Management",
+    "searchDescription": "Zoek woningen te koop en te huur in Suriname. Filter op type, prijs, district en meer.",
+    "listingDescription": "Bekijk details, foto's en contactinformatie voor deze woningadvertentie."
+  }
+}

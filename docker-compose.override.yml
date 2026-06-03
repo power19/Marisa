@@ -1,0 +1,28 @@
+# Local development overrides — applied automatically by Docker Compose.
+# Do NOT commit a .env file. This file is safe to commit (no secrets).
+#
+# What this changes vs. production:
+#   - Directus exposed on localhost:8055 (skip Caddy for local dev)
+#   - Storage switched to local disk (no R2 credentials needed)
+#   - Caddy disabled (not needed locally)
+#   - LOG_LEVEL raised to info for easier debugging
+
+services:
+  directus:
+    ports:
+      - "8055:8055"
+    environment:
+      # Local disk storage — no R2 credentials needed for local dev
+      STORAGE_LOCATIONS: local
+      STORAGE_LOCAL_ROOT: /directus/uploads
+      # Unset R2 vars so Directus doesn't try to connect
+      STORAGE_R2_DRIVER: ""
+      STORAGE_R2_KEY: ""
+      STORAGE_R2_SECRET: ""
+      STORAGE_R2_BUCKET: ""
+      STORAGE_R2_ENDPOINT: ""
+      # Easier debugging locally
+      LOG_LEVEL: info
+
+  caddy:
+    profiles: [caddy]

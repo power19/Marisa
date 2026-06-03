@@ -1,0 +1,47 @@
+# Environment — never commit real secrets
+.env
+.env.local
+.env.*.local
+pm/.env
+worker/.env
+
+# Node / Next.js
+node_modules/
+web/.next/
+web/out/
+web/.pnp
+web/.pnp.js
+web/.yarn/install-state.gz
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/
+.coverage
+htmlcov/
+
+# Docker
+*.pid
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Caddy data dirs (generated at runtime)
+caddy_data/
+caddy_config/

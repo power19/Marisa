@@ -1,0 +1,16 @@
+[
+  { "district": "Paramaribo", "sub_area": "Centrum" },
+  { "district": "Paramaribo", "sub_area": "Noord" },
+  { "district": "Paramaribo", "sub_area": "West" },
+  { "district": "Paramaribo", "sub_area": "Zuid" },
+  { "district": "Paramaribo", "sub_area": "Boven Paramaribo" },
+  { "district": "Wanica", "sub_area": null },
+  { "district": "Commewijne", "sub_area": null },
+  { "district": "Para", "sub_area": null },
+  { "district": "Saramacca", "sub_area": null },
+  { "district": "Nickerie", "sub_area": null },
+  { "district": "Coronie", "sub_area": null },
+  { "district": "Brokopondo", "sub_area": null },
+  { "district": "Marowijne", "sub_area": null },
+  { "district": "Sipaliwini", "sub_area": null }
+]

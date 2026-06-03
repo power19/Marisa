@@ -1,0 +1,3154 @@
+version: 3
+directus: "11.2.2"
+vendor: postgres
+
+# ─── Collections ─────────────────────────────────────────────────────────────
+
+collections:
+  - collection: languages
+    meta:
+      collection: languages
+      icon: translate
+      note: "i18n locales — en (default), nl, srn"
+      display_template: "{{name}}"
+      hidden: false
+      singleton: false
+      translations: null
+      archive_field: null
+      archive_app_filter: true
+      archive_value: null
+      unarchive_value: null
+      sort_field: null
+      accountability: "all"
+      color: null
+      item_duplication_fields: null
+      sort: 1
+      group: null
+      collapse: open
+      preview_url: null
+      versioning: false
+    schema:
+      name: languages
+      comment: null
+
+  - collection: locations
+    meta:
+      collection: locations
+      icon: place
+      note: "Suriname districts and sub-areas"
+      display_template: "{{district}} — {{sub_area}}"
+      hidden: false
+      singleton: false
+      translations: null
+      archive_field: null
+      archive_app_filter: true
+      archive_value: null
+      unarchive_value: null
+      sort_field: null
+      accountability: "all"
+      color: null
+      item_duplication_fields: null
+      sort: 2
+      group: null
+      collapse: open
+      preview_url: null
+      versioning: false
+    schema:
+      name: locations
+      comment: null
+
+  - collection: amenities
+    meta:
+      collection: amenities
+      icon: star
+      note: "Property amenities (AC, Pool, etc.)"
+      display_template: null
+      hidden: false
+      singleton: false
+      translations: null
+      archive_field: null
+      archive_app_filter: true
+      archive_value: null
+      unarchive_value: null
+      sort_field: null
+      accountability: "all"
+      color: null
+      item_duplication_fields: null
+      sort: 3
+      group: null
+      collapse: open
+      preview_url: null
+      versioning: false
+    schema:
+      name: amenities
+      comment: null
+
+  - collection: amenities_translations
+    meta:
+      collection: amenities_translations
+      icon: translate
+      note: null
+      display_template: null
+      hidden: true
+      singleton: false
+      translations: null
+      archive_field: null
+      archive_app_filter: true
+      archive_value: null
+      unarchive_value: null
+      sort_field: null
+      accountability: "all"
+      color: null
+      item_duplication_fields: null
+      sort: null
+      group: null
+      collapse: open
+      preview_url: null
+      versioning: false
+    schema:
+      name: amenities_translations
+      comment: null
+
+  - collection: agents
+    meta:
+      collection: agents
+      icon: person
+      note: "Agent profiles (extends directus_users)"
+      display_template: "{{display_name}}"
+      hidden: false
+      singleton: false
+      translations: null
+      archive_field: null
+      archive_app_filter: true
+      archive_value: null
+      unarchive_value: null
+      sort_field: null
+      accountability: "all"
+      color: null
+      item_duplication_fields: null
+      sort: 4
+      group: null
+      collapse: open
+      preview_url: null
+      versioning: false
+    schema:
+      name: agents
+      comment: null
+
+  - collection: agents_translations
+    meta:
+      collection: agents_translations
+      icon: translate
+      note: null
+      display_template: null
+      hidden: true
+      singleton: false
+      translations: null
+      archive_field: null
+      archive_app_filter: true
+      archive_value: null
+      unarchive_value: null
+      sort_field: null
+      accountability: "all"
+      color: null
+      item_duplication_fields: null
+      sort: null
+      group: null
+      collapse: open
+      preview_url: null
+      versioning: false
+    schema:
+      name: agents_translations
+      comment: null
+
+  - collection: listings
+    meta:
+      collection: listings
+      icon: home
+      note: "Property listings (for sale and rent)"
+      display_template: "{{slug}}"
+      hidden: false
+      singleton: false
+      translations: null
+      archive_field: status
+      archive_app_filter: true
+      archive_value: sold
+      unarchive_value: available
+      sort_field: null
+      accountability: "all"
+      color: null
+      item_duplication_fields: null
+      sort: 5
+      group: null
+      collapse: open
+      preview_url: null
+      versioning: false
+    schema:
+      name: listings
+      comment: null
+
+  - collection: listings_translations
+    meta:
+      collection: listings_translations
+      icon: translate
+      note: null
+      display_template: null
+      hidden: true
+      singleton: false
+      translations: null
+      archive_field: null
+      archive_app_filter: true
+      archive_value: null
+      unarchive_value: null
+      sort_field: null
+      accountability: "all"
+      color: null
+      item_duplication_fields: null
+      sort: null
+      group: null
+      collapse: open
+      preview_url: null
+      versioning: false
+    schema:
+      name: listings_translations
+      comment: null
+
+  - collection: listing_media
+    meta:
+      collection: listing_media
+      icon: photo_library
+      note: "Photos, floorplans, and brochure PDFs for listings"
+      display_template: null
+      hidden: false
+      singleton: false
+      translations: null
+      archive_field: null
+      archive_app_filter: true
+      archive_value: null
+      unarchive_value: null
+      sort_field: sort
+      accountability: "all"
+      color: null
+      item_duplication_fields: null
+      sort: 6
+      group: null
+      collapse: open
+      preview_url: null
+      versioning: false
+    schema:
+      name: listing_media
+      comment: null
+
+  - collection: listing_media_translations
+    meta:
+      collection: listing_media_translations
+      icon: translate
+      note: null
+      display_template: null
+      hidden: true
+      singleton: false
+      translations: null
+      archive_field: null
+      archive_app_filter: true
+      archive_value: null
+      unarchive_value: null
+      sort_field: null
+      accountability: "all"
+      color: null
+      item_duplication_fields: null
+      sort: null
+      group: null
+      collapse: open
+      preview_url: null
+      versioning: false
+    schema:
+      name: listing_media_translations
+      comment: null
+
+  - collection: listings_amenities
+    meta:
+      collection: listings_amenities
+      icon: link
+      note: "M2M junction: listings <-> amenities"
+      display_template: null
+      hidden: true
+      singleton: false
+      translations: null
+      archive_field: null
+      archive_app_filter: true
+      archive_value: null
+      unarchive_value: null
+      sort_field: null
+      accountability: "all"
+      color: null
+      item_duplication_fields: null
+      sort: null
+      group: null
+      collapse: open
+      preview_url: null
+      versioning: false
+    schema:
+      name: listings_amenities
+      comment: null
+
+# ─── Fields ──────────────────────────────────────────────────────────────────
+
+fields:
+  # ── languages ──────────────────────────────────────────────────────────────
+  - collection: languages
+    field: code
+    type: string
+    schema:
+      name: code
+      table: languages
+      data_type: character varying
+      default_value: null
+      max_length: 8
+      is_nullable: false
+      is_unique: true
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: languages
+      field: code
+      special: null
+      interface: input
+      options:
+        font: monospace
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 1
+      width: half
+      required: true
+      group: null
+
+  - collection: languages
+    field: name
+    type: string
+    schema:
+      name: name
+      table: languages
+      data_type: character varying
+      default_value: null
+      max_length: 255
+      is_nullable: false
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: languages
+      field: name
+      special: null
+      interface: input
+      options: null
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 2
+      width: half
+      required: true
+      group: null
+
+  - collection: languages
+    field: direction
+    type: string
+    schema:
+      name: direction
+      table: languages
+      data_type: character varying
+      default_value: "ltr"
+      max_length: 3
+      is_nullable: false
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: languages
+      field: direction
+      special: null
+      interface: select-dropdown
+      options:
+        choices:
+          - text: Left to Right
+            value: ltr
+          - text: Right to Left
+            value: rtl
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 3
+      width: half
+      required: false
+      group: null
+
+  # ── locations ──────────────────────────────────────────────────────────────
+  - collection: locations
+    field: id
+    type: integer
+    schema:
+      name: id
+      table: locations
+      data_type: integer
+      default_value: null
+      max_length: null
+      is_nullable: false
+      is_unique: true
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: true
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: locations
+      field: id
+      special: null
+      interface: input
+      options: null
+      display: null
+      display_options: null
+      readonly: true
+      hidden: true
+      sort: 1
+      width: full
+      required: false
+      group: null
+
+  - collection: locations
+    field: district
+    type: string
+    schema:
+      name: district
+      table: locations
+      data_type: character varying
+      default_value: null
+      max_length: 255
+      is_nullable: false
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: locations
+      field: district
+      special: null
+      interface: input
+      options: null
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 2
+      width: half
+      required: true
+      group: null
+
+  - collection: locations
+    field: sub_area
+    type: string
+    schema:
+      name: sub_area
+      table: locations
+      data_type: character varying
+      default_value: null
+      max_length: 255
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: locations
+      field: sub_area
+      special: null
+      interface: input
+      options: null
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 3
+      width: half
+      required: false
+      group: null
+
+  # ── amenities ──────────────────────────────────────────────────────────────
+  - collection: amenities
+    field: id
+    type: integer
+    schema:
+      name: id
+      table: amenities
+      data_type: integer
+      default_value: null
+      max_length: null
+      is_nullable: false
+      is_unique: true
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: true
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: amenities
+      field: id
+      special: null
+      interface: input
+      options: null
+      display: null
+      display_options: null
+      readonly: true
+      hidden: true
+      sort: 1
+      width: full
+      required: false
+      group: null
+
+  - collection: amenities
+    field: icon
+    type: string
+    schema:
+      name: icon
+      table: amenities
+      data_type: character varying
+      default_value: null
+      max_length: 100
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: amenities
+      field: icon
+      special: null
+      interface: input
+      options: null
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 2
+      width: half
+      required: false
+      group: null
+
+  - collection: amenities
+    field: name
+    type: alias
+    schema: null
+    meta:
+      collection: amenities
+      field: name
+      special:
+        - translations
+      interface: translations
+      options:
+        languageField: languages_code
+        translationsCollection: amenities_translations
+        defaultLanguage: en
+        userLanguage: true
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 3
+      width: full
+      required: false
+      group: null
+
+  # ── amenities_translations ─────────────────────────────────────────────────
+  - collection: amenities_translations
+    field: id
+    type: integer
+    schema:
+      name: id
+      table: amenities_translations
+      data_type: integer
+      default_value: null
+      max_length: null
+      is_nullable: false
+      is_unique: true
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: true
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: amenities_translations
+      field: id
+      special: null
+      interface: input
+      options: null
+      display: null
+      display_options: null
+      readonly: true
+      hidden: true
+      sort: 1
+      width: full
+      required: false
+      group: null
+
+  - collection: amenities_translations
+    field: amenities_id
+    type: integer
+    schema:
+      name: amenities_id
+      table: amenities_translations
+      data_type: integer
+      default_value: null
+      max_length: null
+      is_nullable: false
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: id
+      foreign_key_table: amenities
+    meta:
+      collection: amenities_translations
+      field: amenities_id
+      special: null
+      interface: null
+      options: null
+      display: null
+      display_options: null
+      readonly: true
+      hidden: true
+      sort: 2
+      width: full
+      required: false
+      group: null
+
+  - collection: amenities_translations
+    field: languages_code
+    type: string
+    schema:
+      name: languages_code
+      table: amenities_translations
+      data_type: character varying
+      default_value: null
+      max_length: 8
+      is_nullable: false
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: code
+      foreign_key_table: languages
+    meta:
+      collection: amenities_translations
+      field: languages_code
+      special: null
+      interface: null
+      options: null
+      display: null
+      display_options: null
+      readonly: true
+      hidden: true
+      sort: 3
+      width: full
+      required: false
+      group: null
+
+  - collection: amenities_translations
+    field: name
+    type: string
+    schema:
+      name: name
+      table: amenities_translations
+      data_type: character varying
+      default_value: null
+      max_length: 255
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: amenities_translations
+      field: name
+      special: null
+      interface: input
+      options: null
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 4
+      width: full
+      required: false
+      group: null
+
+  # ── agents ─────────────────────────────────────────────────────────────────
+  - collection: agents
+    field: id
+    type: uuid
+    schema:
+      name: id
+      table: agents
+      data_type: uuid
+      default_value: null
+      max_length: null
+      is_nullable: false
+      is_unique: true
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: agents
+      field: id
+      special:
+        - uuid
+      interface: input
+      options: null
+      display: null
+      display_options: null
+      readonly: true
+      hidden: true
+      sort: 1
+      width: full
+      required: false
+      group: null
+
+  - collection: agents
+    field: user_id
+    type: uuid
+    schema:
+      name: user_id
+      table: agents
+      data_type: uuid
+      default_value: null
+      max_length: null
+      is_nullable: true
+      is_unique: true
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: id
+      foreign_key_table: directus_users
+    meta:
+      collection: agents
+      field: user_id
+      special:
+        - m2o
+      interface: select-dropdown-m2o
+      options:
+        template: "{{email}}"
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 2
+      width: half
+      required: false
+      group: null
+
+  - collection: agents
+    field: display_name
+    type: string
+    schema:
+      name: display_name
+      table: agents
+      data_type: character varying
+      default_value: null
+      max_length: 255
+      is_nullable: false
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: agents
+      field: display_name
+      special: null
+      interface: input
+      options: null
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 3
+      width: half
+      required: true
+      group: null
+
+  - collection: agents
+    field: photo
+    type: uuid
+    schema:
+      name: photo
+      table: agents
+      data_type: uuid
+      default_value: null
+      max_length: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: id
+      foreign_key_table: directus_files
+    meta:
+      collection: agents
+      field: photo
+      special:
+        - file
+      interface: file-image
+      options: null
+      display: image
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 4
+      width: full
+      required: false
+      group: null
+
+  - collection: agents
+    field: phone
+    type: string
+    schema:
+      name: phone
+      table: agents
+      data_type: character varying
+      default_value: null
+      max_length: 30
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: agents
+      field: phone
+      special: null
+      interface: input
+      options: null
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 5
+      width: half
+      required: false
+      group: null
+
+  - collection: agents
+    field: whatsapp
+    type: string
+    schema:
+      name: whatsapp
+      table: agents
+      data_type: character varying
+      default_value: null
+      max_length: 30
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: agents
+      field: whatsapp
+      special: null
+      interface: input
+      options: null
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 6
+      width: half
+      required: false
+      group: null
+
+  - collection: agents
+    field: email
+    type: string
+    schema:
+      name: email
+      table: agents
+      data_type: character varying
+      default_value: null
+      max_length: 255
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: agents
+      field: email
+      special: null
+      interface: input
+      options:
+        iconRight: email
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 7
+      width: half
+      required: false
+      group: null
+
+  - collection: agents
+    field: approved
+    type: boolean
+    schema:
+      name: approved
+      table: agents
+      data_type: boolean
+      default_value: "false"
+      max_length: null
+      is_nullable: false
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: agents
+      field: approved
+      special:
+        - cast-boolean
+      interface: boolean
+      options: null
+      display: boolean
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 8
+      width: half
+      required: false
+      group: null
+
+  - collection: agents
+    field: bio
+    type: alias
+    schema: null
+    meta:
+      collection: agents
+      field: bio
+      special:
+        - translations
+      interface: translations
+      options:
+        languageField: languages_code
+        translationsCollection: agents_translations
+        defaultLanguage: en
+        userLanguage: true
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 9
+      width: full
+      required: false
+      group: null
+
+  # ── agents_translations ────────────────────────────────────────────────────
+  - collection: agents_translations
+    field: id
+    type: integer
+    schema:
+      name: id
+      table: agents_translations
+      data_type: integer
+      default_value: null
+      max_length: null
+      is_nullable: false
+      is_unique: true
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: true
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: agents_translations
+      field: id
+      special: null
+      interface: input
+      options: null
+      display: null
+      display_options: null
+      readonly: true
+      hidden: true
+      sort: 1
+      width: full
+      required: false
+      group: null
+
+  - collection: agents_translations
+    field: agents_id
+    type: uuid
+    schema:
+      name: agents_id
+      table: agents_translations
+      data_type: uuid
+      default_value: null
+      max_length: null
+      is_nullable: false
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: id
+      foreign_key_table: agents
+    meta:
+      collection: agents_translations
+      field: agents_id
+      special: null
+      interface: null
+      options: null
+      display: null
+      display_options: null
+      readonly: true
+      hidden: true
+      sort: 2
+      width: full
+      required: false
+      group: null
+
+  - collection: agents_translations
+    field: languages_code
+    type: string
+    schema:
+      name: languages_code
+      table: agents_translations
+      data_type: character varying
+      default_value: null
+      max_length: 8
+      is_nullable: false
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: code
+      foreign_key_table: languages
+    meta:
+      collection: agents_translations
+      field: languages_code
+      special: null
+      interface: null
+      options: null
+      display: null
+      display_options: null
+      readonly: true
+      hidden: true
+      sort: 3
+      width: full
+      required: false
+      group: null
+
+  - collection: agents_translations
+    field: bio
+    type: text
+    schema:
+      name: bio
+      table: agents_translations
+      data_type: text
+      default_value: null
+      max_length: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: agents_translations
+      field: bio
+      special: null
+      interface: input-rich-text-md
+      options: null
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 4
+      width: full
+      required: false
+      group: null
+
+  # ── listings ───────────────────────────────────────────────────────────────
+  - collection: listings
+    field: id
+    type: uuid
+    schema:
+      name: id
+      table: listings
+      data_type: uuid
+      default_value: null
+      max_length: null
+      is_nullable: false
+      is_unique: true
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: listings
+      field: id
+      special:
+        - uuid
+      interface: input
+      options: null
+      display: null
+      display_options: null
+      readonly: true
+      hidden: true
+      sort: 1
+      width: full
+      required: false
+      group: null
+
+  - collection: listings
+    field: slug
+    type: string
+    schema:
+      name: slug
+      table: listings
+      data_type: character varying
+      default_value: null
+      max_length: 255
+      is_nullable: false
+      is_unique: true
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: listings
+      field: slug
+      special: null
+      interface: input
+      options:
+        font: monospace
+        iconRight: link
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 2
+      width: half
+      required: true
+      group: null
+
+  - collection: listings
+    field: offer_type
+    type: string
+    schema:
+      name: offer_type
+      table: listings
+      data_type: character varying
+      default_value: null
+      max_length: 10
+      is_nullable: false
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: listings
+      field: offer_type
+      special: null
+      interface: select-dropdown
+      options:
+        choices:
+          - text: For Sale
+            value: sale
+          - text: For Rent
+            value: rent
+      display: labels
+      display_options:
+        choices:
+          - text: For Sale
+            value: sale
+            foreground: "#FFFFFF"
+            background: "#1B3A8C"
+          - text: For Rent
+            value: rent
+            foreground: "#FFFFFF"
+            background: "#2E7D32"
+      readonly: false
+      hidden: false
+      sort: 3
+      width: half
+      required: true
+      group: null
+
+  - collection: listings
+    field: property_type
+    type: string
+    schema:
+      name: property_type
+      table: listings
+      data_type: character varying
+      default_value: null
+      max_length: 20
+      is_nullable: false
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: listings
+      field: property_type
+      special: null
+      interface: select-dropdown
+      options:
+        choices:
+          - text: Residential
+            value: residential
+          - text: Land
+            value: land
+          - text: Commercial
+            value: commercial
+          - text: Apartment
+            value: apartment
+          - text: Vacation
+            value: vacation
+          - text: Expat
+            value: expat
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 4
+      width: half
+      required: true
+      group: null
+
+  - collection: listings
+    field: status
+    type: string
+    schema:
+      name: status
+      table: listings
+      data_type: character varying
+      default_value: "available"
+      max_length: 20
+      is_nullable: false
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: listings
+      field: status
+      special: null
+      interface: select-dropdown
+      options:
+        choices:
+          - text: Available
+            value: available
+          - text: New
+            value: new
+          - text: Reduced
+            value: reduced
+          - text: Under Contract
+            value: under_contract
+          - text: Sold
+            value: sold
+          - text: Rented
+            value: rented
+          - text: Price on Request
+            value: price_on_request
+      display: labels
+      display_options:
+        choices:
+          - text: Available
+            value: available
+            foreground: "#FFFFFF"
+            background: "#388E3C"
+          - text: New
+            value: new
+            foreground: "#FFFFFF"
+            background: "#1B3A8C"
+          - text: Reduced
+            value: reduced
+            foreground: "#FFFFFF"
+            background: "#F57C00"
+          - text: Under Contract
+            value: under_contract
+            foreground: "#FFFFFF"
+            background: "#7B1FA2"
+          - text: Sold
+            value: sold
+            foreground: "#FFFFFF"
+            background: "#B71C1C"
+          - text: Rented
+            value: rented
+            foreground: "#FFFFFF"
+            background: "#37474F"
+          - text: Price on Request
+            value: price_on_request
+            foreground: "#FFFFFF"
+            background: "#546E7A"
+      readonly: false
+      hidden: false
+      sort: 5
+      width: half
+      required: true
+      group: null
+
+  - collection: listings
+    field: price_amount
+    type: decimal
+    schema:
+      name: price_amount
+      table: listings
+      data_type: numeric
+      default_value: null
+      max_length: null
+      numeric_precision: 14
+      numeric_scale: 2
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: listings
+      field: price_amount
+      special: null
+      interface: input
+      options:
+        iconLeft: attach_money
+        min: 0
+        step: 0.01
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 6
+      width: half
+      required: false
+      group: null
+
+  - collection: listings
+    field: price_currency
+    type: string
+    schema:
+      name: price_currency
+      table: listings
+      data_type: character varying
+      default_value: "USD"
+      max_length: 3
+      is_nullable: false
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: listings
+      field: price_currency
+      special: null
+      interface: select-dropdown
+      options:
+        choices:
+          - text: "USD ($)"
+            value: USD
+          - text: "EUR (EUR)"
+            value: EUR
+          - text: "SRD (SRD$)"
+            value: SRD
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 7
+      width: half
+      required: true
+      group: null
+
+  - collection: listings
+    field: price_on_request
+    type: boolean
+    schema:
+      name: price_on_request
+      table: listings
+      data_type: boolean
+      default_value: "false"
+      max_length: null
+      is_nullable: false
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: listings
+      field: price_on_request
+      special:
+        - cast-boolean
+      interface: boolean
+      options: null
+      display: boolean
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 8
+      width: half
+      required: false
+      group: null
+
+  - collection: listings
+    field: build_area_m2
+    type: decimal
+    schema:
+      name: build_area_m2
+      table: listings
+      data_type: numeric
+      default_value: null
+      max_length: null
+      numeric_precision: 10
+      numeric_scale: 2
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: listings
+      field: build_area_m2
+      special: null
+      interface: input
+      options:
+        iconRight: square_foot
+        min: 0
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 9
+      width: half
+      required: false
+      group: null
+
+  - collection: listings
+    field: lot_area_m2
+    type: decimal
+    schema:
+      name: lot_area_m2
+      table: listings
+      data_type: numeric
+      default_value: null
+      max_length: null
+      numeric_precision: 10
+      numeric_scale: 2
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: listings
+      field: lot_area_m2
+      special: null
+      interface: input
+      options:
+        iconRight: landscape
+        min: 0
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 10
+      width: half
+      required: false
+      group: null
+
+  - collection: listings
+    field: bedrooms
+    type: integer
+    schema:
+      name: bedrooms
+      table: listings
+      data_type: integer
+      default_value: null
+      max_length: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: listings
+      field: bedrooms
+      special: null
+      interface: input
+      options:
+        iconRight: bed
+        min: 0
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 11
+      width: half
+      required: false
+      group: null
+
+  - collection: listings
+    field: bathrooms
+    type: integer
+    schema:
+      name: bathrooms
+      table: listings
+      data_type: integer
+      default_value: null
+      max_length: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: listings
+      field: bathrooms
+      special: null
+      interface: input
+      options:
+        iconRight: bathtub
+        min: 0
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 12
+      width: half
+      required: false
+      group: null
+
+  - collection: listings
+    field: furnished
+    type: string
+    schema:
+      name: furnished
+      table: listings
+      data_type: character varying
+      default_value: null
+      max_length: 20
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: listings
+      field: furnished
+      special: null
+      interface: select-dropdown
+      options:
+        allowNone: true
+        choices:
+          - text: Furnished
+            value: furnished
+          - text: Unfurnished
+            value: unfurnished
+          - text: Partially Furnished
+            value: partially
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 13
+      width: half
+      required: false
+      group: null
+
+  - collection: listings
+    field: year_built
+    type: integer
+    schema:
+      name: year_built
+      table: listings
+      data_type: integer
+      default_value: null
+      max_length: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: listings
+      field: year_built
+      special: null
+      interface: input
+      options:
+        min: 1900
+        max: 2100
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 14
+      width: half
+      required: false
+      group: null
+
+  - collection: listings
+    field: condition
+    type: string
+    schema:
+      name: condition
+      table: listings
+      data_type: character varying
+      default_value: null
+      max_length: 20
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: listings
+      field: condition
+      special: null
+      interface: select-dropdown
+      options:
+        allowNone: true
+        choices:
+          - text: New Build
+            value: new_build
+          - text: Excellent
+            value: excellent
+          - text: Good
+            value: good
+          - text: Needs Work
+            value: needs_work
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 15
+      width: half
+      required: false
+      group: null
+
+  - collection: listings
+    field: location_id
+    type: integer
+    schema:
+      name: location_id
+      table: listings
+      data_type: integer
+      default_value: null
+      max_length: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: id
+      foreign_key_table: locations
+    meta:
+      collection: listings
+      field: location_id
+      special:
+        - m2o
+      interface: select-dropdown-m2o
+      options:
+        template: "{{district}} — {{sub_area}}"
+      display: related-values
+      display_options:
+        template: "{{district}} — {{sub_area}}"
+      readonly: false
+      hidden: false
+      sort: 16
+      width: half
+      required: false
+      group: null
+
+  - collection: listings
+    field: address
+    type: text
+    schema:
+      name: address
+      table: listings
+      data_type: text
+      default_value: null
+      max_length: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: listings
+      field: address
+      special: null
+      interface: input-multiline
+      options: null
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 17
+      width: half
+      required: false
+      group: null
+
+  - collection: listings
+    field: lat
+    type: float
+    schema:
+      name: lat
+      table: listings
+      data_type: double precision
+      default_value: null
+      max_length: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: listings
+      field: lat
+      special: null
+      interface: input
+      options:
+        iconRight: gps_fixed
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 18
+      width: half
+      required: false
+      group: null
+
+  - collection: listings
+    field: lng
+    type: float
+    schema:
+      name: lng
+      table: listings
+      data_type: double precision
+      default_value: null
+      max_length: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: listings
+      field: lng
+      special: null
+      interface: input
+      options:
+        iconRight: gps_fixed
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 19
+      width: half
+      required: false
+      group: null
+
+  - collection: listings
+    field: agent_id
+    type: uuid
+    schema:
+      name: agent_id
+      table: listings
+      data_type: uuid
+      default_value: null
+      max_length: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: id
+      foreign_key_table: directus_users
+    meta:
+      collection: listings
+      field: agent_id
+      special:
+        - m2o
+      interface: select-dropdown-m2o
+      options:
+        template: "{{email}}"
+      display: related-values
+      display_options:
+        template: "{{email}}"
+      readonly: false
+      hidden: false
+      sort: 20
+      width: half
+      required: false
+      group: null
+
+  - collection: listings
+    field: featured
+    type: boolean
+    schema:
+      name: featured
+      table: listings
+      data_type: boolean
+      default_value: "false"
+      max_length: null
+      is_nullable: false
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: listings
+      field: featured
+      special:
+        - cast-boolean
+      interface: boolean
+      options: null
+      display: boolean
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 21
+      width: half
+      required: false
+      group: null
+
+  - collection: listings
+    field: video_url
+    type: string
+    schema:
+      name: video_url
+      table: listings
+      data_type: character varying
+      default_value: null
+      max_length: 500
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: listings
+      field: video_url
+      special: null
+      interface: input
+      options:
+        iconRight: videocam
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 22
+      width: half
+      required: false
+      group: null
+
+  - collection: listings
+    field: tour_url
+    type: string
+    schema:
+      name: tour_url
+      table: listings
+      data_type: character varying
+      default_value: null
+      max_length: 500
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: listings
+      field: tour_url
+      special: null
+      interface: input
+      options:
+        iconRight: 360
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 23
+      width: half
+      required: false
+      group: null
+
+  - collection: listings
+    field: published_at
+    type: timestamp
+    schema:
+      name: published_at
+      table: listings
+      data_type: timestamp with time zone
+      default_value: null
+      max_length: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: listings
+      field: published_at
+      special:
+        - cast-timestamp
+      interface: datetime
+      options: null
+      display: datetime
+      display_options:
+        relative: false
+      readonly: false
+      hidden: false
+      sort: 24
+      width: half
+      required: false
+      group: null
+
+  - collection: listings
+    field: created_at
+    type: timestamp
+    schema:
+      name: created_at
+      table: listings
+      data_type: timestamp with time zone
+      default_value: null
+      max_length: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: listings
+      field: created_at
+      special:
+        - cast-timestamp
+        - date-created
+      interface: datetime
+      options: null
+      display: datetime
+      display_options:
+        relative: true
+      readonly: true
+      hidden: true
+      sort: 25
+      width: half
+      required: false
+      group: null
+
+  - collection: listings
+    field: updated_at
+    type: timestamp
+    schema:
+      name: updated_at
+      table: listings
+      data_type: timestamp with time zone
+      default_value: null
+      max_length: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: listings
+      field: updated_at
+      special:
+        - cast-timestamp
+        - date-updated
+      interface: datetime
+      options: null
+      display: datetime
+      display_options:
+        relative: true
+      readonly: true
+      hidden: true
+      sort: 26
+      width: half
+      required: false
+      group: null
+
+  - collection: listings
+    field: translations
+    type: alias
+    schema: null
+    meta:
+      collection: listings
+      field: translations
+      special:
+        - translations
+      interface: translations
+      options:
+        languageField: languages_code
+        translationsCollection: listings_translations
+        defaultLanguage: en
+        userLanguage: true
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 27
+      width: full
+      required: false
+      group: null
+
+  - collection: listings
+    field: amenities
+    type: alias
+    schema: null
+    meta:
+      collection: listings
+      field: amenities
+      special:
+        - m2m
+      interface: list-m2m
+      options:
+        template: null
+        enableCreate: true
+        enableSelect: true
+        junctionCollection: listings_amenities
+        junctionFieldLocation: amenities_id
+      display: related-values
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 28
+      width: full
+      required: false
+      group: null
+
+  - collection: listings
+    field: media
+    type: alias
+    schema: null
+    meta:
+      collection: listings
+      field: media
+      special:
+        - o2m
+      interface: list-o2m
+      options:
+        template: null
+        enableCreate: true
+        enableSelect: false
+      display: related-values
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 29
+      width: full
+      required: false
+      group: null
+
+  # ── listings_translations ──────────────────────────────────────────────────
+  - collection: listings_translations
+    field: id
+    type: integer
+    schema:
+      name: id
+      table: listings_translations
+      data_type: integer
+      default_value: null
+      max_length: null
+      is_nullable: false
+      is_unique: true
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: true
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: listings_translations
+      field: id
+      special: null
+      interface: input
+      options: null
+      display: null
+      display_options: null
+      readonly: true
+      hidden: true
+      sort: 1
+      width: full
+      required: false
+      group: null
+
+  - collection: listings_translations
+    field: listings_id
+    type: uuid
+    schema:
+      name: listings_id
+      table: listings_translations
+      data_type: uuid
+      default_value: null
+      max_length: null
+      is_nullable: false
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: id
+      foreign_key_table: listings
+    meta:
+      collection: listings_translations
+      field: listings_id
+      special: null
+      interface: null
+      options: null
+      display: null
+      display_options: null
+      readonly: true
+      hidden: true
+      sort: 2
+      width: full
+      required: false
+      group: null
+
+  - collection: listings_translations
+    field: languages_code
+    type: string
+    schema:
+      name: languages_code
+      table: listings_translations
+      data_type: character varying
+      default_value: null
+      max_length: 8
+      is_nullable: false
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: code
+      foreign_key_table: languages
+    meta:
+      collection: listings_translations
+      field: languages_code
+      special: null
+      interface: null
+      options: null
+      display: null
+      display_options: null
+      readonly: true
+      hidden: true
+      sort: 3
+      width: full
+      required: false
+      group: null
+
+  - collection: listings_translations
+    field: title
+    type: string
+    schema:
+      name: title
+      table: listings_translations
+      data_type: character varying
+      default_value: null
+      max_length: 500
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: listings_translations
+      field: title
+      special: null
+      interface: input
+      options: null
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 4
+      width: full
+      required: false
+      group: null
+
+  - collection: listings_translations
+    field: description
+    type: text
+    schema:
+      name: description
+      table: listings_translations
+      data_type: text
+      default_value: null
+      max_length: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: listings_translations
+      field: description
+      special: null
+      interface: input-rich-text-md
+      options: null
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 5
+      width: full
+      required: false
+      group: null
+
+  # ── listing_media ──────────────────────────────────────────────────────────
+  - collection: listing_media
+    field: id
+    type: uuid
+    schema:
+      name: id
+      table: listing_media
+      data_type: uuid
+      default_value: null
+      max_length: null
+      is_nullable: false
+      is_unique: true
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: listing_media
+      field: id
+      special:
+        - uuid
+      interface: input
+      options: null
+      display: null
+      display_options: null
+      readonly: true
+      hidden: true
+      sort: 1
+      width: full
+      required: false
+      group: null
+
+  - collection: listing_media
+    field: listing_id
+    type: uuid
+    schema:
+      name: listing_id
+      table: listing_media
+      data_type: uuid
+      default_value: null
+      max_length: null
+      is_nullable: false
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: id
+      foreign_key_table: listings
+    meta:
+      collection: listing_media
+      field: listing_id
+      special:
+        - m2o
+      interface: select-dropdown-m2o
+      options:
+        template: "{{slug}}"
+      display: null
+      display_options: null
+      readonly: false
+      hidden: true
+      sort: 2
+      width: full
+      required: true
+      group: null
+
+  - collection: listing_media
+    field: file
+    type: uuid
+    schema:
+      name: file
+      table: listing_media
+      data_type: uuid
+      default_value: null
+      max_length: null
+      is_nullable: false
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: id
+      foreign_key_table: directus_files
+    meta:
+      collection: listing_media
+      field: file
+      special:
+        - file
+      interface: file-image
+      options: null
+      display: image
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 3
+      width: full
+      required: true
+      group: null
+
+  - collection: listing_media
+    field: kind
+    type: string
+    schema:
+      name: kind
+      table: listing_media
+      data_type: character varying
+      default_value: "photo"
+      max_length: 20
+      is_nullable: false
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: listing_media
+      field: kind
+      special: null
+      interface: select-dropdown
+      options:
+        choices:
+          - text: Photo
+            value: photo
+          - text: Floorplan
+            value: floorplan
+          - text: Brochure PDF
+            value: brochure_pdf
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 4
+      width: half
+      required: true
+      group: null
+
+  - collection: listing_media
+    field: sort
+    type: integer
+    schema:
+      name: sort
+      table: listing_media
+      data_type: integer
+      default_value: null
+      max_length: null
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: listing_media
+      field: sort
+      special: null
+      interface: input
+      options: null
+      display: null
+      display_options: null
+      readonly: false
+      hidden: true
+      sort: 5
+      width: half
+      required: false
+      group: null
+
+  - collection: listing_media
+    field: is_primary
+    type: boolean
+    schema:
+      name: is_primary
+      table: listing_media
+      data_type: boolean
+      default_value: "false"
+      max_length: null
+      is_nullable: false
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: listing_media
+      field: is_primary
+      special:
+        - cast-boolean
+      interface: boolean
+      options: null
+      display: boolean
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 6
+      width: half
+      required: false
+      group: null
+
+  - collection: listing_media
+    field: alt
+    type: alias
+    schema: null
+    meta:
+      collection: listing_media
+      field: alt
+      special:
+        - translations
+      interface: translations
+      options:
+        languageField: languages_code
+        translationsCollection: listing_media_translations
+        defaultLanguage: en
+        userLanguage: true
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 7
+      width: full
+      required: false
+      group: null
+
+  # ── listing_media_translations ─────────────────────────────────────────────
+  - collection: listing_media_translations
+    field: id
+    type: integer
+    schema:
+      name: id
+      table: listing_media_translations
+      data_type: integer
+      default_value: null
+      max_length: null
+      is_nullable: false
+      is_unique: true
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: true
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: listing_media_translations
+      field: id
+      special: null
+      interface: input
+      options: null
+      display: null
+      display_options: null
+      readonly: true
+      hidden: true
+      sort: 1
+      width: full
+      required: false
+      group: null
+
+  - collection: listing_media_translations
+    field: listing_media_id
+    type: uuid
+    schema:
+      name: listing_media_id
+      table: listing_media_translations
+      data_type: uuid
+      default_value: null
+      max_length: null
+      is_nullable: false
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: id
+      foreign_key_table: listing_media
+    meta:
+      collection: listing_media_translations
+      field: listing_media_id
+      special: null
+      interface: null
+      options: null
+      display: null
+      display_options: null
+      readonly: true
+      hidden: true
+      sort: 2
+      width: full
+      required: false
+      group: null
+
+  - collection: listing_media_translations
+    field: languages_code
+    type: string
+    schema:
+      name: languages_code
+      table: listing_media_translations
+      data_type: character varying
+      default_value: null
+      max_length: 8
+      is_nullable: false
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: code
+      foreign_key_table: languages
+    meta:
+      collection: listing_media_translations
+      field: languages_code
+      special: null
+      interface: null
+      options: null
+      display: null
+      display_options: null
+      readonly: true
+      hidden: true
+      sort: 3
+      width: full
+      required: false
+      group: null
+
+  - collection: listing_media_translations
+    field: alt
+    type: string
+    schema:
+      name: alt
+      table: listing_media_translations
+      data_type: character varying
+      default_value: null
+      max_length: 500
+      is_nullable: true
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: listing_media_translations
+      field: alt
+      special: null
+      interface: input
+      options: null
+      display: null
+      display_options: null
+      readonly: false
+      hidden: false
+      sort: 4
+      width: full
+      required: false
+      group: null
+
+  # ── listings_amenities (M2M junction) ──────────────────────────────────────
+  - collection: listings_amenities
+    field: id
+    type: integer
+    schema:
+      name: id
+      table: listings_amenities
+      data_type: integer
+      default_value: null
+      max_length: null
+      is_nullable: false
+      is_unique: true
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: true
+      foreign_key_column: null
+      foreign_key_table: null
+    meta:
+      collection: listings_amenities
+      field: id
+      special: null
+      interface: input
+      options: null
+      display: null
+      display_options: null
+      readonly: true
+      hidden: true
+      sort: 1
+      width: full
+      required: false
+      group: null
+
+  - collection: listings_amenities
+    field: listings_id
+    type: uuid
+    schema:
+      name: listings_id
+      table: listings_amenities
+      data_type: uuid
+      default_value: null
+      max_length: null
+      is_nullable: false
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: id
+      foreign_key_table: listings
+    meta:
+      collection: listings_amenities
+      field: listings_id
+      special: null
+      interface: null
+      options: null
+      display: null
+      display_options: null
+      readonly: true
+      hidden: true
+      sort: 2
+      width: full
+      required: false
+      group: null
+
+  - collection: listings_amenities
+    field: amenities_id
+    type: integer
+    schema:
+      name: amenities_id
+      table: listings_amenities
+      data_type: integer
+      default_value: null
+      max_length: null
+      is_nullable: false
+      is_unique: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_column: id
+      foreign_key_table: amenities
+    meta:
+      collection: listings_amenities
+      field: amenities_id
+      special: null
+      interface: null
+      options: null
+      display: null
+      display_options: null
+      readonly: true
+      hidden: true
+      sort: 3
+      width: full
+      required: false
+      group: null
+
+# ─── Relations ────────────────────────────────────────────────────────────────
+
+relations:
+  # listings -> locations (M2O)
+  - collection: listings
+    field: location_id
+    related_collection: locations
+    schema:
+      table: listings
+      column: location_id
+      foreign_key_table: locations
+      foreign_key_column: id
+      constraint_name: listings_location_id_foreign
+      on_update: NO ACTION
+      on_delete: SET NULL
+    meta:
+      many_collection: listings
+      many_field: location_id
+      one_collection: locations
+      one_field: null
+      one_collection_field: null
+      one_allowed_collections: null
+      junction_field: null
+      sort_field: null
+      one_deselect_action: nullify
+
+  # listings -> directus_users (M2O via agent_id)
+  - collection: listings
+    field: agent_id
+    related_collection: directus_users
+    schema:
+      table: listings
+      column: agent_id
+      foreign_key_table: directus_users
+      foreign_key_column: id
+      constraint_name: listings_agent_id_foreign
+      on_update: NO ACTION
+      on_delete: SET NULL
+    meta:
+      many_collection: listings
+      many_field: agent_id
+      one_collection: directus_users
+      one_field: null
+      one_collection_field: null
+      one_allowed_collections: null
+      junction_field: null
+      sort_field: null
+      one_deselect_action: nullify
+
+  # listings <-> amenities (M2M through listings_amenities)
+  - collection: listings_amenities
+    field: listings_id
+    related_collection: listings
+    schema:
+      table: listings_amenities
+      column: listings_id
+      foreign_key_table: listings
+      foreign_key_column: id
+      constraint_name: listings_amenities_listings_id_foreign
+      on_update: NO ACTION
+      on_delete: CASCADE
+    meta:
+      many_collection: listings_amenities
+      many_field: listings_id
+      one_collection: listings
+      one_field: amenities
+      one_collection_field: null
+      one_allowed_collections: null
+      junction_field: amenities_id
+      sort_field: null
+      one_deselect_action: nullify
+
+  - collection: listings_amenities
+    field: amenities_id
+    related_collection: amenities
+    schema:
+      table: listings_amenities
+      column: amenities_id
+      foreign_key_table: amenities
+      foreign_key_column: id
+      constraint_name: listings_amenities_amenities_id_foreign
+      on_update: NO ACTION
+      on_delete: CASCADE
+    meta:
+      many_collection: listings_amenities
+      many_field: amenities_id
+      one_collection: amenities
+      one_field: null
+      one_collection_field: null
+      one_allowed_collections: null
+      junction_field: listings_id
+      sort_field: null
+      one_deselect_action: nullify
+
+  # listing_media -> listings (M2O)
+  - collection: listing_media
+    field: listing_id
+    related_collection: listings
+    schema:
+      table: listing_media
+      column: listing_id
+      foreign_key_table: listings
+      foreign_key_column: id
+      constraint_name: listing_media_listing_id_foreign
+      on_update: NO ACTION
+      on_delete: CASCADE
+    meta:
+      many_collection: listing_media
+      many_field: listing_id
+      one_collection: listings
+      one_field: media
+      one_collection_field: null
+      one_allowed_collections: null
+      junction_field: null
+      sort_field: sort
+      one_deselect_action: delete
+
+  # listing_media -> directus_files (M2O via file)
+  - collection: listing_media
+    field: file
+    related_collection: directus_files
+    schema:
+      table: listing_media
+      column: file
+      foreign_key_table: directus_files
+      foreign_key_column: id
+      constraint_name: listing_media_file_foreign
+      on_update: NO ACTION
+      on_delete: SET NULL
+    meta:
+      many_collection: listing_media
+      many_field: file
+      one_collection: directus_files
+      one_field: null
+      one_collection_field: null
+      one_allowed_collections: null
+      junction_field: null
+      sort_field: null
+      one_deselect_action: nullify
+
+  # agents -> directus_users (M2O via user_id)
+  - collection: agents
+    field: user_id
+    related_collection: directus_users
+    schema:
+      table: agents
+      column: user_id
+      foreign_key_table: directus_users
+      foreign_key_column: id
+      constraint_name: agents_user_id_foreign
+      on_update: NO ACTION
+      on_delete: SET NULL
+    meta:
+      many_collection: agents
+      many_field: user_id
+      one_collection: directus_users
+      one_field: null
+      one_collection_field: null
+      one_allowed_collections: null
+      junction_field: null
+      sort_field: null
+      one_deselect_action: nullify
+
+  # agents -> directus_files (M2O via photo)
+  - collection: agents
+    field: photo
+    related_collection: directus_files
+    schema:
+      table: agents
+      column: photo
+      foreign_key_table: directus_files
+      foreign_key_column: id
+      constraint_name: agents_photo_foreign
+      on_update: NO ACTION
+      on_delete: SET NULL
+    meta:
+      many_collection: agents
+      many_field: photo
+      one_collection: directus_files
+      one_field: null
+      one_collection_field: null
+      one_allowed_collections: null
+      junction_field: null
+      sort_field: null
+      one_deselect_action: nullify
+
+  # translations: amenities
+  - collection: amenities_translations
+    field: amenities_id
+    related_collection: amenities
+    schema:
+      table: amenities_translations
+      column: amenities_id
+      foreign_key_table: amenities
+      foreign_key_column: id
+      constraint_name: amenities_translations_amenities_id_foreign
+      on_update: NO ACTION
+      on_delete: CASCADE
+    meta:
+      many_collection: amenities_translations
+      many_field: amenities_id
+      one_collection: amenities
+      one_field: name
+      one_collection_field: null
+      one_allowed_collections: null
+      junction_field: languages_code
+      sort_field: null
+      one_deselect_action: nullify
+
+  - collection: amenities_translations
+    field: languages_code
+    related_collection: languages
+    schema:
+      table: amenities_translations
+      column: languages_code
+      foreign_key_table: languages
+      foreign_key_column: code
+      constraint_name: amenities_translations_languages_code_foreign
+      on_update: NO ACTION
+      on_delete: CASCADE
+    meta:
+      many_collection: amenities_translations
+      many_field: languages_code
+      one_collection: languages
+      one_field: null
+      one_collection_field: null
+      one_allowed_collections: null
+      junction_field: null
+      sort_field: null
+      one_deselect_action: nullify
+
+  # translations: agents
+  - collection: agents_translations
+    field: agents_id
+    related_collection: agents
+    schema:
+      table: agents_translations
+      column: agents_id
+      foreign_key_table: agents
+      foreign_key_column: id
+      constraint_name: agents_translations_agents_id_foreign
+      on_update: NO ACTION
+      on_delete: CASCADE
+    meta:
+      many_collection: agents_translations
+      many_field: agents_id
+      one_collection: agents
+      one_field: bio
+      one_collection_field: null
+      one_allowed_collections: null
+      junction_field: languages_code
+      sort_field: null
+      one_deselect_action: nullify
+
+  - collection: agents_translations
+    field: languages_code
+    related_collection: languages
+    schema:
+      table: agents_translations
+      column: languages_code
+      foreign_key_table: languages
+      foreign_key_column: code
+      constraint_name: agents_translations_languages_code_foreign
+      on_update: NO ACTION
+      on_delete: CASCADE
+    meta:
+      many_collection: agents_translations
+      many_field: languages_code
+      one_collection: languages
+      one_field: null
+      one_collection_field: null
+      one_allowed_collections: null
+      junction_field: null
+      sort_field: null
+      one_deselect_action: nullify
+
+  # translations: listings
+  - collection: listings_translations
+    field: listings_id
+    related_collection: listings
+    schema:
+      table: listings_translations
+      column: listings_id
+      foreign_key_table: listings
+      foreign_key_column: id
+      constraint_name: listings_translations_listings_id_foreign
+      on_update: NO ACTION
+      on_delete: CASCADE
+    meta:
+      many_collection: listings_translations
+      many_field: listings_id
+      one_collection: listings
+      one_field: translations
+      one_collection_field: null
+      one_allowed_collections: null
+      junction_field: languages_code
+      sort_field: null
+      one_deselect_action: nullify
+
+  - collection: listings_translations
+    field: languages_code
+    related_collection: languages
+    schema:
+      table: listings_translations
+      column: languages_code
+      foreign_key_table: languages
+      foreign_key_column: code
+      constraint_name: listings_translations_languages_code_foreign
+      on_update: NO ACTION
+      on_delete: CASCADE
+    meta:
+      many_collection: listings_translations
+      many_field: languages_code
+      one_collection: languages
+      one_field: null
+      one_collection_field: null
+      one_allowed_collections: null
+      junction_field: null
+      sort_field: null
+      one_deselect_action: nullify
+
+  # translations: listing_media
+  - collection: listing_media_translations
+    field: listing_media_id
+    related_collection: listing_media
+    schema:
+      table: listing_media_translations
+      column: listing_media_id
+      foreign_key_table: listing_media
+      foreign_key_column: id
+      constraint_name: listing_media_translations_listing_media_id_foreign
+      on_update: NO ACTION
+      on_delete: CASCADE
+    meta:
+      many_collection: listing_media_translations
+      many_field: listing_media_id
+      one_collection: listing_media
+      one_field: alt
+      one_collection_field: null
+      one_allowed_collections: null
+      junction_field: languages_code
+      sort_field: null
+      one_deselect_action: nullify
+
+  - collection: listing_media_translations
+    field: languages_code
+    related_collection: languages
+    schema:
+      table: listing_media_translations
+      column: languages_code
+      foreign_key_table: languages
+      foreign_key_column: code
+      constraint_name: listing_media_translations_languages_code_foreign
+      on_update: NO ACTION
+      on_delete: CASCADE
+    meta:
+      many_collection: listing_media_translations
+      many_field: languages_code
+      one_collection: languages
+      one_field: null
+      one_collection_field: null
+      one_allowed_collections: null
+      junction_field: null
+      sort_field: null
+      one_deselect_action: nullify

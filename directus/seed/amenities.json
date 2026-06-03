@@ -1,0 +1,122 @@
+[
+  {
+    "icon": "ac_unit",
+    "translations": [
+      { "languages_code": "en", "name": "Air Conditioning" },
+      { "languages_code": "nl", "name": "Airconditioning" },
+      { "languages_code": "srn", "name": "Air Conditioning" }
+    ]
+  },
+  {
+    "icon": "pool",
+    "translations": [
+      { "languages_code": "en", "name": "Swimming Pool" },
+      { "languages_code": "nl", "name": "Zwembad" },
+      { "languages_code": "srn", "name": "Swimming Pool" }
+    ]
+  },
+  {
+    "icon": "local_parking",
+    "translations": [
+      { "languages_code": "en", "name": "Parking" },
+      { "languages_code": "nl", "name": "Parkeerplaats" },
+      { "languages_code": "srn", "name": "Parking" }
+    ]
+  },
+  {
+    "icon": "yard",
+    "translations": [
+      { "languages_code": "en", "name": "Garden" },
+      { "languages_code": "nl", "name": "Tuin" },
+      { "languages_code": "srn", "name": "Tuin" }
+    ]
+  },
+  {
+    "icon": "security",
+    "translations": [
+      { "languages_code": "en", "name": "Security" },
+      { "languages_code": "nl", "name": "Beveiliging" },
+      { "languages_code": "srn", "name": "Sekuriteti" }
+    ]
+  },
+  {
+    "icon": "garage",
+    "translations": [
+      { "languages_code": "en", "name": "Garage" },
+      { "languages_code": "nl", "name": "Garage" },
+      { "languages_code": "srn", "name": "Garage" }
+    ]
+  },
+  {
+    "icon": "balcony",
+    "translations": [
+      { "languages_code": "en", "name": "Balcony" },
+      { "languages_code": "nl", "name": "Balkon" },
+      { "languages_code": "srn", "name": "Balkon" }
+    ]
+  },
+  {
+    "icon": "deck",
+    "translations": [
+      { "languages_code": "en", "name": "Terrace" },
+      { "languages_code": "nl", "name": "Terras" },
+      { "languages_code": "srn", "name": "Terras" }
+    ]
+  },
+  {
+    "icon": "solar_power",
+    "translations": [
+      { "languages_code": "en", "name": "Solar Panels" },
+      { "languages_code": "nl", "name": "Zonnepanelen" },
+      { "languages_code": "srn", "name": "Solar Panels" }
+    ]
+  },
+  {
+    "icon": "bolt",
+    "translations": [
+      { "languages_code": "en", "name": "Generator" },
+      { "languages_code": "nl", "name": "Generator" },
+      { "languages_code": "srn", "name": "Generator" }
+    ]
+  },
+  {
+    "icon": "water",
+    "translations": [
+      { "languages_code": "en", "name": "Water Tank" },
+      { "languages_code": "nl", "name": "Watertank" },
+      { "languages_code": "srn", "name": "Watertank" }
+    ]
+  },
+  {
+    "icon": "fence",
+    "translations": [
+      { "languages_code": "en", "name": "Fenced Yard" },
+      { "languages_code": "nl", "name": "Omheind Perceel" },
+      { "languages_code": "srn", "name": "Fenced Yard" }
+    ]
+  },
+  {
+    "icon": "pets",
+    "translations": [
+      { "languages_code": "en", "name": "Pet Friendly" },
+      { "languages_code": "nl", "name": "Huisdieren Toegestaan" },
+      { "languages_code": "srn", "name": "Pet Friendly" }
+    ]
+  },
+  {
+    "icon": "wifi",
+    "translations": [
+      { "languages_code": "en", "name": "Internet / WiFi" },
+      { "languages_code": "nl", "name": "Internet / WiFi" },
+      { "languages_code": "srn", "name": "Internet / WiFi" }
+    ]
+  },
+  {
+    "icon": "kitchen",
+    "translations": [
+      { "languages_code": "en", "name": "Fitted Kitchen" },
+      { "languages_code": "nl", "name": "Inbouwkeuken" },
+      { "languages_code": "srn", "name": "Fitted Kitchen" }
+    ]
+  }
+]

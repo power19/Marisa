@@ -1,0 +1,42 @@
+{
+	# Remove Caddy version from Server header
+	servers {
+		trusted_proxies cloudflare
+	}
+}
+
+# ─── Production: replace localhost with {env.DOMAIN} after DNS is live ─────────
+# For local dev, Caddy serves on HTTP only (no TLS needed).
+
+:80 {
+	# Security headers
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		-Server
+	}
+
+	# Block dotfiles, git, and direct config access
+	@blocked {
+		path /.env* /.git* /config* /server/info /server/health
+	}
+	respond @blocked 404
+
+	# Block Directus internal endpoints from public access
+	@directus_internal {
+		path /cms/server/info /cms/server/health
+	}
+	respond @directus_internal 404
+
+	# Directus admin — proxy to directus service
+	handle /cms/* {
+		uri strip_prefix /cms
+		reverse_proxy directus:8055
+	}
+
+	# Next.js public site (M1+)
+	handle {
+		reverse_proxy web:3000
+	}
+}

@@ -64,6 +64,10 @@ Roles: `admin`, `agent`, `registered_visitor`, `tenant`, `owner`.
 - `docs/04-feature-specs.md` — functional specs with acceptance criteria, per feature. **Read this before implementing any user-facing feature.**
 - `docs/05-build-plan.md` — milestones M0–M6 with tasks and exit criteria. **Build in this order.**
 - `docs/06-security.md` — auth rules, PII handling, rate limiting, secrets, pre-launch checklist. **Read this before touching auth, public endpoints, or any user data.**
+- `docs/07-deployment.md` — Docker Compose setup, env vars, health checks, Dockerfiles, migrations, backups. **Read this before touching docker-compose.yml or any Dockerfile.**
+- `docs/08-testing.md` — what to test, pytest setup, mocking strategy, coverage requirements. **Read this before writing any test.**
+- `docs/09-media-r2.md` — R2 bucket structure, public vs private, file naming, which service owns what. **Read this before writing any file upload or retrieval code.**
+- `docs/10-content.md` — content pages, i18n message file structure, placeholder tokens, SEO requirements. **Read this before building any page or adding any user-facing string.**
 
 ## Definition of done (per feature)
 

@@ -36,25 +36,23 @@ or `Far East` depending on context (see usage rules below).
 
 ## Color palette
 
-Matched directly from the logo artwork.
-
 | Name | Hex | RGB | Usage |
 |---|---|---|---|
-| **Brand Red** | `#CC1010` | 204, 16, 16 | Primary brand color. CTAs, accents, active states, logo red elements. |
-| **Brand Red Dark** | `#A50D0D` | 165, 13, 13 | Hover state for red elements. |
-| **Brand Red Light** | `#E01414` | 224, 20, 20 | Subtle accent variant, badge highlights. |
-| **Charcoal** | `#2B2B2B` | 43, 43, 43 | Logo dark elements, primary text, navbar. Matches logo charcoal. |
-| **Dark** | `#1A1A1A` | 26, 26, 26 | Footer backgrounds, deep surfaces. |
+| **Royal Blue** | `#1B3A8C` | 27, 58, 140 | Primary brand color. CTAs, accents, active states, highlights. |
+| **Royal Blue Dark** | `#142D6E` | 20, 45, 110 | Hover state for blue elements. |
+| **Royal Blue Light** | `#2448A8` | 36, 72, 168 | Subtle accent variant, badge highlights. |
+| **Black** | `#0A0A0A` | 10, 10, 10 | Primary text, navbar, structural elements. |
+| **Charcoal** | `#1A1A1A` | 26, 26, 26 | Footer backgrounds, deep surfaces. |
 | **Off-white** | `#F8F6F3` | 248, 246, 243 | Page background. Warm white — not pure #FFF. |
 | **White** | `#FFFFFF` | 255, 255, 255 | Cards, overlays, text on dark backgrounds. |
 | **Grey Light** | `#E8E4E0` | 232, 228, 224 | Borders, dividers. |
 | **Grey Medium** | `#9E9A96` | 158, 154, 150 | Secondary text, placeholders, captions. |
 
 ### Color usage rules
-- **Brand Red** is for action and emphasis — CTAs, active nav, status badges, accents.
-- **Charcoal** is the primary structural color — navbar, headings, footer, body text.
+- **Royal Blue** is for action and emphasis — CTAs, active nav, status badges, accents.
+- **Black** is the primary structural color — navbar, headings, body text.
 - **Off-white** is the default page background — never pure white as the page BG.
-- Never place Brand Red text on a red background.
+- Never place blue text on a blue background.
 - White space is a design element — use it generously between sections.
 - No gradients. No colors outside this palette.
 
@@ -109,10 +107,10 @@ Matched directly from the logo artwork.
 ## Component visual identity
 
 ### Buttons
-- **Primary:** Brand Red `#CC1010` background, white Inter text, `border-radius: 2px`.
-  Hover: Brand Red Dark `#A50D0D`.
-- **Secondary:** Charcoal `#2B2B2B` background, white text. Hover: `#1A1A1A`.
-- **Ghost:** Transparent, `1px` Brand Red border, Brand Red text. Hover: fill red.
+- **Primary:** Royal Blue `#1B3A8C` background, white Inter text, `border-radius: 2px`.
+  Hover: Royal Blue Dark `#142D6E`.
+- **Secondary:** Black `#0A0A0A` background, white text. Hover: Charcoal `#1A1A1A`.
+- **Ghost:** Transparent, `1px` Royal Blue border, Royal Blue text. Hover: fill blue.
 - No pill/rounded buttons. Sharp or `2px` radius only.
 
 ### Cards
@@ -133,12 +131,12 @@ Matched directly from the logo artwork.
 ### Status badges
 | Status | Background | Text |
 |---|---|---|
-| New | Brand Red `#CC1010` | White |
-| Available | Charcoal `#2B2B2B` | White |
-| Reduced | Brand Red Light `#E01414` | White |
+| New | Royal Blue `#1B3A8C` | White |
+| Available | Black `#0A0A0A` | White |
+| Reduced | Royal Blue Light `#2448A8` | White |
 | Under Contract | Grey Medium `#9E9A96` | White |
-| Sold | Dark `#1A1A1A` | Grey Light |
-| Rented | Dark `#1A1A1A` | Grey Light |
+| Sold | Charcoal `#1A1A1A` | Grey Light |
+| Rented | Charcoal `#1A1A1A` | Grey Light |
 
 ---
 

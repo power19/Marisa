@@ -1,8 +1,5 @@
 {
 	# Remove Caddy version from Server header
-	servers {
-		trusted_proxies cloudflare
-	}
 }
 
 # ─── Production: replace localhost with {env.DOMAIN} after DNS is live ─────────

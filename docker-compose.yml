@@ -116,6 +116,7 @@ services:
     profiles: [web]
     environment:
       NEXT_PUBLIC_DIRECTUS_URL: ${NEXT_PUBLIC_DIRECTUS_URL}
+      DIRECTUS_INTERNAL_URL: http://directus:8055
       NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL}
       DIRECTUS_SERVER_TOKEN: ${DIRECTUS_SERVER_TOKEN}
     networks: [realty_net]

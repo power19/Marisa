@@ -1,9 +1,9 @@
 import { readItems } from '@directus/sdk'
-import { getServerClient } from './client'
+import { getDirectusClient } from './client'
 import type { Location } from '@/types/listing'
 
 export async function getLocations(): Promise<Location[]> {
-  const client = getServerClient()
+  const client = getDirectusClient() // public — no token needed
   const results = await client.request(
     readItems('locations', {
       fields: ['id', 'district', 'sub_area'],

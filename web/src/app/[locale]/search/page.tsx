@@ -62,14 +62,14 @@ export default async function SearchPage({ params: { locale }, searchParams: raw
   let total = 0
   let error = false
   let locations: Location[] = []
+
+  // Fetch locations independently — never let a listings error blank the filter
+  try { locations = await getLocations() } catch { /* leave empty */ }
+
   try {
-    const [result, locs] = await Promise.all([
-      getListings({ ...params, page, limit: LIMIT }),
-      getLocations(),
-    ])
+    const result = await getListings({ ...params, page, limit: LIMIT })
     listings = result.data
     total = result.total
-    locations = locs
   } catch {
     error = true
   }

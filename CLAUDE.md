@@ -63,6 +63,7 @@ Roles: `admin`, `agent`, `registered_visitor`, `tenant`, `owner`.
 - `docs/03-data-model.md` — the complete schema (Directus collections + `pm` Postgres schema). **Source of truth for data. Read this before creating or modifying any collection, table, or migration.**
 - `docs/04-feature-specs.md` — functional specs with acceptance criteria, per feature. **Read this before implementing any user-facing feature.**
 - `docs/05-build-plan.md` — milestones M0–M6 with tasks and exit criteria. **Build in this order.**
+- `docs/06-security.md` — auth rules, PII handling, rate limiting, secrets, pre-launch checklist. **Read this before touching auth, public endpoints, or any user data.**
 
 ## Definition of done (per feature)
 

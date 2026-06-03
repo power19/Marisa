@@ -1,6 +1,6 @@
 # CLAUDE.md — web (Next.js public site)
 
-Read `/CLAUDE.md` first. This file adds web-specific conventions.
+Read `/CLAUDE.md` and `/docs/06-security.md` first. This file adds web-specific conventions.
 
 ## Purpose
 Server-rendered public listing site. Read-only against the Directus API (public role token).

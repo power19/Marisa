@@ -1,6 +1,6 @@
 # CLAUDE.md — pm (FastAPI property-management service)
 
-Read `/CLAUDE.md` first. This file adds pm-specific conventions.
+Read `/CLAUDE.md` and `/docs/06-security.md` first. This file adds pm-specific conventions.
 
 ## Purpose
 Property-management back office: leases, tenants, charges, payments, receipts, owner

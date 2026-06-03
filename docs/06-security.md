@@ -124,6 +124,15 @@ These endpoints are exposed to the internet and will attract spam and bots:
 - The `pm` schema must never be exposed through Directus collections or the public API.
 - Parameterize all SQL — no string interpolation in queries. SQLAlchemy ORM or
   `text()` with bound params only.
+- **Never** use f-strings or `.format()` to build SQL. This is a hard ban — any instance
+  is a critical bug regardless of where the value comes from.
+- Validate and type all route parameters via Pydantic schemas before they reach a query.
+  A `lease_id: UUID` parameter in a FastAPI route signature already guarantees it cannot
+  be an injection string — use typed params everywhere.
+- In Alembic migration scripts, use bound parameters for any data operations (`op.execute`
+  with params), not string formatting.
+- Next.js API routes must validate and sanitize filter values before forwarding them to
+  Directus. Never pass raw query string values directly into Directus filter objects.
 
 ---
 

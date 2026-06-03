@@ -13,6 +13,13 @@ FastAPI does **not** manage users. On every request, validate the Directus-issue
 - Reject requests with missing, expired, or invalid tokens with `401`.
 - Never store user records in the `pm` schema.
 
+## SQL injection — hard rules
+- Use SQLAlchemy ORM for all queries. If raw SQL is unavoidable, use `text()` with bound
+  parameters — never f-strings or `.format()`.
+- All route parameters must be typed (e.g. `lease_id: UUID`) — Pydantic/FastAPI will
+  reject anything that isn't a valid UUID before it reaches the query.
+- Same rule applies in Alembic migration scripts.
+
 ## Schema ownership
 - All `pm` schema changes go through **Alembic** migrations. Never touch Directus-owned tables.
 - Money columns: `NUMERIC(14,2)` with a separate `currency` column (`USD`|`EUR`|`SRD`).

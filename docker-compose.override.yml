@@ -21,6 +21,11 @@ services:
       STORAGE_R2_SECRET: ""
       STORAGE_R2_BUCKET: ""
       STORAGE_R2_ENDPOINT: ""
+      # Disable Redis-backed features locally — Directus connects to Redis even
+      # during bootstrap, and diagnosing Redis auth/bind issues locally isn't worth it.
+      # Redis still runs for the worker (M2+); Directus just won't use it.
+      CACHE_ENABLED: "false"
+      RATE_LIMITER_ENABLED: "false"
       # Easier debugging locally
       LOG_LEVEL: info
 

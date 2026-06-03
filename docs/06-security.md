@@ -29,6 +29,23 @@ queries — bypassing auth, exposing records, or deleting data.
   Never pass raw query string values into Directus filter objects.
 - Alembic migration scripts: use bound parameters in `op.execute()`, not string formatting.
 
+### Blind SQL Injection
+**Risk:** attacker doesn't see query output but infers database structure by observing
+response times or true/false behavior differences.
+
+- Blind SQLi exploits the same root cause as regular SQLi — unparameterized queries.
+- Following the ORM + typed params rules above eliminates blind SQLi as well.
+- Never return different HTTP status codes or response bodies based on database errors
+  that reveal query structure. All DB errors must return a generic `500` with no internal
+  detail exposed to the client. Log the real error server-side only.
+- Disable SQLAlchemy's `echo=True` in production — it logs full queries to stdout.
+
+### NoSQL Injection
+**Not applicable to this stack.** This project uses PostgreSQL exclusively.
+Do not introduce MongoDB, Redis (beyond optional worker queue), or any document
+database without an explicit architectural decision. Adding a NoSQL store introduces
+a new injection surface with different mitigation requirements.
+
 ---
 
 ## 2. Cross-Site Scripting (XSS)
@@ -98,6 +115,17 @@ email/password pairs from other breaches (credential stuffing).
   in Directus's password policy settings.
 - Credential stuffing is partially mitigated by rate limiting. A future enhancement
   (post-v1) would be breach-detection via HaveIBeenPwned API.
+
+### Unauthenticated Database Access
+**Risk:** database left with no password or default credentials, visible to anyone
+who scans the port.
+
+- Postgres must have a strong, randomly generated password set in `.env` before first run.
+  Never leave `POSTGRES_PASSWORD` empty or set to a default like `postgres` or `admin`.
+- The `POSTGRES_USER` must not be `postgres` (the default superuser) for application use.
+  Use dedicated roles (`directus_user`, `pm_user`) with minimal grants.
+- As a check: run `docker compose exec postgres psql -U postgres -c "\du"` after setup
+  and confirm application roles exist and the superuser is not used by any service.
 
 ### Cookie & Session Theft
 **Risk:** active session tokens stolen over unencrypted connections or via XSS,
@@ -217,7 +245,60 @@ capture data (Magecart-style attacks).
 
 ---
 
-## 11. Social Engineering & Phishing
+## 11. Google Dorking & Exposed Configuration Files
+
+**Risk:** attackers use advanced Google search queries to find publicly indexed config files
+containing plain-text credentials (e.g. `filetype:env DB_PASSWORD`).
+
+- `.env` must be in `.gitignore` and never committed. Verify with:
+  `git log --all --full-history -- '.env' '*.env'` — this should return nothing.
+- GitHub repos must be **private** until you are certain no secrets were ever committed.
+  If the repo was ever public with a `.env` present, rotate all secrets immediately.
+- `.env.example` must contain only placeholder values — never real passwords, even old ones.
+- Ensure your VPS does not serve dotfiles publicly. Caddy should return `403` or `404`
+  for any request to `/.env`, `/.git`, or `/config*`. Add explicit deny rules in the Caddyfile.
+- Do not store connection strings or API keys in:
+  - Source code comments
+  - `docker-compose.yml` (use env var references like `${DB_PASSWORD}`, never hardcoded values)
+  - Log files
+  - Any file that could be committed or served publicly
+
+---
+
+## 12. Malware, Keyloggers & Privilege Escalation
+
+### Keyloggers & Spyware
+**Risk:** malware on an admin's machine records keystrokes and steals Directus admin
+credentials or server SSH keys.
+
+- Admin and agent machines should have up-to-date antivirus/endpoint protection.
+- Use a password manager — credentials typed into a browser are more exposed than those
+  auto-filled by a password manager (reduces keylogger exposure).
+- Enable two-factor authentication on GitHub, your email provider, Cloudflare, and R2.
+  These are the accounts that, if compromised, give an attacker access to everything.
+- SSH keys should be passphrase-protected. If a machine is compromised, revoke the key
+  from the VPS immediately (`~/.ssh/authorized_keys`) and generate a new pair.
+
+### Privilege Escalation
+**Risk:** attacker compromises a low-privilege account (e.g. the `www` user or a web
+container) and exploits misconfigurations to gain root access.
+
+- Containers run as **non-root users** — enforce in all Dockerfiles. If a container is
+  compromised, the attacker is limited to that container's user, not root on the host.
+- Never run `docker compose` as root on the VPS. Create a dedicated deploy user with
+  only the permissions needed to run Docker.
+- Do not use `privileged: true` in any Compose service.
+- Do not mount sensitive host paths (`/etc`, `/root`, `/home`) into containers.
+- The Docker socket (`/var/run/docker.sock`) must never be mounted into a container —
+  it grants full root-equivalent access to the host.
+- Keep the VPS OS patched. An unpatched kernel vulnerability is the most common
+  privilege escalation path. Enable `unattended-upgrades` for security patches.
+- Use `docker compose exec` for admin tasks instead of leaving debug shells or
+  management ports open.
+
+---
+
+## 13. Social Engineering & Phishing (Human Layer)
 
 **Risk:** attackers trick admins into surrendering credentials or installing malware
 disguised as a system update.
@@ -232,11 +313,20 @@ disguised as a system update.
 
 ---
 
-## 12. Security checklist (pre-launch, M6)
+## 14. Security checklist (pre-launch, M6)
 
 - [ ] Rate limits active on all public write endpoints (inquiries, viewing requests, registration, login)
 - [ ] Tenant ID documents in private R2 bucket, pre-signed URL access only, admin-only
-- [ ] No secrets in git history (`git log --all -- '*.env'`)
+- [ ] No secrets in git history (`git log --all --full-history -- '.env' '*.env'`)
+- [ ] GitHub repo is private (or confirmed clean if public)
+- [ ] `.env` not served publicly — Caddy returns 403/404 for `/.env`, `/.git`, `/config*`
+- [ ] `docker-compose.yml` uses `${VAR}` references — no hardcoded credentials
+- [ ] Postgres password is strong and randomly generated — not a default value
+- [ ] Application connects via `directus_user` / `pm_user` roles, not the superuser
+- [ ] 2FA enabled on GitHub, Cloudflare, R2, and email provider accounts
+- [ ] SSH keys are passphrase-protected; password login disabled on VPS
+- [ ] No `privileged: true` or Docker socket mount in any Compose service
+- [ ] VPS OS auto-updates enabled for security patches
 - [ ] Directus public role: read-only, listing fields only, no PII
 - [ ] FastAPI tenant portal endpoints all filter by JWT-derived `tenant_id`
 - [ ] IDOR test exists for every tenant portal endpoint

@@ -1,0 +1,92 @@
+/* Design tokens — {{BRAND_NAME}}
+   Single source of truth for all colors, typography, and spacing.
+   All Tailwind classes are derived from these via tailwind.config.ts.
+*/
+
+:root {
+  /* --- Colors --- */
+
+  /* Brand */
+  --color-crimson:        #8B0000;
+  --color-crimson-dark:   #6B0000;
+  --color-crimson-light:  #A50000;
+
+  /* Neutrals */
+  --color-black:          #0A0A0A;
+  --color-charcoal:       #1A1A1A;
+  --color-off-white:      #F8F6F3;
+  --color-white:          #FFFFFF;
+  --color-grey-light:     #E8E4E0;
+  --color-grey-medium:    #9E9A96;
+
+  /* Semantic */
+  --color-bg:             var(--color-off-white);
+  --color-bg-dark:        var(--color-black);
+  --color-text-primary:   var(--color-black);
+  --color-text-secondary: var(--color-grey-medium);
+  --color-text-inverse:   var(--color-white);
+  --color-border:         var(--color-grey-light);
+  --color-accent:         var(--color-crimson);
+  --color-accent-hover:   var(--color-crimson-dark);
+
+  /* --- Typography --- */
+  --font-display:  'Cormorant Garamond', Georgia, serif;
+  --font-body:     'Inter', system-ui, sans-serif;
+
+  /* Font weights */
+  --fw-light:      300;
+  --fw-regular:    400;
+  --fw-medium:     500;
+  --fw-semibold:   600;
+
+  /* Type scale */
+  --text-hero:     4.5rem;    /* 72px — hero headlines */
+  --text-h1:       3rem;      /* 48px */
+  --text-h2:       2.25rem;   /* 36px */
+  --text-h3:       1.5rem;    /* 24px */
+  --text-price:    2rem;      /* 32px */
+  --text-lg:       1.125rem;  /* 18px */
+  --text-base:     1rem;      /* 16px */
+  --text-sm:       0.875rem;  /* 14px */
+  --text-xs:       0.75rem;   /* 12px */
+
+  /* Line heights */
+  --lh-tight:      1.1;
+  --lh-snug:       1.25;
+  --lh-normal:     1.5;
+  --lh-relaxed:    1.7;
+
+  /* Letter spacing */
+  --ls-tight:      -0.02em;
+  --ls-normal:     0;
+  --ls-wide:       0.04em;
+  --ls-wider:      0.08em;
+
+  /* --- Spacing --- */
+  --space-1:   8px;
+  --space-2:   16px;
+  --space-3:   24px;
+  --space-4:   32px;
+  --space-6:   48px;
+  --space-8:   64px;
+  --space-12:  96px;
+  --space-16:  128px;
+
+  /* --- Layout --- */
+  --max-width:         1280px;
+  --content-padding-x: var(--space-6);
+
+  /* --- Borders & radius --- */
+  --radius-sm:   2px;
+  --radius-md:   4px;
+  --radius-none: 0px;
+
+  /* --- Shadows --- */
+  --shadow-card:        0 2px 12px rgba(0, 0, 0, 0.06);
+  --shadow-card-hover:  0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-overlay:     0 4px 24px rgba(0, 0, 0, 0.12);
+
+  /* --- Transitions --- */
+  --transition-fast:    150ms ease;
+  --transition-base:    250ms ease;
+}

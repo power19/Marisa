@@ -313,7 +313,55 @@ disguised as a system update.
 
 ---
 
-## 14. Directus-Specific Threats
+## 14. Redis-Specific Threats
+
+Redis is a high-value target when misconfigured. Full hardening rules are in
+`redis/CLAUDE.md` — this section summarises the critical threats and mitigations.
+
+### Unauthenticated access & data exfiltration
+**Risk:** Redis by default has no password. An exposed Redis instance allows any attacker
+to run `KEYS *`, `GET <key>`, and `FLUSHALL` — stealing session tokens, API keys, and
+wiping all data instantly.
+
+- Redis has **no `ports:` mapping** — never reachable from outside the Docker network.
+- `requirepass` is always set via `REDIS_PASSWORD` env var. Never run without a password.
+
+### RCE via CONFIG SET + SAVE (SSH/cron/webshell injection)
+**Risk:** if Redis runs as root and `CONFIG` + `SAVE` are enabled, an attacker can write
+arbitrary files anywhere on the host filesystem:
+- `/root/.ssh/authorized_keys` → passwordless SSH access to the server
+- `/var/spool/cron/` → cron reverse shell or crypto miner
+- Webroot → web shell executed via browser
+
+**Mitigations (all three required):**
+1. **Run Redis as non-root** (`user: "999:999"` in `docker-compose.yml`).
+2. **Disable `CONFIG` and `SAVE`** via `rename-command` in `redis.conf`.
+3. **Network isolation** — no external port exposure.
+
+### Lua sandbox escape (CVE-2022-0543)
+**Risk:** the `EVAL` command runs Lua scripts that can escape the sandbox and execute
+arbitrary OS commands.
+
+- `EVAL` and `EVALSHA` are disabled in `redis.conf`. This stack does not use Lua scripts.
+
+### SSRF pivoting
+**Risk:** an SSRF vulnerability in any web service on the same network can be used to
+send commands to the internal Redis port, bypassing network restrictions entirely.
+
+- Network isolation + authentication + disabled dangerous commands all contribute.
+- Redis cannot be reached from external HTTP requests even via SSRF because it is
+  bound to `127.0.0.1` inside the container.
+
+### Cache poisoning & command injection
+**Risk:** user input concatenated into Redis key names or values allows attackers to
+overwrite cache entries, forge session tokens, or inject malicious data.
+
+- Cache keys are always computed server-side from validated, typed parameters.
+- Never construct Redis key names from raw user input.
+
+---
+
+## 15. Directus-Specific Threats
 
 Directus has a documented CVE history. These threats apply specifically to this stack.
 Full hardening rules are in `directus/CLAUDE.md` — this section is a summary.
@@ -353,8 +401,15 @@ Full hardening rules are in `directus/CLAUDE.md` — this section is a summary.
 
 ---
 
-## 15. Security checklist (pre-launch, M6)
+## 16. Security checklist (pre-launch, M6)
 
+- [ ] Redis has no `ports:` mapping in docker-compose.yml
+- [ ] Redis container runs as non-root user (`user: "999:999"`)
+- [ ] Redis `requirepass` set — strong random password, never empty
+- [ ] `CONFIG`, `SAVE`, `BGSAVE`, `EVAL`, `FLUSHALL`, `FLUSHDB`, `DEBUG` all disabled in redis.conf
+- [ ] Redis bound to `127.0.0.1` in redis.conf
+- [ ] `maxmemory 256mb` set — Redis cannot consume all host RAM
+- [ ] No Redis key names constructed from raw user input
 - [ ] Directus pinned to exact version tag (not `latest`) in docker-compose.yml
 - [ ] Directus security advisories checked — no unpatched CVEs on running version
 - [ ] `/server/info` and `/server/health` blocked from public access in Caddy

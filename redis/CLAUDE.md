@@ -32,29 +32,97 @@ Use separate database numbers to namespace concerns:
 
 ---
 
-## Security hardening
+## Security hardening — IMPORTANT
 
-- **Always set a password.** Set `REDIS_PASSWORD` in `.env` and configure Redis with
-  `requirepass` in `redis.conf`. Never run Redis without authentication.
-- Redis must have **no `ports:` mapping** in `docker-compose.yml`. It is only reachable
-  by other containers on `realty_net`.
-- Disable dangerous commands that have no use in this stack:
-  ```
-  rename-command FLUSHALL ""
-  rename-command FLUSHDB ""
-  rename-command DEBUG ""
-  rename-command CONFIG ""
-  ```
-- Set a memory limit to prevent Redis from consuming all available RAM:
-  ```
-  maxmemory 256mb
-  maxmemory-policy allkeys-lru
-  ```
-- Enable persistence (AOF) so rate limit state and tokens survive restarts:
-  ```
-  appendonly yes
-  appendfsync everysec
-  ```
+Redis has a well-documented history of critical vulnerabilities when misconfigured.
+Every rule below is non-negotiable.
+
+### 1. Never expose Redis to the network
+- **No `ports:` mapping in `docker-compose.yml`.** Redis is reachable only by containers
+  on the private `realty_net` Docker network — never from the host or the internet.
+- Bind Redis to the internal Docker network interface only via `bind 127.0.0.1` in
+  `redis.conf`. This ensures Redis will not accept connections from outside the container.
+- Verify after deploy: `docker compose exec redis redis-cli -a $REDIS_PASSWORD ping`
+  should work. Connecting from outside the Docker network should fail.
+
+### 2. Always require authentication
+- Set a **strong, randomly generated password** via `requirepass` in `redis.conf`.
+  Never run Redis without a password — unauthenticated Redis allows `KEYS *`, `GET`,
+  and `FLUSHALL` with zero friction for an attacker.
+- Use Redis ACLs (Redis 6+) for fine-grained per-user permissions if needed in future.
+  In v1, a single strong password is sufficient given the network isolation above.
+- Password must be set in `.env` as `REDIS_PASSWORD` — never hardcoded in `redis.conf`
+  or `docker-compose.yml`.
+
+### 3. Run as non-root — CRITICAL for RCE prevention
+- The Redis container must run as a **non-root user**. If Redis runs as root and an
+  attacker gains write access, they can use `CONFIG SET dir` + `SAVE` to write files
+  anywhere on the host filesystem — including:
+  - `/root/.ssh/authorized_keys` (SSH key injection → full server takeover)
+  - `/var/spool/cron/` (cron job injection → reverse shell / crypto miner)
+  - Webroot directories (web shell insertion → RCE via browser)
+- In `docker-compose.yml`: `user: "999:999"` (Redis default non-root UID).
+- This is the single most critical mitigation against Redis-based server takeover.
+
+### 4. Disable dangerous commands
+The following commands have no legitimate use in this stack and must be disabled
+by renaming them to empty strings in `redis.conf`:
+
+```
+rename-command CONFIG   ""   # Prevents CONFIG SET dir attacks (RCE vector)
+rename-command SAVE     ""   # Prevents manual filesystem writes
+rename-command BGSAVE   ""   # Prevents background filesystem writes
+rename-command BGREWRITEAOF ""
+rename-command FLUSHALL ""   # Prevents wiping all data
+rename-command FLUSHDB  ""   # Prevents wiping a database
+rename-command DEBUG    ""   # Prevents debug-level exploits
+rename-command EVAL     ""   # Prevents Lua sandbox escape (CVE-2022-0543)
+rename-command SLAVEOF  ""   # Prevents replication abuse
+rename-command REPLICAOF ""
+```
+
+> **EVAL / Lua:** CVE-2022-0543 demonstrated that the Lua sandbox in Redis can be
+> escaped to execute arbitrary OS commands. Disabling EVAL removes this attack surface
+> entirely. This stack does not use Lua scripts.
+
+### 5. Protect against SSRF pivoting
+If a web application on the same network has an SSRF vulnerability, an attacker can
+send Gopher/HTTP requests to the internal Redis port and execute commands as if
+they were a trusted client. Mitigations:
+- Network isolation (rule 1) reduces the attack surface.
+- Authentication (rule 2) means SSRF requests must still authenticate.
+- Disabled dangerous commands (rule 4) limit what an SSRF attacker can do.
+- Validate and sanitize all URLs in Directus file import (`IMPORT_IP_DENY_LIST`) —
+  see `directus/CLAUDE.md`.
+
+### 6. Prevent cache poisoning & command injection
+Never construct Redis commands by concatenating user input:
+```python
+# DANGEROUS — never do this
+redis.get(f"cache:{user_input}")
+
+# SAFE — always sanitize or use typed keys
+redis.get(f"cache:listings:{query_hash}")  # hash computed server-side
+```
+- Cache keys must always be derived server-side from validated, typed parameters.
+- Never expose Redis key names or structure to the client.
+- Never store raw user input as a Redis value without sanitization.
+
+### 7. Memory limit
+Set a hard memory limit to prevent Redis from consuming all available RAM
+(which would crash the entire host):
+```
+maxmemory 256mb
+maxmemory-policy allkeys-lru
+```
+
+### 8. Persistence
+Enable AOF persistence so rate limit counters and tokens survive container restarts:
+```
+appendonly yes
+appendfsync everysec
+```
+Do not use `appendfsync always` in production — it is too slow under load.
 
 ---
 

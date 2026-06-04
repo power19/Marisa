@@ -6,7 +6,8 @@ import { getAgents } from '@/lib/directus/agents'
 import ListingDetail from '@/components/listing/ListingDetail'
 import type { Agent } from '@/types/agent'
 
-export const revalidate = 3600
+// Revalidate every 60 seconds — bump to 3600 (1hr) or higher in production
+export const revalidate = 60
 
 interface PageProps {
   params: { locale: string; slug: string }

@@ -5,9 +5,10 @@ import { useTranslations } from 'next-intl'
 
 interface ViewingRequestFormProps {
   listingId: string
+  onSuccess?: () => void
 }
 
-export default function ViewingRequestForm({ listingId }: ViewingRequestFormProps) {
+export default function ViewingRequestForm({ listingId, onSuccess }: ViewingRequestFormProps) {
   const t = useTranslations('common')
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
   const [form, setForm] = useState({
@@ -30,6 +31,7 @@ export default function ViewingRequestForm({ listingId }: ViewingRequestFormProp
       })
       if (!res.ok) throw new Error('Failed')
       setStatus('success')
+      if (onSuccess) setTimeout(onSuccess, 1500)
     } catch {
       setStatus('error')
     }

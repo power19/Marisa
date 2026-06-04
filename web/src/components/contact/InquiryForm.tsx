@@ -5,9 +5,10 @@ import { useTranslations } from 'next-intl'
 
 interface InquiryFormProps {
   listingId: string
+  onSuccess?: () => void
 }
 
-export default function InquiryForm({ listingId }: InquiryFormProps) {
+export default function InquiryForm({ listingId, onSuccess }: InquiryFormProps) {
   const t = useTranslations('common')
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
   const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' })
@@ -24,6 +25,7 @@ export default function InquiryForm({ listingId }: InquiryFormProps) {
       if (!res.ok) throw new Error('Failed')
       setStatus('success')
       setForm({ name: '', email: '', phone: '', message: '' })
+      if (onSuccess) setTimeout(onSuccess, 1500) // close modal after showing success
     } catch {
       setStatus('error')
     }

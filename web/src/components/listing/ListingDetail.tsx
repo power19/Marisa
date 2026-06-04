@@ -13,6 +13,18 @@ const ListingMap = dynamic(() => import('@/components/map/ListingMap'), { ssr: f
 
 const DIRECTUS_URL = process.env.NEXT_PUBLIC_DIRECTUS_URL ?? ''
 
+/** Convert a YouTube or Vimeo share URL to its embed URL */
+function getEmbedUrl(url: string): string {
+  // YouTube: youtu.be/ID  or  youtube.com/watch?v=ID
+  const yt = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([a-zA-Z0-9_-]{11})/)
+  if (yt) return `https://www.youtube.com/embed/${yt[1]}?rel=0`
+  // Vimeo: vimeo.com/ID
+  const vi = url.match(/vimeo\.com\/(\d+)/)
+  if (vi) return `https://player.vimeo.com/video/${vi[1]}`
+  // Already an embed URL or unknown — use as-is
+  return url
+}
+
 interface ListingDetailProps {
   listing: Listing
   agent: Agent | null
@@ -146,6 +158,22 @@ export default async function ListingDetail({ listing, agent, locale }: ListingD
             </div>
           )}
 
+          {/* Embedded video player */}
+          {listing.video_url && (
+            <div className="mb-6">
+              <h3 className="text-h3 font-display mb-3">{t('videoTour')}</h3>
+              <div className="relative aspect-video rounded-md overflow-hidden bg-black">
+                <iframe
+                  src={getEmbedUrl(listing.video_url)}
+                  title={t('videoTour')}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="absolute inset-0 w-full h-full"
+                />
+              </div>
+            </div>
+          )}
+
           {/* Downloads / Tours */}
           <div className="flex flex-wrap gap-3 mb-6">
             {brochure && (
@@ -166,16 +194,6 @@ export default async function ListingDetail({ listing, agent, locale }: ListingD
                 className="btn btn-ghost text-sm"
               >
                 {t('virtualTour')}
-              </a>
-            )}
-            {listing.video_url && (
-              <a
-                href={listing.video_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-ghost text-sm"
-              >
-                {t('videoTour')}
               </a>
             )}
           </div>

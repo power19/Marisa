@@ -32,6 +32,11 @@
 		reverse_proxy directus:8055
 	}
 
+	# Directus assets — serve media files through main domain
+	handle /assets/* {
+		reverse_proxy directus:8055
+	}
+
 	# Next.js public site (M1+)
 	handle {
 		reverse_proxy web:3000

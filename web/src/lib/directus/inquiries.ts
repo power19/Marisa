@@ -4,7 +4,7 @@ import type { Inquiry, ViewingRequest } from '@/types/crm'
 // They POST directly to Directus REST API to avoid SDK bundle in API routes.
 
 export async function submitInquiry(data: Omit<Inquiry, 'id' | 'created_at'>): Promise<void> {
-  const url = process.env.NEXT_PUBLIC_DIRECTUS_URL
+  const url = process.env.DIRECTUS_INTERNAL_URL ?? process.env.NEXT_PUBLIC_DIRECTUS_URL
   const token = process.env.DIRECTUS_SERVER_TOKEN
   if (!url || !token) throw new Error('Directus config missing')
 
@@ -24,7 +24,7 @@ export async function submitInquiry(data: Omit<Inquiry, 'id' | 'created_at'>): P
 }
 
 export async function submitViewingRequest(data: Omit<ViewingRequest, 'id' | 'created_at'>): Promise<void> {
-  const url = process.env.NEXT_PUBLIC_DIRECTUS_URL
+  const url = process.env.DIRECTUS_INTERNAL_URL ?? process.env.NEXT_PUBLIC_DIRECTUS_URL
   const token = process.env.DIRECTUS_SERVER_TOKEN
   if (!url || !token) throw new Error('Directus config missing')
 

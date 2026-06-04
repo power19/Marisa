@@ -68,7 +68,7 @@ export interface Listing {
   published_at: string | null
   created_at: string
   updated_at: string
-  listing_media: ListingMedia[]
+  media: ListingMedia[]        // O2M field name as configured in Directus
 }
 
 export interface SearchParams {

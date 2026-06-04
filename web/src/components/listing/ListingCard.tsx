@@ -14,9 +14,9 @@ function getTitle(listing: Listing, locale: string): string {
 }
 
 function getPrimaryPhoto(listing: Listing): string | null {
-  if (!listing.listing_media?.length) return null
-  const primary = listing.listing_media.find((m) => m.kind === 'photo' && m.is_primary)
-    ?? listing.listing_media.find((m) => m.kind === 'photo')
+  if (!listing.media?.length) return null
+  const primary = listing.media.find((m) => m.kind === 'photo' && m.is_primary)
+    ?? listing.media.find((m) => m.kind === 'photo')
   return primary ? `${DIRECTUS_URL}/assets/${primary.file}` : null
 }
 

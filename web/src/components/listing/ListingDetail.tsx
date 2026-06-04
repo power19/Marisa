@@ -30,7 +30,7 @@ export default async function ListingDetail({ listing, agent, locale }: ListingD
   const title = translation?.title ?? ''
   const description = translation?.description ?? ''
 
-  const brochure = listing.listing_media?.find((m) => m.kind === 'brochure_pdf')
+  const brochure = listing.media?.find((m) => m.kind === 'brochure_pdf')
 
   return (
     <div className="container-site py-8">
@@ -44,7 +44,7 @@ export default async function ListingDetail({ listing, agent, locale }: ListingD
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Left: Gallery + Details */}
         <div className="lg:col-span-2">
-          <ListingGallery media={listing.listing_media ?? []} title={title} />
+          <ListingGallery media={listing.media ?? []} title={title} />
 
           {/* Title + Status */}
           <div className="mt-6 mb-4">

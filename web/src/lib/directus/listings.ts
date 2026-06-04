@@ -30,7 +30,7 @@ const LISTING_FIELDS = [
   'published_at',
   'created_at',
   'updated_at',
-  'listing_media.*',
+  'media.*',
   'amenities.id',
   'amenities.amenities_id.*',
 ] as const

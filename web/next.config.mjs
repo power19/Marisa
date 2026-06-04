@@ -6,6 +6,10 @@ const withNextIntl = createNextIntlPlugin('./src/lib/i18n/request.ts')
 const nextConfig = {
   output: 'standalone',
   images: {
+    // Dev: images served directly from browser to Directus (bypasses Next.js
+    // image optimization which can't reach localhost:8055 from inside Docker).
+    // In production, R2 CDN URLs are always publicly reachable so this can be removed.
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'http',

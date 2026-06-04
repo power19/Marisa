@@ -28,9 +28,9 @@ export async function generateMetadata({ params: { locale, slug } }: PageProps):
   const title = translation?.title ?? slug
   const description = translation?.description ?? t('listingDescription')
 
-  const primaryPhoto = listing.listing_media?.find(
+  const primaryPhoto = listing.media?.find(
     (m) => m.kind === 'photo' && m.is_primary
-  ) ?? listing.listing_media?.find((m) => m.kind === 'photo')
+  ) ?? listing.media?.find((m) => m.kind === 'photo')
 
   const ogImage = primaryPhoto
     ? `${process.env.NEXT_PUBLIC_DIRECTUS_URL}/assets/${primaryPhoto.file}`

@@ -6,8 +6,9 @@ import { getAgents } from '@/lib/directus/agents'
 import ListingDetail from '@/components/listing/ListingDetail'
 import type { Agent } from '@/types/agent'
 
-// Revalidate every 60 seconds — bump to 3600 (1hr) or higher in production
-export const revalidate = 60
+// Always fetch fresh from Directus — instant updates when content changes.
+// Set to 3600 (1hr) once the listing catalogue is stable and traffic is high.
+export const dynamic = 'force-dynamic'
 
 interface PageProps {
   params: { locale: string; slug: string }

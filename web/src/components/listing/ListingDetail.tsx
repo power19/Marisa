@@ -71,6 +71,15 @@ export default async function ListingDetail({ listing, agent, locale }: ListingD
                 </span>
               </div>
               <h1 className="text-h2 font-display mb-1">{title}</h1>
+              {(listing.location_id || listing.address) && (
+                <p className="text-sm text-grey-medium mb-1">
+                  {[
+                    listing.address,
+                    listing.location_id?.sub_area,
+                    listing.location_id?.district,
+                  ].filter(Boolean).join(', ')}
+                </p>
+              )}
               <PriceDisplay
                 amount={listing.price_amount}
                 currency={listing.price_currency}
@@ -100,11 +109,13 @@ export default async function ListingDetail({ listing, agent, locale }: ListingD
           </span>
         </div>
         <h1 className="text-h1 font-display mb-2">{title}</h1>
-        {listing.location_id && (
+        {(listing.location_id || listing.address) && (
           <p className="text-grey-medium">
-            {listing.location_id.sub_area
-              ? `${listing.location_id.sub_area}, ${listing.location_id.district}`
-              : listing.location_id.district}
+            {[
+              listing.address,
+              listing.location_id?.sub_area,
+              listing.location_id?.district,
+            ].filter(Boolean).join(', ')}
           </p>
         )}
       </div>

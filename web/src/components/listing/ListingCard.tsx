@@ -76,12 +76,14 @@ export default function ListingCard({ listing }: ListingCardProps) {
         {/* Title */}
         <h3 className="font-display text-h3 leading-snug mb-1 line-clamp-2">{title}</h3>
 
-        {/* Location */}
-        {listing.location_id && (
+        {/* Location + address */}
+        {(listing.location_id || listing.address) && (
           <p className="text-sm text-grey-medium mb-3">
-            {listing.location_id.sub_area
-              ? `${listing.location_id.sub_area}, ${listing.location_id.district}`
-              : listing.location_id.district}
+            {[
+              listing.address,
+              listing.location_id?.sub_area,
+              listing.location_id?.district,
+            ].filter(Boolean).join(', ')}
           </p>
         )}
 

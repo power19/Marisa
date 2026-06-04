@@ -149,11 +149,14 @@ export default async function ListingDetail({ listing, agent, locale }: ListingD
             <div className="mb-6">
               <h3 className="text-h3 font-display mb-3">{t('amenities')}</h3>
               <div className="flex flex-wrap gap-2">
-                {listing.amenities.map((a) => (
-                  <span key={a.id} className="bg-grey-light text-xs px-3 py-1 rounded-sm">
-                    {a.amenities_id.name}
-                  </span>
-                ))}
+                {listing.amenities.map((a) => {
+                  const label = a.amenities_id.icon ?? String(a.amenities_id.name ?? '')
+                  return (
+                    <span key={a.id} className="bg-grey-light text-xs px-3 py-1 rounded-sm">
+                      {label}
+                    </span>
+                  )
+                })}
               </div>
             </div>
           )}

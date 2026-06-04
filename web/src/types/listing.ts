@@ -20,8 +20,8 @@ export interface Location {
 
 export interface Amenity {
   id: string
-  name: string
-  icon: string | null
+  name: string | string[] | null  // translations array or plain string
+  icon: string | null             // also used as display name when name is empty
 }
 
 export interface ListingAmenity {

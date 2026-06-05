@@ -7,6 +7,7 @@ import { Suspense } from 'react'
 import SearchWidget from '@/components/search/SearchWidget'
 import ListingGrid from '@/components/listing/ListingGrid'
 import { getFeaturedListings, getNewListings, getListingsByOfferType } from '@/lib/directus/listings'
+import { getServerTheme } from '@/lib/theme/ThemeProvider'
 
 interface PageProps {
   params: { locale: string }
@@ -19,7 +20,7 @@ export async function generateMetadata({ params: { locale } }: PageProps): Promi
     description: t('homeDescription'),
     alternates: {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      languages: { en: '/en', nl: '/nl', srn: '/srn' } as any,
+      languages: { en: '/en', nl: '/nl' },
     },
   }
 }
@@ -42,10 +43,17 @@ export default async function HomePage({ params: { locale } }: PageProps) {
   const forSaleData = forSale.status === 'fulfilled' ? forSale.value : []
   const forRentData = forRent.status === 'fulfilled' ? forRent.value : []
 
+  const theme = getServerTheme()
+  const heroClasses = [
+    'bg-black text-white py-24 relative overflow-hidden',
+    theme?.heroClass,
+    theme?.decoration ? theme.decorationClass : null,
+  ].filter(Boolean).join(' ')
+
   return (
     <>
       {/* Hero */}
-      <section className="bg-black text-white py-24 relative overflow-hidden">
+      <section className={heroClasses}>
         <div className="container-site relative z-10">
           <p className="text-xs tracking-wider uppercase text-grey-medium mb-4">
             Far East Property Management

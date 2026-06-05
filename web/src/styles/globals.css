@@ -97,13 +97,13 @@
   }
 
   .btn-primary {
-    background-color: var(--color-blue);
+    background-color: var(--color-accent);
     color: var(--color-white);
-    border-color: var(--color-blue);
+    border-color: var(--color-accent);
   }
   .btn-primary:hover {
-    background-color: var(--color-blue-dark);
-    border-color: var(--color-blue-dark);
+    background-color: var(--color-accent-hover);
+    border-color: var(--color-accent-hover);
   }
 
   .btn-secondary {
@@ -118,11 +118,11 @@
 
   .btn-ghost {
     background-color: transparent;
-    color: var(--color-blue);
-    border-color: var(--color-blue);
+    color: var(--color-accent);
+    border-color: var(--color-accent);
   }
   .btn-ghost:hover {
-    background-color: var(--color-blue);
+    background-color: var(--color-accent);
     color: var(--color-white);
   }
 
@@ -164,7 +164,96 @@
   .divider-brand {
     width: 48px;
     height: 2px;
-    background-color: var(--color-blue);
+    background-color: var(--color-accent);
     margin-block: var(--space-3);
+  }
+}
+
+/* ─── Holiday theme decorations ─────────────────────────────────────────────
+   CSS-only animations. Activated by data-theme on <html>.
+   All animations respect prefers-reduced-motion and are disabled by default —
+   each theme must opt in by adding the decorationClass to the hero section.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/* Shared particle pseudo-element setup */
+.decoration-snow::before,
+.decoration-confetti::before,
+.decoration-sparkle::before,
+.decoration-powder::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Snow — Christmas */
+@keyframes snow-fall {
+  0%   { background-position: 0 -100px; }
+  100% { background-position: 20px 100vh; }
+}
+
+.decoration-snow::before {
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px),
+    radial-gradient(circle, rgba(255,255,255,0.5) 1px, transparent 1px),
+    radial-gradient(circle, rgba(255,255,255,0.6) 1px, transparent 1px);
+  background-size: 60px 60px, 40px 40px, 80px 80px;
+  animation: snow-fall 6s linear infinite;
+}
+
+/* Confetti — New Year */
+@keyframes confetti-fall {
+  0%   { background-position: 0 -100px, 30px -60px, 15px -80px; }
+  100% { background-position: -10px 100vh, 40px 100vh, 5px 100vh; }
+}
+
+.decoration-confetti::before {
+  background-image:
+    radial-gradient(ellipse 3px 6px, #C9A84C 0%, transparent 70%),
+    radial-gradient(ellipse 4px 4px, #C0C0C0 0%, transparent 70%),
+    radial-gradient(ellipse 3px 5px, #E8E4E0 0%, transparent 70%);
+  background-size: 50px 50px, 70px 70px, 90px 90px;
+  animation: confetti-fall 5s linear infinite;
+}
+
+/* Sparkle — Diwali */
+@keyframes sparkle-pulse {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50%       { opacity: 1;   transform: scale(1.2); }
+}
+
+.decoration-sparkle::before {
+  background-image:
+    radial-gradient(circle, #E07B39 2px, transparent 2px),
+    radial-gradient(circle, #C9A84C 1px, transparent 1px),
+    radial-gradient(circle, #F4A261 2px, transparent 2px);
+  background-size: 80px 80px, 50px 50px, 110px 110px;
+  animation: sparkle-pulse 2s ease-in-out infinite;
+}
+
+/* Powder splashes — Holi */
+@keyframes powder-drift {
+  0%   { background-position: 0 0, 40px 40px, 80px 10px; }
+  100% { background-position: 10px 5px, 50px 35px, 90px 15px; }
+}
+
+.decoration-powder::before {
+  background-image:
+    radial-gradient(ellipse 20px 10px, rgba(232,67,147,0.4) 0%, transparent 70%),
+    radial-gradient(ellipse 15px 8px,  rgba(52,168,83,0.4)  0%, transparent 70%),
+    radial-gradient(ellipse 18px 9px,  rgba(66,133,244,0.4) 0%, transparent 70%);
+  background-size: 120px 120px, 90px 90px, 150px 150px;
+  animation: powder-drift 4s ease-in-out infinite alternate;
+}
+
+/* Disable all decorations when user prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .decoration-snow::before,
+  .decoration-confetti::before,
+  .decoration-sparkle::before,
+  .decoration-powder::before {
+    animation: none;
+    content: none;
   }
 }

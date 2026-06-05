@@ -6,6 +6,7 @@ import { Suspense } from 'react'
 import { locales } from '@/lib/i18n/config'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
+import ThemeProvider from '@/lib/theme/ThemeProvider'
 import '@/styles/globals.css'
 
 export function generateStaticParams() {
@@ -35,6 +36,9 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale}>
+      <head>
+        <ThemeProvider />
+      </head>
       <body className="bg-off-white font-body text-black min-h-screen flex flex-col">
         <NextIntlClientProvider messages={messages}>
           <Header />

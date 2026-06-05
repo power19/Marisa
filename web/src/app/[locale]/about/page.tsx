@@ -44,15 +44,10 @@ export default async function AboutPage({ params: { locale } }: PageProps) {
         <div>
           <h2 className="text-h2 font-display mb-4">{t('whyUs')}</h2>
           <ul className="space-y-3 text-sm leading-relaxed">
-            {[
-              'Deep local knowledge of the Suriname property market',
-              'Experienced agents with multilingual support',
-              'Transparent pricing — no hidden fees',
-              'Full-service support from search to signing',
-            ].map((point) => (
-              <li key={point} className="flex items-start gap-2">
+            {(['whyPoint1', 'whyPoint2', 'whyPoint3', 'whyPoint4'] as const).map((key) => (
+              <li key={key} className="flex items-start gap-2">
                 <span className="text-blue mt-1">&#10003;</span>
-                <span>{point}</span>
+                <span>{t(key)}</span>
               </li>
             ))}
           </ul>

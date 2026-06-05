@@ -7,7 +7,8 @@
     "buying": "Buying",
     "selling": "Selling",
     "renting": "Renting",
-    "expat": "Expat Services"
+    "expat": "Expat Services",
+    "portal": "Tenant Portal"
   },
   "hero": {
     "title": "Find Your Perfect Property in Suriname",
@@ -144,6 +145,10 @@
       "missionText": "To provide exceptional real estate services to buyers, sellers, tenants, and investors across Suriname.",
       "team": "Our Team",
       "whyUs": "Why Choose Far East",
+      "whyPoint1": "Deep local knowledge of the Suriname property market",
+      "whyPoint2": "Experienced agents with multilingual support",
+      "whyPoint3": "Transparent pricing — no hidden fees",
+      "whyPoint4": "Full-service support from search to signing",
       "experience": "Years of Experience",
       "listings": "Properties Sold",
       "clients": "Happy Clients"
@@ -230,5 +235,75 @@
     "searchTitle": "Search Properties — Far East Property Management",
     "searchDescription": "Search properties for sale and rent in Suriname. Filter by type, price, district, and more.",
     "listingDescription": "View details, photos, and contact information for this property listing."
+  },
+  "portal": {
+    "nav": {
+      "title": "Tenant Portal",
+      "dashboard": "Dashboard",
+      "lease": "My Lease",
+      "payments": "Payments",
+      "maintenance": "Maintenance",
+      "logout": "Sign Out"
+    },
+    "login": {
+      "title": "Tenant Portal",
+      "subtitle": "Sign in with your tenant account to view your lease and submit requests.",
+      "email": "Email Address",
+      "password": "Password",
+      "signIn": "Sign In",
+      "signingIn": "Signing in...",
+      "errorInvalid": "Invalid email or password.",
+      "errorNetwork": "Network error. Please try again."
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "leases": "Leases",
+      "activeLeases": "active lease(s)",
+      "charges": "Overdue",
+      "overdueCharges": "overdue charge(s)",
+      "tickets": "Open Tickets",
+      "openTickets": "open or in progress",
+      "submitTicket": "Submit Maintenance Request"
+    },
+    "lease": {
+      "title": "My Lease",
+      "noLeases": "No leases found for your account.",
+      "leaseId": "Lease #{id}",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "rent": "Monthly Rent",
+      "deposit": "Deposit",
+      "billingDay": "Billing Day",
+      "billingDayValue": "{day} of each month"
+    },
+    "payments": {
+      "title": "Payments & Receipts",
+      "noCharges": "No charges found for your account.",
+      "period": "Period: {period}",
+      "due": "Due: {date}",
+      "payments": "Payments",
+      "receipt": "PDF Receipt"
+    },
+    "maintenance": {
+      "title": "Maintenance Requests",
+      "newTicket": "New Request",
+      "noTickets": "No maintenance requests yet.",
+      "resolvedOn": "Resolved {date}",
+      "photo": "Photo {n}",
+      "form": {
+        "title": "New Maintenance Request",
+        "unit": "Unit",
+        "issueTitle": "Title",
+        "description": "Description",
+        "photos": "Photos",
+        "photosHint": "Upload photos of the issue (optional, up to 5 images).",
+        "submit": "Submit Request",
+        "submitting": "Submitting...",
+        "cancel": "Cancel",
+        "noActiveLease": "You have no active lease. Contact the office for assistance.",
+        "error": "Failed to submit request.",
+        "errorNetwork": "Network error. Please try again."
+      }
+    }
   }
 }

@@ -8,7 +8,6 @@ import { locales } from '@/lib/i18n/config'
 const localeLabels: Record<string, string> = {
   en: 'EN',
   nl: 'NL',
-  srn: 'SRN',
 }
 
 export default function LocaleSwitcher() {

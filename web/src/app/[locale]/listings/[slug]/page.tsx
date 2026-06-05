@@ -42,12 +42,10 @@ export async function generateMetadata({ params: { locale, slug } }: PageProps):
     title,
     description: description?.slice(0, 160) ?? t('listingDescription'),
     alternates: {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       languages: {
         en: `/en/listings/${slug}`,
         nl: `/nl/listings/${slug}`,
-        srn: `/srn/listings/${slug}`,
-      } as any,
+      },
     },
     openGraph: {
       title,

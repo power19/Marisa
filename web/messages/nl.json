@@ -7,7 +7,8 @@
     "buying": "Kopen",
     "selling": "Verkopen",
     "renting": "Huren",
-    "expat": "Expat Diensten"
+    "expat": "Expat Diensten",
+    "portal": "Huurdersportaal"
   },
   "hero": {
     "title": "Vind Uw Perfecte Woning in Suriname",
@@ -144,6 +145,10 @@
       "missionText": "Uitzonderlijke vastgoeddiensten bieden aan kopers, verkopers, huurders en investeerders in Suriname.",
       "team": "Ons Team",
       "whyUs": "Waarom Far East",
+      "whyPoint1": "",
+      "whyPoint2": "",
+      "whyPoint3": "",
+      "whyPoint4": "",
       "experience": "Jaar Ervaring",
       "listings": "Verkochte Woningen",
       "clients": "Tevreden Klanten"
@@ -230,5 +235,75 @@
     "searchTitle": "Woningen Zoeken — Far East Property Management",
     "searchDescription": "Zoek woningen te koop en te huur in Suriname. Filter op type, prijs, district en meer.",
     "listingDescription": "Bekijk details, foto's en contactinformatie voor deze woningadvertentie."
+  },
+  "portal": {
+    "nav": {
+      "title": "Huurdersportaal",
+      "dashboard": "Dashboard",
+      "lease": "Mijn Huurcontract",
+      "payments": "Betalingen",
+      "maintenance": "Onderhoud",
+      "logout": "Uitloggen"
+    },
+    "login": {
+      "title": "Huurdersportaal",
+      "subtitle": "Log in met uw huurdersaccount om uw huurcontract in te zien en verzoeken in te dienen.",
+      "email": "E-mailadres",
+      "password": "Wachtwoord",
+      "signIn": "Inloggen",
+      "signingIn": "Inloggen...",
+      "errorInvalid": "Ongeldig e-mailadres of wachtwoord.",
+      "errorNetwork": "Netwerkfout. Probeer het opnieuw."
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "leases": "Huurcontracten",
+      "activeLeases": "actief(ief) huurcontract(en)",
+      "charges": "Achterstallig",
+      "overdueCharges": "achterstallige betaling(en)",
+      "tickets": "Open Meldingen",
+      "openTickets": "open of in behandeling",
+      "submitTicket": "Onderhoudsverzoek Indienen"
+    },
+    "lease": {
+      "title": "Mijn Huurcontract",
+      "noLeases": "Geen huurcontracten gevonden voor uw account.",
+      "leaseId": "Huurcontract #{id}",
+      "startDate": "Begindatum",
+      "endDate": "Einddatum",
+      "rent": "Maandhuur",
+      "deposit": "Borgsom",
+      "billingDay": "Betaaldag",
+      "billingDayValue": "{day} van elke maand"
+    },
+    "payments": {
+      "title": "Betalingen en Kwitanties",
+      "noCharges": "Geen betalingen gevonden voor uw account.",
+      "period": "Periode: {period}",
+      "due": "Vervaldatum: {date}",
+      "payments": "Betalingen",
+      "receipt": "PDF Kwitantie"
+    },
+    "maintenance": {
+      "title": "Onderhoudsverzoeken",
+      "newTicket": "Nieuw Verzoek",
+      "noTickets": "Nog geen onderhoudsverzoeken.",
+      "resolvedOn": "Opgelost op {date}",
+      "photo": "Foto {n}",
+      "form": {
+        "title": "Nieuw Onderhoudsverzoek",
+        "unit": "Wooneenheid",
+        "issueTitle": "Titel",
+        "description": "Omschrijving",
+        "photos": "Foto's",
+        "photosHint": "Upload foto's van het probleem (optioneel, max. 5 afbeeldingen).",
+        "submit": "Verzoek Indienen",
+        "submitting": "Indienen...",
+        "cancel": "Annuleren",
+        "noActiveLease": "U heeft geen actief huurcontract. Neem contact op met het kantoor.",
+        "error": "Verzoek indienen mislukt.",
+        "errorNetwork": "Netwerkfout. Probeer het opnieuw."
+      }
+    }
   }
 }

@@ -40,7 +40,7 @@
 1. **Background worker / scheduler** — drives: saved-search alerts (match new/updated
    listings → registered visitors), CRM follow-up reminders, rent-due reminders. Use
    APScheduler for v1 simplicity; move to Celery+Redis if volume grows.
-2. **Transactional email** — one provider, one templating layer. All localized (`en/nl/srn`).
+2. **Transactional email** — one provider, one templating layer. All localized (`en/nl`).
    Used by: account verification, agent-approval notices, inquiry/viewing notifications,
    alerts, reminders, receipts, statements.
 3. **PDF generation** — WeasyPrint or ReportLab in the PM service. Used by: rent receipts and
@@ -78,7 +78,7 @@ Directus asset transforms) on upload.
 
 - **SEO** (high priority — most of a listing site's value): server-render search results;
   ISR for listing detail pages; `schema.org/RealEstateListing` structured data; XML sitemap;
-  `hreflang` for `en/nl/srn`; clean slugs.
+  `hreflang` for `en/nl`; clean slugs.
 - **Performance:** cache public API responses; optimize images via R2 + Next; lazy-load
   galleries and maps.
 - **Security:** rate-limit the inquiry, viewing-request, and registration endpoints (spam

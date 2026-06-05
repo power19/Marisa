@@ -18,6 +18,7 @@ export default function Header() {
     { href: `/${locale}/expat`, label: t('expat') },
     { href: `/${locale}/about`, label: t('about') },
     { href: `/${locale}/contact`, label: t('contact') },
+    { href: `/${locale}/portal`, label: t('portal') },
   ]
 
   return (

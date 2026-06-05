@@ -82,8 +82,8 @@ Roles: `admin`, `agent`, `registered_visitor`, `tenant`, `owner`.
 
 - **TypeScript** strict on the front end; **type hints + Pydantic** on FastAPI.
 - **Linting/formatting:** `ESLint` + `Prettier` for TypeScript/Next.js; `ruff` + `black` for Python.
-- **Multilingual**: every user-facing string and listing text supports `en`, `nl`, `srn`
-  (Sranantongo) via Directus translations / i18n. Default locale `en`.
+- **Multilingual**: every user-facing string and listing text supports `en` and `nl`
+  via Directus translations / i18n. Default locale `en`.
 - **Currencies**: store `amount` + `currency` (`USD`|`EUR`|`SRD`) per listing/charge.
   Display **native currency only** in v1. Do **not** add live FX conversion (SRD is volatile).
 - **Money**: integer minor units or `NUMERIC(14,2)`; never floats.
@@ -98,7 +98,5 @@ Roles: `admin`, `agent`, `registered_visitor`, `tenant`, `owner`.
 - **Brand name:** Far East Property Management (short: Far East)
 - **Logo:** `web/public/brand/logo.png` — see `docs/brand/brand-guide.md` for usage rules.
 - Domain: a **`.com`** will be used (exact domain TBD). DNS will sit on Cloudflare.
-- Sranantongo (`srn`) content/translations are a **content task**, not a code task — leave
-  translation strings empty/fallback-to-`en` until copy is supplied.
 - Currency conversion policy: native-only for now; an optional manual indicative rate is a
   future enhancement, not v1.

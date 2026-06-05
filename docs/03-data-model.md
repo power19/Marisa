@@ -2,7 +2,7 @@
 
 > Source of truth for data. Directus owns the content/CRM/user collections; FastAPI owns the
 > `pm` schema. Both live in the same Postgres. Money is `NUMERIC(14,2)` + a currency enum;
-> never floats. All user-facing text is translatable to `en/nl/srn`.
+> never floats. All user-facing text is translatable to `en/nl`.
 
 ## Enums
 
@@ -26,8 +26,8 @@ lease_status   : draft | active | ended | terminated
 ```
 id (uuid, pk)
 slug (unique)
-title            -> translations(en/nl/srn)
-description      -> translations(en/nl/srn)
+title            -> translations(en/nl)
+description      -> translations(en/nl)
 offer_type       (enum)
 property_type    (enum)
 status           (enum listing_status)
@@ -182,6 +182,6 @@ currency (enum), pdf (R2 key, generated), sent_at nullable, created_at
 
 ## i18n & money rules
 
-- Translatable fields use Directus translations. Missing `nl`/`srn` falls back to `en`.
+- Translatable fields use Directus translations. Missing `nl`/ falls back to `en`.
 - Store `amount` + `currency` together; **display native only** in v1.
 - Receipts/statements render in the charge/lease currency.

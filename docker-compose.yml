@@ -99,10 +99,15 @@ services:
       - "80:80"
       - "443:443"
       - "443:443/udp"
+    environment:
+      DOMAIN: ${DOMAIN}
+      CADDY_ADMIN_EMAIL: ${CADDY_ADMIN_EMAIL}
+      CADDY_ADMIN_IPS: ${CADDY_ADMIN_IPS}
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
       - caddy_config:/config
+      - caddy_logs:/var/log/caddy
     networks: [realty_net]
     restart: unless-stopped
     depends_on:
@@ -119,6 +124,9 @@ services:
       DIRECTUS_INTERNAL_URL: http://directus:8055
       NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL}
       DIRECTUS_SERVER_TOKEN: ${DIRECTUS_SERVER_TOKEN}
+      PM_INTERNAL_URL: http://pm:8000
+      NEXT_PUBLIC_PM_URL: ${NEXT_PUBLIC_PM_URL}
+      NEXT_PUBLIC_R2_PUBLIC_URL: ${R2_PUBLIC_URL}
     networks: [realty_net]
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3000/api/health"]
@@ -133,8 +141,6 @@ services:
   pm:
     build: ./pm
     profiles: [pm]
-    ports:
-      - "8001:8000"
     environment:
       DATABASE_URL: ${DATABASE_URL}
       DIRECTUS_SECRET: ${DIRECTUS_SECRET}
@@ -168,10 +174,38 @@ services:
       EMAIL_FROM: ${EMAIL_FROM}
       EMAIL_CENTRAL_INBOX: ${EMAIL_CENTRAL_INBOX}
     networks: [realty_net]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import celery; print('ok')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
     restart: unless-stopped
     depends_on:
       redis:
         condition: service_healthy
+      postgres:
+        condition: service_healthy
+
+  # ─── Nightly backup ──────────────────────────────────────────────────────────
+
+  backup:
+    image: postgres:16-alpine
+    profiles: [backup]
+    environment:
+      PGHOST: postgres
+      PGUSER: ${POSTGRES_USER}
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+      PGDATABASE: ${POSTGRES_DB}
+      R2_ACCESS_KEY_ID: ${R2_ACCESS_KEY_ID}
+      R2_SECRET_ACCESS_KEY: ${R2_SECRET_ACCESS_KEY}
+      R2_BUCKET_NAME: ${R2_BUCKET_NAME}
+      R2_ENDPOINT: ${R2_ENDPOINT}
+    volumes:
+      - ./scripts/backup.sh:/backup.sh:ro
+    networks: [realty_net]
+    entrypoint: ["/bin/sh", "/backup.sh"]
+    depends_on:
       postgres:
         condition: service_healthy
 
@@ -180,6 +214,7 @@ volumes:
   redis_data:
   caddy_data:
   caddy_config:
+  caddy_logs:
 
 networks:
   realty_net:

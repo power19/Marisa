@@ -32,9 +32,19 @@
 		reverse_proxy directus:8055
 	}
 
+	# Directus admin SPA assets (absolute paths like /admin/assets/*)
+	handle /admin/* {
+		reverse_proxy directus:8055
+	}
+
 	# Directus assets — serve media files through main domain
 	handle /assets/* {
 		reverse_proxy directus:8055
+	}
+
+	# FastAPI PM service
+	handle /api/pm/* {
+		reverse_proxy pm:8000
 	}
 
 	# Next.js public site (M1+)

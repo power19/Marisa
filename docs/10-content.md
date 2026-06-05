@@ -7,15 +7,14 @@
 
 ## Locales
 
-Three locales are supported. Default is `en`.
+Two locales are supported. Default is `en`.
 
 | Code | Language | Status |
 |---|---|---|
 | `en` | English | Required — all strings must have an `en` value |
 | `nl` | Dutch | Required at launch |
-| `srn` | Sranantongo | Strings stubbed; real copy is a content task — fall back to `en` |
 
-**Never invent copy for `nl` or `srn`.** Leave the value as an empty string `""` or omit
+**Never invent copy for `nl`.** Leave the value as an empty string `""` or omit
 the key — the i18n library will fall back to `en`. Do not use machine translation.
 
 ---

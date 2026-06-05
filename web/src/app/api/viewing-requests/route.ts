@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { submitViewingRequest } from '@/lib/directus/inquiries'
+import { checkRateLimit } from '@/lib/utils/ratelimit'
 
 const viewingSchema = z.object({
   listing_id: z.string().min(1),
@@ -13,6 +14,11 @@ const viewingSchema = z.object({
 })
 
 export async function POST(req: NextRequest) {
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0].trim() ?? 'unknown'
+  if (!checkRateLimit(`viewing:${ip}`, 5, 300)) {
+    return NextResponse.json({ error: 'Too many requests' }, { status: 429 })
+  }
+
   let body: unknown
   try {
     body = await req.json()

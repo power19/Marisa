@@ -33,7 +33,7 @@ export default function InquiryForm({ listingId, onSuccess }: InquiryFormProps) 
 
   if (status === 'success') {
     return (
-      <div className="p-4 bg-blue/10 border border-blue text-blue rounded-md text-sm">
+      <div className="p-4 bg-blue/10 border border-accent text-accent rounded-md text-sm">
         {t('successMessage')}
       </div>
     )
@@ -43,26 +43,26 @@ export default function InquiryForm({ listingId, onSuccess }: InquiryFormProps) 
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       <div>
         <label className="block text-xs tracking-wider uppercase text-grey-medium mb-1">
-          {t('name')} <span className="text-blue">*</span>
+          {t('name')} <span className="text-accent">*</span>
         </label>
         <input
           type="text"
           required
           value={form.name}
           onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-          className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-blue"
+          className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-accent"
         />
       </div>
       <div>
         <label className="block text-xs tracking-wider uppercase text-grey-medium mb-1">
-          {t('email')} <span className="text-blue">*</span>
+          {t('email')} <span className="text-accent">*</span>
         </label>
         <input
           type="email"
           required
           value={form.email}
           onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-          className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-blue"
+          className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-accent"
         />
       </div>
       <div>
@@ -73,19 +73,19 @@ export default function InquiryForm({ listingId, onSuccess }: InquiryFormProps) 
           type="tel"
           value={form.phone}
           onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
-          className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-blue"
+          className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-accent"
         />
       </div>
       <div>
         <label className="block text-xs tracking-wider uppercase text-grey-medium mb-1">
-          {t('message')} <span className="text-blue">*</span>
+          {t('message')} <span className="text-accent">*</span>
         </label>
         <textarea
           required
           rows={4}
           value={form.message}
           onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
-          className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-blue resize-none"
+          className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-accent resize-none"
         />
       </div>
       {status === 'error' && (

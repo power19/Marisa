@@ -141,8 +141,8 @@ export default async function SearchPage({ params: { locale }, searchParams: raw
                   href={buildPageUrl(p)}
                   className={`w-9 h-9 flex items-center justify-center text-sm rounded-sm border transition-colors ${
                     p === page
-                      ? 'bg-blue text-white border-blue'
-                      : 'border-grey-light text-grey-medium hover:border-blue hover:text-blue'
+                      ? 'bg-accent text-white border-accent'
+                      : 'border-grey-light text-grey-medium hover:border-accent hover:text-accent'
                   }`}
                 >
                   {p}

@@ -9,6 +9,9 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // Holiday-theme-aware accent — overridden via CSS var by ThemeProvider
+        accent:       'var(--color-accent)',
+        'accent-hover': 'var(--color-accent-hover)',
         // Far East Property Management brand colors
         blue: {
           DEFAULT: '#1B3A8C',

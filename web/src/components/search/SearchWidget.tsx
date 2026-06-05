@@ -47,7 +47,7 @@ export default function SearchWidget() {
             onClick={() => setOfferType(type)}
             className={`px-6 py-2 text-sm font-semibold tracking-wider uppercase transition-colors -mb-px ${
               offerType === type
-                ? 'border-b-2 border-blue text-blue'
+                ? 'border-b-2 border-accent text-accent'
                 : 'text-grey-medium hover:text-black'
             }`}
           >
@@ -65,7 +65,7 @@ export default function SearchWidget() {
           <select
             value={propertyType}
             onChange={(e) => setPropertyType(e.target.value)}
-            className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-blue bg-white"
+            className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-accent bg-white"
           >
             <option value="">{t('allTypes')}</option>
             {PROPERTY_TYPES.map((pt) => (
@@ -82,7 +82,7 @@ export default function SearchWidget() {
           <select
             value={district}
             onChange={(e) => setDistrict(e.target.value)}
-            className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-blue bg-white"
+            className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-accent bg-white"
           >
             <option value="">{t('allDistricts')}</option>
             {DISTRICTS.map((d) => (
@@ -102,7 +102,7 @@ export default function SearchWidget() {
               placeholder="0"
               value={minPrice}
               onChange={(e) => setMinPrice(e.target.value)}
-              className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-blue"
+              className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-accent"
             />
           </div>
           <div className="flex-1">
@@ -114,7 +114,7 @@ export default function SearchWidget() {
               placeholder="∞"
               value={maxPrice}
               onChange={(e) => setMaxPrice(e.target.value)}
-              className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-blue"
+              className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-accent"
             />
           </div>
         </div>
@@ -129,7 +129,7 @@ export default function SearchWidget() {
             placeholder="..."
             value={keyword}
             onChange={(e) => setKeyword(e.target.value)}
-            className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-blue"
+            className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-accent"
           />
         </div>
       </div>

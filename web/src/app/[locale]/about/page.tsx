@@ -28,15 +28,15 @@ export default async function AboutPage({ params: { locale } }: PageProps) {
 
         <div className="grid grid-cols-3 gap-8 mb-12 border-y border-grey-light py-8">
           <div className="text-center">
-            <p className="text-h1 font-display text-blue mb-1">10+</p>
+            <p className="text-h1 font-display text-accent mb-1">10+</p>
             <p className="text-xs tracking-wider uppercase text-grey-medium">{t('experience')}</p>
           </div>
           <div className="text-center">
-            <p className="text-h1 font-display text-blue mb-1">500+</p>
+            <p className="text-h1 font-display text-accent mb-1">500+</p>
             <p className="text-xs tracking-wider uppercase text-grey-medium">{t('listings')}</p>
           </div>
           <div className="text-center">
-            <p className="text-h1 font-display text-blue mb-1">1000+</p>
+            <p className="text-h1 font-display text-accent mb-1">1000+</p>
             <p className="text-xs tracking-wider uppercase text-grey-medium">{t('clients')}</p>
           </div>
         </div>
@@ -46,7 +46,7 @@ export default async function AboutPage({ params: { locale } }: PageProps) {
           <ul className="space-y-3 text-sm leading-relaxed">
             {(['whyPoint1', 'whyPoint2', 'whyPoint3', 'whyPoint4'] as const).map((key) => (
               <li key={key} className="flex items-start gap-2">
-                <span className="text-blue mt-1">&#10003;</span>
+                <span className="text-accent mt-1">&#10003;</span>
                 <span>{t(key)}</span>
               </li>
             ))}

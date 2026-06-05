@@ -56,7 +56,7 @@ export default function ListingGallery({ media, title }: ListingGalleryProps) {
               key={photo.id}
               onClick={() => setActiveIndex(i)}
               className={`flex-shrink-0 relative w-20 h-16 rounded-sm overflow-hidden border-2 transition-colors ${
-                i === activeIndex ? 'border-blue' : 'border-transparent'
+                i === activeIndex ? 'border-accent' : 'border-transparent'
               }`}
             >
               <Image

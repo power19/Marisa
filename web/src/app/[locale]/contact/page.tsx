@@ -40,13 +40,13 @@ export default async function ContactPage({ params: { locale } }: PageProps) {
             </div>
             <div>
               <p className="text-xs tracking-wider uppercase text-grey-medium mb-1">Email</p>
-              <a href={`mailto:${tf('email')}`} className="text-blue hover:text-blue-dark transition-colors">
+              <a href={`mailto:${tf('email')}`} className="text-accent hover:text-accent-hover transition-colors">
                 {tf('email')}
               </a>
             </div>
             <div>
               <p className="text-xs tracking-wider uppercase text-grey-medium mb-1">Phone</p>
-              <a href={`tel:${tf('phone')}`} className="hover:text-blue transition-colors">
+              <a href={`tel:${tf('phone')}`} className="hover:text-accent transition-colors">
                 {tf('phone')}
               </a>
             </div>

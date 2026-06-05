@@ -39,7 +39,7 @@ export default function ViewingRequestForm({ listingId, onSuccess }: ViewingRequ
 
   if (status === 'success') {
     return (
-      <div className="p-4 bg-blue/10 border border-blue text-blue rounded-md text-sm">
+      <div className="p-4 bg-blue/10 border border-accent text-accent rounded-md text-sm">
         {t('successMessage')}
       </div>
     )
@@ -50,26 +50,26 @@ export default function ViewingRequestForm({ listingId, onSuccess }: ViewingRequ
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label className="block text-xs tracking-wider uppercase text-grey-medium mb-1">
-            {t('name')} <span className="text-blue">*</span>
+            {t('name')} <span className="text-accent">*</span>
           </label>
           <input
             type="text"
             required
             value={form.name}
             onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-            className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-blue"
+            className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-accent"
           />
         </div>
         <div>
           <label className="block text-xs tracking-wider uppercase text-grey-medium mb-1">
-            {t('email')} <span className="text-blue">*</span>
+            {t('email')} <span className="text-accent">*</span>
           </label>
           <input
             type="email"
             required
             value={form.email}
             onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-            className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-blue"
+            className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-accent"
           />
         </div>
       </div>
@@ -81,13 +81,13 @@ export default function ViewingRequestForm({ listingId, onSuccess }: ViewingRequ
           type="tel"
           value={form.phone}
           onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
-          className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-blue"
+          className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-accent"
         />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label className="block text-xs tracking-wider uppercase text-grey-medium mb-1">
-            {t('preferredDate')} <span className="text-blue">*</span>
+            {t('preferredDate')} <span className="text-accent">*</span>
           </label>
           <input
             type="date"
@@ -95,7 +95,7 @@ export default function ViewingRequestForm({ listingId, onSuccess }: ViewingRequ
             value={form.preferred_date}
             min={new Date().toISOString().split('T')[0]}
             onChange={(e) => setForm((f) => ({ ...f, preferred_date: e.target.value }))}
-            className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-blue"
+            className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-accent"
           />
         </div>
         <div>
@@ -106,7 +106,7 @@ export default function ViewingRequestForm({ listingId, onSuccess }: ViewingRequ
             type="time"
             value={form.preferred_time}
             onChange={(e) => setForm((f) => ({ ...f, preferred_time: e.target.value }))}
-            className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-blue"
+            className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-accent"
           />
         </div>
       </div>
@@ -118,7 +118,7 @@ export default function ViewingRequestForm({ listingId, onSuccess }: ViewingRequ
           rows={3}
           value={form.notes}
           onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
-          className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-blue resize-none"
+          className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-accent resize-none"
         />
       </div>
       {status === 'error' && (

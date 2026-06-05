@@ -33,7 +33,7 @@ export default function SortControl() {
       <select
         value={current}
         onChange={handleChange}
-        className="border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-blue bg-white"
+        className="border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-accent bg-white"
       >
         {SORT_OPTIONS.map((opt) => (
           <option key={opt.value} value={opt.value}>

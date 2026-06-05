@@ -65,7 +65,7 @@ export default function AgentCard({ agent, listingRef }: AgentCardProps) {
         {agent.email && (
           <a
             href={`mailto:${agent.email}?subject=Property Enquiry${listingRef ? ` - ${listingRef}` : ''}`}
-            className="text-sm text-center text-blue hover:text-blue-dark transition-colors py-2"
+            className="text-sm text-center text-accent hover:text-accent-hover transition-colors py-2"
           >
             {agent.email}
           </a>

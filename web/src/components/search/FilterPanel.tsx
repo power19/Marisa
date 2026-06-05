@@ -101,8 +101,8 @@ export default function FilterPanel({ locations }: FilterPanelProps) {
               onClick={() => updateParam({ offer_type: v })}
               className={`flex-1 py-1 text-xs border rounded-sm transition-colors ${
                 currentOfferType === v
-                  ? 'bg-blue text-white border-blue'
-                  : 'border-grey-light text-grey-medium hover:border-blue hover:text-blue'
+                  ? 'bg-accent text-white border-accent'
+                  : 'border-grey-light text-grey-medium hover:border-accent hover:text-accent'
               }`}
             >
               {v === '' ? t('all') : v === 'sale' ? t('sale') : t('rent')}
@@ -119,7 +119,7 @@ export default function FilterPanel({ locations }: FilterPanelProps) {
         <select
           value={currentPropertyType}
           onChange={(e) => updateParam({ property_type: e.target.value })}
-          className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-blue bg-white"
+          className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-accent bg-white"
         >
           <option value="">{t('allTypes')}</option>
           {PROPERTY_TYPES.map((pt) => (
@@ -136,7 +136,7 @@ export default function FilterPanel({ locations }: FilterPanelProps) {
         <select
           value={currentDistrict}
           onChange={(e) => handleDistrictChange(e.target.value)}
-          className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-blue bg-white"
+          className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-accent bg-white"
         >
           <option value="">{t('allDistricts')}</option>
           {districts.map((d) => (
@@ -154,7 +154,7 @@ export default function FilterPanel({ locations }: FilterPanelProps) {
           <select
             value={currentLocationId}
             onChange={(e) => handleSubAreaChange(e.target.value)}
-            className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-blue bg-white"
+            className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-accent bg-white"
           >
             <option value="">{t('allNeighbourhoods')}</option>
             {subAreas.map((loc) => (
@@ -175,14 +175,14 @@ export default function FilterPanel({ locations }: FilterPanelProps) {
             placeholder={t('minPrice')}
             value={currentMinPrice}
             onChange={(e) => updateParam({ min_price: e.target.value })}
-            className="flex-1 border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-blue w-0"
+            className="flex-1 border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-accent w-0"
           />
           <input
             type="number"
             placeholder={t('maxPrice')}
             value={currentMaxPrice}
             onChange={(e) => updateParam({ max_price: e.target.value })}
-            className="flex-1 border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-blue w-0"
+            className="flex-1 border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-accent w-0"
           />
         </div>
       </div>
@@ -199,8 +199,8 @@ export default function FilterPanel({ locations }: FilterPanelProps) {
               onClick={() => updateParam({ bedrooms: v })}
               className={`flex-1 py-1 text-xs border rounded-sm transition-colors ${
                 currentBedrooms === v
-                  ? 'bg-blue text-white border-blue'
-                  : 'border-grey-light text-grey-medium hover:border-blue hover:text-blue'
+                  ? 'bg-accent text-white border-accent'
+                  : 'border-grey-light text-grey-medium hover:border-accent hover:text-accent'
               }`}
             >
               {v === '' ? t('anyBedrooms') : v === '5' ? '5+' : v}
@@ -217,7 +217,7 @@ export default function FilterPanel({ locations }: FilterPanelProps) {
         <select
           value={currentFurnished}
           onChange={(e) => updateParam({ furnished: e.target.value })}
-          className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-blue bg-white"
+          className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-accent bg-white"
         >
           <option value="">{t('any')}</option>
           {FURNISHED_OPTIONS.map((fo) => (
@@ -237,14 +237,14 @@ export default function FilterPanel({ locations }: FilterPanelProps) {
             placeholder={t('minArea')}
             value={currentMinArea}
             onChange={(e) => updateParam({ min_area: e.target.value })}
-            className="flex-1 border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-blue w-0"
+            className="flex-1 border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-accent w-0"
           />
           <input
             type="number"
             placeholder={t('maxArea')}
             value={currentMaxArea}
             onChange={(e) => updateParam({ max_area: e.target.value })}
-            className="flex-1 border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-blue w-0"
+            className="flex-1 border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-accent w-0"
           />
         </div>
       </div>
@@ -258,7 +258,7 @@ export default function FilterPanel({ locations }: FilterPanelProps) {
           type="text"
           value={currentKeyword}
           onChange={(e) => updateParam({ keyword: e.target.value })}
-          className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-blue"
+          className="w-full border border-grey-light px-3 py-2 text-sm rounded-sm focus:outline-none focus:border-accent"
           placeholder="..."
         />
       </div>

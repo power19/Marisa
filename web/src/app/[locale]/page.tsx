@@ -67,7 +67,7 @@ export default async function HomePage({ params: { locale } }: PageProps) {
           </Suspense>
         </div>
         {/* Decorative blue accent */}
-        <div className="absolute bottom-0 left-0 w-48 h-1 bg-blue" />
+        <div className="absolute bottom-0 left-0 w-48 h-1 bg-accent" />
       </section>
 
       {/* New listings */}
@@ -155,13 +155,13 @@ export default async function HomePage({ params: { locale } }: PageProps) {
               <Link
                 key={key}
                 href={href}
-                className="group border border-charcoal hover:border-blue p-8 transition-colors"
+                className="group border border-charcoal hover:border-accent p-8 transition-colors"
               >
-                <h3 className="text-h2 font-display mb-3 group-hover:text-blue transition-colors">
+                <h3 className="text-h2 font-display mb-3 group-hover:text-accent transition-colors">
                   {tj(`${key}.title`)}
                 </h3>
                 <p className="text-sm text-grey-medium mb-6">{tj(`${key}.description`)}</p>
-                <span className="text-xs tracking-wider uppercase text-blue">Learn More →</span>
+                <span className="text-xs tracking-wider uppercase text-accent">Learn More →</span>
               </Link>
             ))}
           </div>

@@ -133,6 +133,8 @@ services:
   pm:
     build: ./pm
     profiles: [pm]
+    ports:
+      - "8001:8000"
     environment:
       DATABASE_URL: ${DATABASE_URL}
       DIRECTUS_SECRET: ${DIRECTUS_SECRET}

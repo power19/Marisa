@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Owner Statement — Far East Property Management</title>
+<style>
+  body { font-family: sans-serif; max-width: 750px; margin: 40px auto; color: #222; font-size: 14px; }
+  h1 { font-size: 24px; margin-bottom: 4px; }
+  .subtitle { color: #666; margin-bottom: 32px; }
+  table { border-collapse: collapse; width: 100%; margin: 16px 0; }
+  th { text-align: left; padding: 8px; background: #f5f5f5; }
+  td { padding: 8px; border-bottom: 1px solid #eee; }
+  .totals td { font-weight: bold; }
+  .footer { margin-top: 48px; color: #999; font-size: 12px; border-top: 1px solid #eee; padding-top: 16px; }
+</style>
+</head>
+<body>
+  <h1>Owner Statement</h1>
+  <p class="subtitle">Far East Property Management</p>
+
+  <table>
+    <tr><th>Owner</th><td>{{ owner.name }}</td></tr>
+    <tr><th>Email</th><td>{{ owner.email }}</td></tr>
+    <tr><th>Period</th><td>{{ statement.period_start }} – {{ statement.period_end }}</td></tr>
+    <tr><th>Currency</th><td>{{ statement.currency }}</td></tr>
+  </table>
+
+  <h2 style="font-size:16px;margin-top:32px;">Payment Detail</h2>
+  <table>
+    <thead>
+      <tr><th>Unit</th><th>Period</th><th>Paid On</th><th>Amount</th></tr>
+    </thead>
+    <tbody>
+      {% for row in rows %}
+      <tr>
+        <td>{{ row.unit }}</td>
+        <td>{{ row.period.strftime('%B %Y') }}</td>
+        <td>{{ row.paid_on.strftime('%d %b %Y') }}</td>
+        <td>{{ row.currency }} {{ "%.2f"|format(row.amount) }}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="4" style="color:#999;">No payments in this period.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <table class="totals" style="margin-top:24px;">
+    <tr><td>Rent Collected</td><td>{{ statement.currency }} {{ "%.2f"|format(statement.rent_collected) }}</td></tr>
+    <tr><td>Management Fee</td><td>{{ statement.currency }} {{ "%.2f"|format(statement.mgmt_fee) }}</td></tr>
+    <tr><td>Net Payout</td><td>{{ statement.currency }} {{ "%.2f"|format(statement.net_payout) }}</td></tr>
+  </table>
+
+  <div class="footer">
+    <p>Far East Property Management &bull; Generated {{ statement.created_at.strftime('%d %B %Y') if statement.created_at else '' }}</p>
+  </div>
+</body>
+</html>

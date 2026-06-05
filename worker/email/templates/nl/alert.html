@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head><meta charset="UTF-8"><title>Nieuwe overeenkomende woningen — Far East Property Management</title></head>
+<body style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:24px;color:#222;">
+  <h1 style="font-size:24px;margin-bottom:8px;">Nieuwe woningen voor "{{ search_name }}"</h1>
+  <p>Hallo {{ name }},</p>
+  <p>We hebben {{ count }} nieuwe {{ 'woning' if count == 1 else 'woningen' }} gevonden die overeenkomen met uw opgeslagen zoekopdracht.</p>
+
+  {% for listing in listings %}
+  <div style="border:1px solid #eee;border-radius:6px;padding:16px;margin:16px 0;">
+    <h2 style="font-size:16px;margin:0 0 4px;">{{ listing.title }}</h2>
+    <p style="margin:0 0 4px;color:#666;">{{ listing.location }}</p>
+    <p style="margin:0 0 12px;font-weight:bold;">{{ listing.price }}</p>
+    <a href="{{ listing.url }}" style="background:#1a3c5e;color:#fff;padding:8px 16px;text-decoration:none;border-radius:4px;font-size:14px;">Bekijk woning</a>
+  </div>
+  {% endfor %}
+
+  <p style="margin-top:32px;">
+    <a href="{{ search_url }}">Alle resultaten voor deze zoekopdracht bekijken</a>
+  </p>
+  <hr style="border:none;border-top:1px solid #eee;margin:32px 0;">
+  <p style="color:#999;font-size:12px;">
+    U ontvangt dit omdat u een zoekopdracht heeft opgeslagen op Far East Property Management.
+    <a href="{{ unsubscribe_url }}">Uitschrijven</a>
+  </p>
+</body>
+</html>

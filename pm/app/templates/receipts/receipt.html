@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Payment Receipt — Far East Property Management</title>
+<style>
+  body { font-family: sans-serif; max-width: 700px; margin: 40px auto; color: #222; font-size: 14px; }
+  h1 { font-size: 24px; margin-bottom: 4px; }
+  .subtitle { color: #666; margin-bottom: 32px; }
+  table { border-collapse: collapse; width: 100%; margin: 16px 0; }
+  th { text-align: left; padding: 8px; background: #f5f5f5; }
+  td { padding: 8px; border-bottom: 1px solid #eee; }
+  .amount { font-size: 20px; font-weight: bold; margin: 24px 0; }
+  .footer { margin-top: 48px; color: #999; font-size: 12px; border-top: 1px solid #eee; padding-top: 16px; }
+</style>
+</head>
+<body>
+  <h1>Payment Receipt</h1>
+  <p class="subtitle">Far East Property Management</p>
+
+  <table>
+    <tr><th>Receipt #</th><td>{{ payment.id }}</td></tr>
+    <tr><th>Tenant</th><td>{{ tenant.name }}</td></tr>
+    <tr><th>Unit</th><td>{{ unit.label }}{% if unit.address %} — {{ unit.address }}{% endif %}</td></tr>
+    <tr><th>Period</th><td>{{ charge.period.strftime('%B %Y') }}</td></tr>
+    <tr><th>Payment Date</th><td>{{ payment.paid_on.strftime('%d %B %Y') }}</td></tr>
+    <tr><th>Method</th><td>{{ payment.method | title }}</td></tr>
+  </table>
+
+  <p class="amount">
+    {{ charge.currency }} {{ "%.2f"|format(payment.amount) }}
+  </p>
+
+  <table>
+    <tr><th>Rent Due</th><td>{{ charge.currency }} {{ "%.2f"|format(charge.amount_due) }}</td></tr>
+    <tr><th>Total Paid</th><td>{{ charge.currency }} {{ "%.2f"|format(charge.amount_paid) }}</td></tr>
+    <tr><th>Balance</th><td>{{ charge.currency }} {{ "%.2f"|format(charge.amount_due - charge.amount_paid) }}</td></tr>
+    <tr><th>Status</th><td>{{ charge.status.value | title }}</td></tr>
+  </table>
+
+  <div class="footer">
+    <p>Far East Property Management &bull; Generated {{ payment.created_at.strftime('%d %B %Y') }}</p>
+  </div>
+</body>
+</html>

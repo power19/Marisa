@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head><meta charset="UTF-8"><title>Huurherinnering — Far East Property Management</title></head>
+<body style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:24px;color:#222;">
+  <h1 style="font-size:22px;margin-bottom:8px;">Huurherinnering</h1>
+  <p>Beste {{ tenant_name }},</p>
+  <p>Dit is een herinnering dat uw huur <strong>{{ due_label }}</strong> is.</p>
+
+  <table style="border-collapse:collapse;font-size:14px;margin:16px 0;">
+    <tr><td style="padding:4px 16px 4px 0;color:#666;">Eenheid</td><td>{{ unit_label }}</td></tr>
+    <tr><td style="padding:4px 16px 4px 0;color:#666;">Vervaldatum</td><td>{{ due_date }}</td></tr>
+    <tr><td style="padding:4px 16px 4px 0;color:#666;">Verschuldigd bedrag</td><td><strong>{{ amount_due }}</strong></td></tr>
+    {% if amount_paid != amount_due %}<tr><td style="padding:4px 16px 4px 0;color:#666;">Al betaald</td><td>{{ amount_paid }}</td></tr>{% endif %}
+  </table>
+
+  <p>Als u al betaald heeft, kunt u dit bericht negeren.</p>
+
+  <hr style="border:none;border-top:1px solid #eee;margin:32px 0;">
+  <p style="color:#999;font-size:12px;">Far East Property Management</p>
+</body>
+</html>

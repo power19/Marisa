@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><title>Rent reminder — Far East Property Management</title></head>
+<body style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:24px;color:#222;">
+  <h1 style="font-size:22px;margin-bottom:8px;">Rent Reminder</h1>
+  <p>Hi {{ tenant_name }},</p>
+  <p>This is a reminder that your rent is <strong>{{ due_label }}</strong>.</p>
+
+  <table style="border-collapse:collapse;font-size:14px;margin:16px 0;">
+    <tr><td style="padding:4px 16px 4px 0;color:#666;">Unit</td><td>{{ unit_label }}</td></tr>
+    <tr><td style="padding:4px 16px 4px 0;color:#666;">Due Date</td><td>{{ due_date }}</td></tr>
+    <tr><td style="padding:4px 16px 4px 0;color:#666;">Amount Due</td><td><strong>{{ amount_due }}</strong></td></tr>
+    {% if amount_paid != amount_due %}<tr><td style="padding:4px 16px 4px 0;color:#666;">Already Paid</td><td>{{ amount_paid }}</td></tr>{% endif %}
+  </table>
+
+  <p>If you have already made payment please disregard this message.</p>
+  <p>For questions contact us at <a href="mailto:{{ central_inbox | default('info@fareastpm.com') }}">{{ central_inbox | default('info@fareastpm.com') }}</a>.</p>
+
+  <hr style="border:none;border-top:1px solid #eee;margin:32px 0;">
+  <p style="color:#999;font-size:12px;">Far East Property Management</p>
+</body>
+</html>

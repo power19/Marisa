@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="srn">
+<head><meta charset="UTF-8"><title>Huurherinnering — Far East Property Management</title></head>
+<body style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:24px;color:#222;">
+  <h1 style="font-size:22px;margin-bottom:8px;">Huur Memre</h1>
+  <p>Dei {{ tenant_name }},</p>
+  <p>Dei huur prati fu yu <strong>{{ due_label }}</strong>.</p>
+
+  <table style="border-collapse:collapse;font-size:14px;margin:16px 0;">
+    <tr><td style="padding:4px 16px 4px 0;color:#666;">Oso</td><td>{{ unit_label }}</td></tr>
+    <tr><td style="padding:4px 16px 4px 0;color:#666;">Dei fu prati</td><td>{{ due_date }}</td></tr>
+    <tr><td style="padding:4px 16px 4px 0;color:#666;">Moni fu prati</td><td><strong>{{ amount_due }}</strong></td></tr>
+    {% if amount_paid != amount_due %}<tr><td style="padding:4px 16px 4px 0;color:#666;">Yu prati kaba</td><td>{{ amount_paid }}</td></tr>{% endif %}
+  </table>
+
+  <p>Efu yu prati kaba, no musu luks' a boskop ya.</p>
+
+  <hr style="border:none;border-top:1px solid #eee;margin:32px 0;">
+  <p style="color:#999;font-size:12px;">Far East Property Management</p>
+</body>
+</html>
